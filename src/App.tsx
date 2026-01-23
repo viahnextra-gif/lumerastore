@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Wholesale from "./pages/Wholesale";
 import Auth from "./pages/Auth";
 import Account from "./pages/Account";
@@ -21,6 +22,7 @@ import Customers from "./pages/admin/Customers";
 import Leads from "./pages/admin/Leads";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +40,7 @@ const App = () => (
               <Route path="/catalogo" element={<Catalog />} />
               <Route path="/producto/:id" element={<ProductDetail />} />
               <Route path="/carrinho" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/atacado" element={<Wholesale />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/cuenta" element={<Account />} />
@@ -56,6 +59,7 @@ const App = () => (
               
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Chatbot />
           </BrowserRouter>
         </CartProvider>
       </AuthProvider>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { useCart } from '@/contexts/CartContext';
 
 export default function Cart() {
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-PY', {
@@ -188,7 +189,8 @@ export default function Cart() {
 
               <Button
                 size="lg"
-                className="w-full mt-6 bg-primary text-primary-foreground hover:bg-rose-dark"
+                className="w-full mt-6"
+                onClick={() => navigate('/checkout')}
               >
                 Proceder al Pago
                 <ArrowRight className="ml-2 h-4 w-4" />

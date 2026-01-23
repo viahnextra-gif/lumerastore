@@ -75,7 +75,7 @@ export default function Leads() {
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      const { error } = await supabase.from('leads').update({ status: newStatus }).eq('id', id);
+      const { error } = await supabase.from('leads').update({ status: newStatus as 'cold' | 'warm' | 'hot' | 'converted' }).eq('id', id);
       if (error) throw error;
       setLeads(leads.map((l) => (l.id === id ? { ...l, status: newStatus } : l)));
       toast({ title: 'Estado actualizado' });

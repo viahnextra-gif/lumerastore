@@ -130,7 +130,7 @@ export default function Orders() {
     try {
       const { error } = await supabase
         .from('orders')
-        .update({ status: newStatus })
+        .update({ status: newStatus as 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled' })
         .eq('id', orderId);
 
       if (error) throw error;
