@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Loader2, CreditCard, Store, Key, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Save, Loader2, CreditCard, Store, Key, Eye, EyeOff, AlertCircle, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -99,6 +99,10 @@ export default function Settings() {
           <TabsTrigger value="payments" className="flex items-center gap-2">
             <CreditCard className="h-4 w-4" />
             Pagos
+          </TabsTrigger>
+          <TabsTrigger value="whatsapp" className="flex items-center gap-2">
+            <MessageCircle className="h-4 w-4" />
+            WhatsApp
           </TabsTrigger>
           <TabsTrigger value="api" className="flex items-center gap-2">
             <Key className="h-4 w-4" />
@@ -298,6 +302,115 @@ export default function Settings() {
           </motion.div>
         </TabsContent>
 
+        <TabsContent value="whatsapp">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>Configuración de WhatsApp</CardTitle>
+                <CardDescription>
+                  Configura la integración con WhatsApp Business API para notificaciones
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Importante</AlertTitle>
+                  <AlertDescription>
+                    Para activar notificaciones por WhatsApp, necesitas configurar tu cuenta de WhatsApp Business API.
+                    Puedes obtener tus credenciales en{' '}
+                    <a
+                      href="https://developers.facebook.com/apps"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary underline"
+                    >
+                      Meta for Developers
+                    </a>
+                  </AlertDescription>
+                </Alert>
+
+                <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
+                  <Switch
+                    checked={getSetting('whatsapp_enabled')?.value === 'true'}
+                    onCheckedChange={(checked) =>
+                      handleSettingChange('whatsapp_enabled', checked ? 'true' : 'false')
+                    }
+                  />
+                  <div>
+                    <Label className="text-base">Habilitar WhatsApp</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Activa para enviar notificaciones de pedidos por WhatsApp
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Access Token</Label>
+                    <div className="relative">
+                      <Input
+                        type={showSecrets['whatsapp_access_token'] ? 'text' : 'password'}
+                        value={getSetting('whatsapp_access_token')?.value || ''}
+                        onChange={(e) => handleSettingChange('whatsapp_access_token', e.target.value)}
+                        placeholder="EAAxxxxxxx..."
+                      />
+                      <button
+                        type="button"
+                        onClick={() => toggleShowSecret('whatsapp_access_token')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showSecrets['whatsapp_access_token'] ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Token de acceso permanente de tu app de Meta
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Phone Number ID</Label>
+                    <Input
+                      value={getSetting('whatsapp_phone_number_id')?.value || ''}
+                      onChange={(e) => handleSettingChange('whatsapp_phone_number_id', e.target.value)}
+                      placeholder="123456789012345"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      ID del número de teléfono de WhatsApp Business
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Número del Admin (para notificaciones)</Label>
+                    <Input
+                      value={getSetting('whatsapp_admin_phone')?.value || ''}
+                      onChange={(e) => handleSettingChange('whatsapp_admin_phone', e.target.value)}
+                      placeholder="595981234567"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Número que recibirá las notificaciones (formato: código país + número, sin +)
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button onClick={handleSaveSettings} disabled={isSaving}>
+                    {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                    <Save className="h-4 w-4 mr-2" />
+                    Guardar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </TabsContent>
+
         <TabsContent value="api">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -316,7 +429,7 @@ export default function Settings() {
                   <AlertTitle>Próximamente</AlertTitle>
                   <AlertDescription>
                     Esta sección permitirá configurar integraciones con otros servicios como:
-                    WhatsApp Business, servicios de envío, analytics, etc.
+                    servicios de envío, analytics, etc.
                   </AlertDescription>
                 </Alert>
 
