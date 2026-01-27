@@ -122,6 +122,20 @@ export default function Checkout() {
 
       if (itemsError) throw itemsError;
 
+      // Send WhatsApp notification (non-blocking)
+      supabase.functions.invoke('notify-whatsapp', {
+        body: {
+          order: {
+            order_number: order.order_number,
+            customer_name: formData.customerName,
+            customer_email: formData.customerEmail,
+            customer_phone: formData.customerPhone,
+            total: total / 100, // Convert from cents to actual value
+            shipping_city: formData.shippingCity,
+          },
+        },
+      }).catch((err) => console.error('WhatsApp notification failed:', err));
+
       clearCart();
       setOrderNumber(order.order_number);
       setOrderCreated(true);
