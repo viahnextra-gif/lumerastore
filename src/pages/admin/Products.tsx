@@ -15,9 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import {
   Table,
@@ -42,11 +40,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Product {
   id: string;
@@ -64,6 +71,12 @@ interface Product {
   category_id: string | null;
 }
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface ProductFormData {
   name: string;
   slug: string;
@@ -76,7 +89,8 @@ interface ProductFormData {
   is_featured: boolean;
   sizes: string;
   colors: string;
-  images: string;
+  images: string[];
+  category_id: string;
 }
 
 const initialFormData: ProductFormData = {
@@ -91,11 +105,13 @@ const initialFormData: ProductFormData = {
   is_featured: false,
   sizes: 'P, M, G, GG',
   colors: '',
-  images: '',
+  images: [],
+  category_id: '',
 };
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -106,6 +122,7 @@ export default function Products() {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -121,6 +138,20 @@ export default function Products() {
       console.error('Error fetching products:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name, slug')
+        .order('name');
+
+      if (error) throw error;
+      setCategories(data || []);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
   };
 
@@ -155,7 +186,8 @@ export default function Products() {
       is_featured: product.is_featured,
       sizes: product.sizes.join(', '),
       colors: product.colors.join(', '),
-      images: product.images.join('\n'),
+      images: product.images || [],
+      category_id: product.category_id || '',
     });
     setIsDialogOpen(true);
   };
@@ -189,7 +221,8 @@ export default function Products() {
         is_featured: formData.is_featured,
         sizes: formData.sizes.split(',').map((s) => s.trim()).filter(Boolean),
         colors: formData.colors.split(',').map((c) => c.trim()).filter(Boolean),
-        images: formData.images.split('\n').map((i) => i.trim()).filter(Boolean),
+        images: formData.images,
+        category_id: formData.category_id || null,
       };
 
       if (editingProduct) {
@@ -253,7 +286,7 @@ export default function Products() {
               Nuevo Producto
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingProduct ? 'Editar Producto' : 'Nuevo Producto'}
@@ -262,124 +295,150 @@ export default function Products() {
                 Completa los datos del producto
               </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Nombre *</Label>
-                  <Input
-                    value={formData.name}
-                    onChange={(e) => {
-                      setFormData({
-                        ...formData,
-                        name: e.target.value,
-                        slug: generateSlug(e.target.value),
-                      });
-                    }}
-                    placeholder="Vestido Floral"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Slug</Label>
-                  <Input
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    placeholder="vestido-floral"
-                  />
-                </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label>Descripción</Label>
-                <Textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Descripción del producto..."
-                  rows={3}
+            <Tabs defaultValue="info" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="info">Información</TabsTrigger>
+                <TabsTrigger value="images">Imágenes</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="info" className="space-y-4 mt-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Nombre *</Label>
+                    <Input
+                      value={formData.name}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          name: e.target.value,
+                          slug: generateSlug(e.target.value),
+                        });
+                      }}
+                      placeholder="Vestido Floral"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Slug</Label>
+                    <Input
+                      value={formData.slug}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      placeholder="vestido-floral"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Categoría</Label>
+                  <Select
+                    value={formData.category_id}
+                    onValueChange={(value) => setFormData({ ...formData, category_id: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Seleccionar categoría" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Descripción</Label>
+                  <Textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Descripción del producto..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label>Precio (PYG) *</Label>
+                    <Input
+                      type="number"
+                      value={formData.price}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                      placeholder="150000"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Precio Mayorista</Label>
+                    <Input
+                      type="number"
+                      value={formData.wholesale_price}
+                      onChange={(e) =>
+                        setFormData({ ...formData, wholesale_price: e.target.value })
+                      }
+                      placeholder="120000"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Stock</Label>
+                    <Input
+                      type="number"
+                      value={formData.stock}
+                      onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+                      placeholder="50"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Tallas (separadas por coma)</Label>
+                    <Input
+                      value={formData.sizes}
+                      onChange={(e) => setFormData({ ...formData, sizes: e.target.value })}
+                      placeholder="P, M, G, GG"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Colores (separados por coma)</Label>
+                    <Input
+                      value={formData.colors}
+                      onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+                      placeholder="Rosa, Negro, Blanco"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-6">
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      checked={formData.is_active}
+                      onCheckedChange={(checked) =>
+                        setFormData({ ...formData, is_active: checked })
+                      }
+                    />
+                    <Label>Activo</Label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      checked={formData.is_featured}
+                      onCheckedChange={(checked) =>
+                        setFormData({ ...formData, is_featured: checked })
+                      }
+                    />
+                    <Label>Destacado</Label>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="images" className="mt-4">
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={5}
                 />
-              </div>
+              </TabsContent>
+            </Tabs>
 
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label>Precio (PYG) *</Label>
-                  <Input
-                    type="number"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    placeholder="150000"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Precio Mayorista</Label>
-                  <Input
-                    type="number"
-                    value={formData.wholesale_price}
-                    onChange={(e) =>
-                      setFormData({ ...formData, wholesale_price: e.target.value })
-                    }
-                    placeholder="120000"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Stock</Label>
-                  <Input
-                    type="number"
-                    value={formData.stock}
-                    onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                    placeholder="50"
-                  />
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Tallas (separadas por coma)</Label>
-                  <Input
-                    value={formData.sizes}
-                    onChange={(e) => setFormData({ ...formData, sizes: e.target.value })}
-                    placeholder="P, M, G, GG"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Colores (separados por coma)</Label>
-                  <Input
-                    value={formData.colors}
-                    onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
-                    placeholder="Rosa, Negro, Blanco"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>URLs de Imágenes (una por línea)</Label>
-                <Textarea
-                  value={formData.images}
-                  onChange={(e) => setFormData({ ...formData, images: e.target.value })}
-                  placeholder="https://ejemplo.com/imagen1.jpg&#10;https://ejemplo.com/imagen2.jpg"
-                  rows={3}
-                />
-              </div>
-
-              <div className="flex gap-6">
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={formData.is_active}
-                    onCheckedChange={(checked) =>
-                      setFormData({ ...formData, is_active: checked })
-                    }
-                  />
-                  <Label>Activo</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Switch
-                    checked={formData.is_featured}
-                    onCheckedChange={(checked) =>
-                      setFormData({ ...formData, is_featured: checked })
-                    }
-                  />
-                  <Label>Destacado</Label>
-                </div>
-              </div>
-            </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                 Cancelar
