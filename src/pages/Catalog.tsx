@@ -1,10 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Filter, SlidersHorizontal, Grid3X3, LayoutGrid, ChevronDown } from 'lucide-react';
+import { Filter, SlidersHorizontal, Grid3X3, LayoutGrid, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -22,7 +20,8 @@ import {
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { products, categories } from '@/data/products';
+import CatalogFilters from '@/components/catalog/CatalogFilters';
+import { useProducts, useCategories } from '@/hooks/useProducts';
 
 const sortOptions = [
   { value: 'newest', label: 'Más Nuevos' },
@@ -34,7 +33,7 @@ const sortOptions = [
 const sizeOptions = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
 
 export default function Catalog() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
@@ -43,6 +42,10 @@ export default function Catalog() {
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState('newest');
   const [gridCols, setGridCols] = useState<2 | 3 | 4>(3);
+
+  // Fetch from database
+  const { products, isLoading: productsLoading } = useProducts();
+  const { categories, isLoading: categoriesLoading } = useCategories();
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
@@ -71,11 +74,12 @@ export default function Catalog() {
         result.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
         break;
       default:
-        result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+        // Already sorted by newest from DB
+        break;
     }
 
     return result;
-  }, [selectedCategories, selectedSizes, sortBy]);
+  }, [products, selectedCategories, selectedSizes, sortBy]);
 
   const toggleCategory = (slug: string) => {
     setSelectedCategories((prev) =>
@@ -89,66 +93,15 @@ export default function Catalog() {
     );
   };
 
-  const FilterSidebar = () => (
-    <div className="space-y-8">
-      {/* Categories */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-4">Categorías</h3>
-        <div className="space-y-3">
-          {categories.map((category) => (
-            <div key={category.id} className="flex items-center gap-3">
-              <Checkbox
-                id={`cat-${category.slug}`}
-                checked={selectedCategories.includes(category.slug)}
-                onCheckedChange={() => toggleCategory(category.slug)}
-              />
-              <Label
-                htmlFor={`cat-${category.slug}`}
-                className="text-sm cursor-pointer flex-1 flex justify-between"
-              >
-                <span>{category.name}</span>
-                <span className="text-muted-foreground">({category.productCount})</span>
-              </Label>
-            </div>
-          ))}
-        </div>
-      </div>
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedSizes([]);
+  };
 
-      {/* Sizes */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-4">Tallas</h3>
-        <div className="flex flex-wrap gap-2">
-          {sizeOptions.map((size) => (
-            <button
-              key={size}
-              onClick={() => toggleSize(size)}
-              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
-                selectedSizes.includes(size)
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-background text-foreground border-border hover:border-primary'
-              }`}
-            >
-              {size}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Clear Filters */}
-      {(selectedCategories.length > 0 || selectedSizes.length > 0) && (
-        <Button
-          variant="outline"
-          className="w-full"
-          onClick={() => {
-            setSelectedCategories([]);
-            setSelectedSizes([]);
-          }}
-        >
-          Limpiar Filtros
-        </Button>
-      )}
-    </div>
-  );
+  const isLoading = productsLoading || categoriesLoading;
+  const currentCategoryName = categoryParam
+    ? categories.find((c) => c.slug === categoryParam)?.name || 'Catálogo'
+    : 'Catálogo Completo';
 
   return (
     <div className="min-h-screen bg-background">
@@ -162,9 +115,7 @@ export default function Catalog() {
             animate={{ opacity: 1, y: 0 }}
             className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4"
           >
-            {categoryParam
-              ? categories.find((c) => c.slug === categoryParam)?.name || 'Catálogo'
-              : 'Catálogo Completo'}
+            {currentCategoryName}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -186,7 +137,15 @@ export default function Catalog() {
                 <SlidersHorizontal className="h-5 w-5" />
                 Filtros
               </h2>
-              <FilterSidebar />
+              <CatalogFilters
+                categories={categories}
+                selectedCategories={selectedCategories}
+                selectedSizes={selectedSizes}
+                sizeOptions={sizeOptions}
+                onToggleCategory={toggleCategory}
+                onToggleSize={toggleSize}
+                onClearFilters={clearFilters}
+              />
             </div>
           </aside>
 
@@ -207,7 +166,15 @@ export default function Catalog() {
                     <SheetTitle>Filtros</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6">
-                    <FilterSidebar />
+                    <CatalogFilters
+                      categories={categories}
+                      selectedCategories={selectedCategories}
+                      selectedSizes={selectedSizes}
+                      sizeOptions={sizeOptions}
+                      onToggleCategory={toggleCategory}
+                      onToggleSize={toggleSize}
+                      onClearFilters={clearFilters}
+                    />
                   </div>
                 </SheetContent>
               </Sheet>
@@ -255,8 +222,12 @@ export default function Catalog() {
               </div>
             </div>
 
-            {/* Products Grid */}
-            {filteredProducts.length > 0 ? (
+            {/* Loading State */}
+            {isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : filteredProducts.length > 0 ? (
               <div
                 className={`grid gap-6 ${
                   gridCols === 2
@@ -275,14 +246,7 @@ export default function Catalog() {
                 <p className="text-muted-foreground text-lg">
                   No se encontraron productos con los filtros seleccionados.
                 </p>
-                <Button
-                  variant="outline"
-                  className="mt-4"
-                  onClick={() => {
-                    setSelectedCategories([]);
-                    setSelectedSizes([]);
-                  }}
-                >
+                <Button variant="outline" className="mt-4" onClick={clearFilters}>
                   Limpiar Filtros
                 </Button>
               </div>
