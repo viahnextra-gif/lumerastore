@@ -34,7 +34,7 @@ const features = [
 ];
 
 export default function Index() {
-  const { products, isLoading: productsLoading } = useProducts();
+  const { products, isLoading: productsLoading } = useProducts({});
   const { categories, isLoading: categoriesLoading } = useCategories();
 
   const featuredProducts = products.filter((p) => p.isBestSeller).slice(0, 4);

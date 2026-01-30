@@ -1,8 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Filter, SlidersHorizontal, Grid3X3, LayoutGrid, Loader2 } from 'lucide-react';
+import { Filter, SlidersHorizontal, Grid3X3, LayoutGrid, Loader2, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -17,6 +18,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
@@ -32,9 +42,13 @@ const sortOptions = [
 
 const sizeOptions = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
 
+const ITEMS_PER_PAGE = 12;
+
 export default function Catalog() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
+  const pageParam = searchParams.get('page');
+  const searchParam = searchParams.get('q');
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryParam ? [categoryParam] : []
@@ -42,9 +56,34 @@ export default function Catalog() {
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState('newest');
   const [gridCols, setGridCols] = useState<2 | 3 | 4>(3);
+  const [searchQuery, setSearchQuery] = useState(searchParam || '');
+  const [debouncedSearch, setDebouncedSearch] = useState(searchParam || '');
+  const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
 
-  // Fetch from database
-  const { products, isLoading: productsLoading } = useProducts();
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+      setCurrentPage(1); // Reset to first page on new search
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Update URL params
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (selectedCategories.length === 1) params.set('category', selectedCategories[0]);
+    if (currentPage > 1) params.set('page', currentPage.toString());
+    if (debouncedSearch) params.set('q', debouncedSearch);
+    setSearchParams(params, { replace: true });
+  }, [selectedCategories, currentPage, debouncedSearch, setSearchParams]);
+
+  // Fetch from database with pagination and search
+  const { products, isLoading: productsLoading, totalCount, totalPages } = useProducts({
+    searchQuery: debouncedSearch,
+    page: currentPage,
+    pageSize: ITEMS_PER_PAGE,
+  });
   const { categories, isLoading: categoriesLoading } = useCategories();
 
   const filteredProducts = useMemo(() => {
@@ -151,6 +190,28 @@ export default function Catalog() {
 
           {/* Main Content */}
           <main className="flex-1">
+            {/* Search Bar */}
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Buscar productos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-10"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* Toolbar */}
             <div className="flex items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
               {/* Mobile Filter Button */}
@@ -180,7 +241,8 @@ export default function Catalog() {
               </Sheet>
 
               <p className="text-sm text-muted-foreground hidden sm:block">
-                {filteredProducts.length} productos
+                {totalCount} productos
+                {debouncedSearch && ` para "${debouncedSearch}"`}
               </p>
 
               <div className="flex items-center gap-4">
@@ -244,11 +306,75 @@ export default function Catalog() {
             ) : (
               <div className="text-center py-20">
                 <p className="text-muted-foreground text-lg">
-                  No se encontraron productos con los filtros seleccionados.
+                  No se encontraron productos{debouncedSearch ? ` para "${debouncedSearch}"` : ' con los filtros seleccionados'}.
                 </p>
-                <Button variant="outline" className="mt-4" onClick={clearFilters}>
+                <Button variant="outline" className="mt-4" onClick={() => { clearFilters(); setSearchQuery(''); }}>
                   Limpiar Filtros
                 </Button>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-12">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum: number;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            onClick={() => setCurrentPage(pageNum)}
+                            isActive={currentPage === pageNum}
+                            className="cursor-pointer"
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+                    
+                    {totalPages > 5 && currentPage < totalPages - 2 && (
+                      <>
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() => setCurrentPage(totalPages)}
+                            className="cursor-pointer"
+                          >
+                            {totalPages}
+                          </PaginationLink>
+                        </PaginationItem>
+                      </>
+                    )}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                        className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             )}
           </main>

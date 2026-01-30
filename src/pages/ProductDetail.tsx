@@ -32,7 +32,7 @@ export default function ProductDetail() {
   const { addToCart } = useCart();
   
   const { product, isLoading, error } = useProduct(id || '');
-  const { products: relatedProductsData } = useProducts(product?.category);
+  const { products: relatedProductsData } = useProducts({ categorySlug: product?.category });
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
