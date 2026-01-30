@@ -12,14 +12,16 @@ import {
   Plus,
   ShoppingBag,
   Check,
+  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { products } from '@/data/products';
+import { useProduct, useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/contexts/CartContext';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -29,13 +31,37 @@ export default function ProductDetail() {
   const { toast } = useToast();
   const { addToCart } = useCart();
   
-  const product = products.find((p) => p.id === id);
+  const { product, isLoading, error } = useProduct(id || '');
+  const { products: relatedProductsData } = useProducts(product?.category);
+  
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  if (!product) {
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container py-20">
+          <div className="grid lg:grid-cols-2 gap-12">
+            <Skeleton className="aspect-[3/4] rounded-2xl" />
+            <div className="space-y-6">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-12 w-3/4" />
+              <Skeleton className="h-20 w-full" />
+              <Skeleton className="h-10 w-40" />
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Not found state
+  if (!product || error) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -83,8 +109,8 @@ export default function ProductDetail() {
     });
   };
 
-  const relatedProducts = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
+  const relatedProducts = relatedProductsData
+    .filter((p) => p.id !== product.id)
     .slice(0, 4);
 
   return (
