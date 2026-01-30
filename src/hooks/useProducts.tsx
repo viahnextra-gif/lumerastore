@@ -70,15 +70,38 @@ const transformProduct = (dbProduct: DBProduct): Product => {
   };
 };
 
-export function useProducts(categorySlug?: string) {
+interface UseProductsOptions {
+  categorySlug?: string;
+  searchQuery?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+interface UseProductsResult {
+  products: Product[];
+  isLoading: boolean;
+  error: Error | null;
+  totalCount: number;
+  totalPages: number;
+}
+
+export function useProducts(options: UseProductsOptions = {}): UseProductsResult {
+  const { categorySlug, searchQuery, page = 1, pageSize = 12 } = options;
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
+        
+        // Calculate pagination range
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize - 1;
+
         let query = supabase
           .from('products')
           .select(`
@@ -87,12 +110,18 @@ export function useProducts(categorySlug?: string) {
               slug,
               name
             )
-          `)
+          `, { count: 'exact' })
           .eq('is_active', true)
-          .order('created_at', { ascending: false });
+          .order('created_at', { ascending: false })
+          .range(from, to);
 
+        // Filter by search query
+        if (searchQuery && searchQuery.trim()) {
+          query = query.ilike('name', `%${searchQuery.trim()}%`);
+        }
+
+        // Filter by category
         if (categorySlug) {
-          // Need to filter by category slug via a join
           const { data: categoryData } = await supabase
             .from('categories')
             .select('id')
@@ -104,12 +133,13 @@ export function useProducts(categorySlug?: string) {
           }
         }
 
-        const { data, error } = await query;
+        const { data, error, count } = await query;
 
         if (error) throw error;
 
         const transformedProducts = (data as DBProduct[] || []).map(transformProduct);
         setProducts(transformedProducts);
+        setTotalCount(count || 0);
       } catch (err) {
         setError(err as Error);
         console.error('Error fetching products:', err);
@@ -119,9 +149,11 @@ export function useProducts(categorySlug?: string) {
     };
 
     fetchProducts();
-  }, [categorySlug]);
+  }, [categorySlug, searchQuery, page, pageSize]);
 
-  return { products, isLoading, error };
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  return { products, isLoading, error, totalCount, totalPages };
 }
 
 export function useCategories() {
