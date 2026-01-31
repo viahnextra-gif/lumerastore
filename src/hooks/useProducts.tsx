@@ -70,11 +70,16 @@ const transformProduct = (dbProduct: DBProduct): Product => {
   };
 };
 
+type SortOption = 'newest' | 'price-asc' | 'price-desc' | 'popular';
+
 interface UseProductsOptions {
   categorySlug?: string;
   searchQuery?: string;
   page?: number;
   pageSize?: number;
+  sortBy?: SortOption;
+  minPrice?: number;
+  maxPrice?: number;
 }
 
 interface UseProductsResult {
@@ -86,7 +91,15 @@ interface UseProductsResult {
 }
 
 export function useProducts(options: UseProductsOptions = {}): UseProductsResult {
-  const { categorySlug, searchQuery, page = 1, pageSize = 12 } = options;
+  const { 
+    categorySlug, 
+    searchQuery, 
+    page = 1, 
+    pageSize = 12, 
+    sortBy = 'newest',
+    minPrice,
+    maxPrice 
+  } = options;
   
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -111,9 +124,32 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsResult
               name
             )
           `, { count: 'exact' })
-          .eq('is_active', true)
-          .order('created_at', { ascending: false })
-          .range(from, to);
+          .eq('is_active', true);
+
+        // Apply price filters
+        if (minPrice !== undefined) {
+          query = query.gte('price', minPrice);
+        }
+        if (maxPrice !== undefined) {
+          query = query.lte('price', maxPrice);
+        }
+
+        // Apply sorting
+        switch (sortBy) {
+          case 'price-asc':
+            query = query.order('price', { ascending: true });
+            break;
+          case 'price-desc':
+            query = query.order('price', { ascending: false });
+            break;
+          case 'popular':
+            query = query.order('is_featured', { ascending: false }).order('created_at', { ascending: false });
+            break;
+          default: // newest
+            query = query.order('created_at', { ascending: false });
+        }
+
+        query = query.range(from, to);
 
         // Filter by search query
         if (searchQuery && searchQuery.trim()) {
@@ -149,7 +185,7 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsResult
     };
 
     fetchProducts();
-  }, [categorySlug, searchQuery, page, pageSize]);
+  }, [categorySlug, searchQuery, page, pageSize, sortBy, minPrice, maxPrice]);
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
