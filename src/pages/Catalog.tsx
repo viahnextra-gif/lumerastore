@@ -54,20 +54,33 @@ export default function Catalog() {
     categoryParam ? [categoryParam] : []
   );
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'popular'>('newest');
   const [gridCols, setGridCols] = useState<2 | 3 | 4>(3);
   const [searchQuery, setSearchQuery] = useState(searchParam || '');
   const [debouncedSearch, setDebouncedSearch] = useState(searchParam || '');
   const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState<[number, number]>([0, 500000]);
+  
+  const MAX_PRICE = 500000;
 
   // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchQuery);
-      setCurrentPage(1); // Reset to first page on new search
+      setCurrentPage(1);
     }, 300);
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  // Debounce price range
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedPriceRange(priceRange);
+      setCurrentPage(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [priceRange]);
 
   // Update URL params
   useEffect(() => {
@@ -78,47 +91,34 @@ export default function Catalog() {
     setSearchParams(params, { replace: true });
   }, [selectedCategories, currentPage, debouncedSearch, setSearchParams]);
 
-  // Fetch from database with pagination and search
+  // Fetch from database with pagination, search, sorting, and price filter
   const { products, isLoading: productsLoading, totalCount, totalPages } = useProducts({
     searchQuery: debouncedSearch,
     page: currentPage,
     pageSize: ITEMS_PER_PAGE,
+    sortBy,
+    minPrice: debouncedPriceRange[0] > 0 ? debouncedPriceRange[0] : undefined,
+    maxPrice: debouncedPriceRange[1] < MAX_PRICE ? debouncedPriceRange[1] : undefined,
   });
   const { categories, isLoading: categoriesLoading } = useCategories();
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Filter by category
+    // Filter by category (client-side for multi-select)
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
 
-    // Filter by size
+    // Filter by size (client-side)
     if (selectedSizes.length > 0) {
       result = result.filter((p) =>
         p.sizes.some((s) => selectedSizes.includes(s.label) && s.available)
       );
     }
 
-    // Sort
-    switch (sortBy) {
-      case 'price-asc':
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-desc':
-        result.sort((a, b) => b.price - a.price);
-        break;
-      case 'popular':
-        result.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
-        break;
-      default:
-        // Already sorted by newest from DB
-        break;
-    }
-
     return result;
-  }, [products, selectedCategories, selectedSizes, sortBy]);
+  }, [products, selectedCategories, selectedSizes]);
 
   const toggleCategory = (slug: string) => {
     setSelectedCategories((prev) =>
@@ -132,9 +132,14 @@ export default function Catalog() {
     );
   };
 
+  const handlePriceChange = (range: [number, number]) => {
+    setPriceRange(range);
+  };
+
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedSizes([]);
+    setPriceRange([0, MAX_PRICE]);
   };
 
   const isLoading = productsLoading || categoriesLoading;
@@ -181,8 +186,11 @@ export default function Catalog() {
                 selectedCategories={selectedCategories}
                 selectedSizes={selectedSizes}
                 sizeOptions={sizeOptions}
+                priceRange={priceRange}
+                maxPriceLimit={MAX_PRICE}
                 onToggleCategory={toggleCategory}
                 onToggleSize={toggleSize}
+                onPriceChange={handlePriceChange}
                 onClearFilters={clearFilters}
               />
             </div>
@@ -232,8 +240,11 @@ export default function Catalog() {
                       selectedCategories={selectedCategories}
                       selectedSizes={selectedSizes}
                       sizeOptions={sizeOptions}
+                      priceRange={priceRange}
+                      maxPriceLimit={MAX_PRICE}
                       onToggleCategory={toggleCategory}
                       onToggleSize={toggleSize}
+                      onPriceChange={handlePriceChange}
                       onClearFilters={clearFilters}
                     />
                   </div>
@@ -269,7 +280,7 @@ export default function Catalog() {
                 </div>
 
                 {/* Sort */}
-                <Select value={sortBy} onValueChange={setSortBy}>
+                <Select value={sortBy} onValueChange={(value) => setSortBy(value as typeof sortBy)}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
