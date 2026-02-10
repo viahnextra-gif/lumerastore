@@ -41,6 +41,7 @@ const sortOptions = [
 ];
 
 const sizeOptions = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
+const colorOptions = ['Rosa', 'Rosê', 'Branco', 'Preto', 'Terracota', 'Creme', 'Bege', 'Azul', 'Verde', 'Champagne'];
 
 const ITEMS_PER_PAGE = 12;
 
@@ -49,20 +50,34 @@ export default function Catalog() {
   const categoryParam = searchParams.get('category');
   const pageParam = searchParams.get('page');
   const searchParam = searchParams.get('q');
+  const sortParam = searchParams.get('sort');
+  const sizesParam = searchParams.get('sizes');
+  const colorsParam = searchParams.get('colors');
+  const minPriceParam = searchParams.get('minPrice');
+  const maxPriceParam = searchParams.get('maxPrice');
+  
+  const MAX_PRICE = 500000;
   
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     categoryParam ? [categoryParam] : []
   );
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'popular'>('newest');
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(
+    sizesParam ? sizesParam.split(',') : []
+  );
+  const [selectedColors, setSelectedColors] = useState<string[]>(
+    colorsParam ? colorsParam.split(',') : []
+  );
+  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'popular'>(
+    (sortParam as any) || 'newest'
+  );
   const [gridCols, setGridCols] = useState<2 | 3 | 4>(3);
   const [searchQuery, setSearchQuery] = useState(searchParam || '');
   const [debouncedSearch, setDebouncedSearch] = useState(searchParam || '');
   const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000]);
-  const [debouncedPriceRange, setDebouncedPriceRange] = useState<[number, number]>([0, 500000]);
-  
-  const MAX_PRICE = 500000;
+  const initMin = minPriceParam ? parseInt(minPriceParam) : 0;
+  const initMax = maxPriceParam ? parseInt(maxPriceParam) : MAX_PRICE;
+  const [priceRange, setPriceRange] = useState<[number, number]>([initMin, initMax]);
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState<[number, number]>([initMin, initMax]);
 
   // Debounce search input
   useEffect(() => {
@@ -88,8 +103,13 @@ export default function Catalog() {
     if (selectedCategories.length === 1) params.set('category', selectedCategories[0]);
     if (currentPage > 1) params.set('page', currentPage.toString());
     if (debouncedSearch) params.set('q', debouncedSearch);
+    if (sortBy !== 'newest') params.set('sort', sortBy);
+    if (selectedSizes.length > 0) params.set('sizes', selectedSizes.join(','));
+    if (selectedColors.length > 0) params.set('colors', selectedColors.join(','));
+    if (debouncedPriceRange[0] > 0) params.set('minPrice', debouncedPriceRange[0].toString());
+    if (debouncedPriceRange[1] < MAX_PRICE) params.set('maxPrice', debouncedPriceRange[1].toString());
     setSearchParams(params, { replace: true });
-  }, [selectedCategories, currentPage, debouncedSearch, setSearchParams]);
+  }, [selectedCategories, currentPage, debouncedSearch, sortBy, selectedSizes, selectedColors, debouncedPriceRange, setSearchParams]);
 
   // Fetch from database with pagination, search, sorting, and price filter
   const { products, isLoading: productsLoading, totalCount, totalPages } = useProducts({
@@ -105,20 +125,24 @@ export default function Catalog() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Filter by category (client-side for multi-select)
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
 
-    // Filter by size (client-side)
     if (selectedSizes.length > 0) {
       result = result.filter((p) =>
         p.sizes.some((s) => selectedSizes.includes(s.label) && s.available)
       );
     }
 
+    if (selectedColors.length > 0) {
+      result = result.filter((p) =>
+        p.colors.some((c) => selectedColors.includes(c.name) && c.available)
+      );
+    }
+
     return result;
-  }, [products, selectedCategories, selectedSizes]);
+  }, [products, selectedCategories, selectedSizes, selectedColors]);
 
   const toggleCategory = (slug: string) => {
     setSelectedCategories((prev) =>
@@ -132,6 +156,12 @@ export default function Catalog() {
     );
   };
 
+  const toggleColor = (color: string) => {
+    setSelectedColors((prev) =>
+      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
+    );
+  };
+
   const handlePriceChange = (range: [number, number]) => {
     setPriceRange(range);
   };
@@ -139,6 +169,7 @@ export default function Catalog() {
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedSizes([]);
+    setSelectedColors([]);
     setPriceRange([0, MAX_PRICE]);
   };
 
@@ -185,11 +216,14 @@ export default function Catalog() {
                 categories={categories}
                 selectedCategories={selectedCategories}
                 selectedSizes={selectedSizes}
+                selectedColors={selectedColors}
                 sizeOptions={sizeOptions}
+                colorOptions={colorOptions}
                 priceRange={priceRange}
                 maxPriceLimit={MAX_PRICE}
                 onToggleCategory={toggleCategory}
                 onToggleSize={toggleSize}
+                onToggleColor={toggleColor}
                 onPriceChange={handlePriceChange}
                 onClearFilters={clearFilters}
               />
@@ -239,11 +273,14 @@ export default function Catalog() {
                       categories={categories}
                       selectedCategories={selectedCategories}
                       selectedSizes={selectedSizes}
+                      selectedColors={selectedColors}
                       sizeOptions={sizeOptions}
+                      colorOptions={colorOptions}
                       priceRange={priceRange}
                       maxPriceLimit={MAX_PRICE}
                       onToggleCategory={toggleCategory}
                       onToggleSize={toggleSize}
+                      onToggleColor={toggleColor}
                       onPriceChange={handlePriceChange}
                       onClearFilters={clearFilters}
                     />

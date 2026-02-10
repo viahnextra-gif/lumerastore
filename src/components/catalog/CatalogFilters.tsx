@@ -14,11 +14,14 @@ interface CatalogFiltersProps {
   categories: Category[];
   selectedCategories: string[];
   selectedSizes: string[];
+  selectedColors: string[];
   sizeOptions: string[];
+  colorOptions: string[];
   priceRange: [number, number];
   maxPriceLimit: number;
   onToggleCategory: (slug: string) => void;
   onToggleSize: (size: string) => void;
+  onToggleColor: (color: string) => void;
   onPriceChange: (range: [number, number]) => void;
   onClearFilters: () => void;
 }
@@ -36,15 +39,18 @@ export default function CatalogFilters({
   categories,
   selectedCategories,
   selectedSizes,
+  selectedColors,
   sizeOptions,
+  colorOptions,
   priceRange,
   maxPriceLimit,
   onToggleCategory,
   onToggleSize,
+  onToggleColor,
   onPriceChange,
   onClearFilters,
 }: CatalogFiltersProps) {
-  const hasFilters = selectedCategories.length > 0 || selectedSizes.length > 0 || priceRange[0] > 0 || priceRange[1] < maxPriceLimit;
+  const hasFilters = selectedCategories.length > 0 || selectedSizes.length > 0 || selectedColors.length > 0 || priceRange[0] > 0 || priceRange[1] < maxPriceLimit;
 
   return (
     <div className="space-y-8">
@@ -105,6 +111,26 @@ export default function CatalogFilters({
               }`}
             >
               {size}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Colors */}
+      <div>
+        <h3 className="font-semibold text-foreground mb-4">Colores</h3>
+        <div className="flex flex-wrap gap-2">
+          {colorOptions.map((color) => (
+            <button
+              key={color}
+              onClick={() => onToggleColor(color)}
+              className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                selectedColors.includes(color)
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-background text-foreground border-border hover:border-primary'
+              }`}
+            >
+              {color}
             </button>
           ))}
         </div>
