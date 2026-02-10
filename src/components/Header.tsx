@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, Menu, X, User, Heart } from 'lucide-react';
+import { ShoppingBag, Search, Menu, X, User, Heart, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const navLinks = [
   { name: 'Início', href: '/' },
@@ -15,7 +16,28 @@ const navLinks = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { totalItems } = useCart();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+      if (session) {
+        const { data } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .eq('role', 'admin')
+          .maybeSingle();
+        setIsAdmin(!!data);
+      }
+    };
+    checkAuth();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => checkAuth());
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -48,9 +70,18 @@ export default function Header() {
           <Button variant="ghost" size="icon" className="hidden sm:flex">
             <Heart className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
-            <User className="h-5 w-5" />
-          </Button>
+          {isAdmin && (
+            <Link to="/admin">
+              <Button variant="ghost" size="icon" className="hidden sm:flex text-primary">
+                <Shield className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
+          <Link to={isLoggedIn ? "/conta" : "/auth"}>
+            <Button variant="ghost" size="icon" className="hidden sm:flex">
+              <User className="h-5 w-5" />
+            </Button>
+          </Link>
           <Link to="/carrinho">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingBag className="h-5 w-5" />
@@ -96,15 +127,21 @@ export default function Header() {
                   {link.name}
                 </Link>
               ))}
-              <div className="flex gap-4 pt-4 border-t border-border">
-                <Button variant="outline" size="sm" className="flex-1">
-                  <User className="h-4 w-4 mr-2" />
-                  Entrar
-                </Button>
-                <Button size="sm" className="flex-1 bg-primary text-primary-foreground">
-                  <Heart className="h-4 w-4 mr-2" />
-                  Favoritos
-                </Button>
+              <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full text-primary">
+                      <Shield className="h-4 w-4 mr-2" />
+                      Painel Admin
+                    </Button>
+                  </Link>
+                )}
+                <Link to={isLoggedIn ? "/conta" : "/auth"} onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full">
+                    <User className="h-4 w-4 mr-2" />
+                    {isLoggedIn ? 'Minha Conta' : 'Entrar'}
+                  </Button>
+                </Link>
               </div>
             </nav>
           </motion.div>
