@@ -13,6 +13,12 @@ import {
   LogOut,
   ChevronLeft,
   Menu,
+  Layers,
+  FileText,
+  Kanban,
+  CalendarDays,
+  Megaphone,
+  Key,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -26,9 +32,15 @@ const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Productos', href: '/admin/productos', icon: Package },
   { name: 'Categorías', href: '/admin/categorias', icon: Tag },
+  { name: 'Subcategorías', href: '/admin/subcategorias', icon: Layers },
+  { name: 'Páginas', href: '/admin/paginas', icon: FileText },
   { name: 'Pedidos', href: '/admin/pedidos', icon: ShoppingCart },
+  { name: 'CRM Kanban', href: '/admin/crm', icon: Kanban },
   { name: 'Clientes', href: '/admin/clientes', icon: Users },
   { name: 'Leads', href: '/admin/leads', icon: MessageSquare },
+  { name: 'Planner Social', href: '/admin/planner', icon: CalendarDays },
+  { name: 'Campañas', href: '/admin/campanias', icon: Megaphone },
+  { name: 'Credenciales', href: '/admin/credenciales', icon: Key },
   { name: 'Reportes', href: '/admin/reportes', icon: BarChart3 },
   { name: 'Configuración', href: '/admin/configuracion', icon: Settings },
 ];
