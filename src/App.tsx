@@ -17,9 +17,15 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import Products from "./pages/admin/Products";
 import Categories from "./pages/admin/Categories";
+import Subcategories from "./pages/admin/Subcategories";
+import Pages from "./pages/admin/Pages";
 import Orders from "./pages/admin/Orders";
 import Customers from "./pages/admin/Customers";
 import Leads from "./pages/admin/Leads";
+import CrmKanban from "./pages/admin/CrmKanban";
+import SocialPlanner from "./pages/admin/SocialPlanner";
+import Campaigns from "./pages/admin/Campaigns";
+import ApiCredentials from "./pages/admin/ApiCredentials";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
 import Chatbot from "./components/Chatbot";
@@ -50,9 +56,15 @@ const App = () => (
                 <Route index element={<Dashboard />} />
                 <Route path="productos" element={<Products />} />
                 <Route path="categorias" element={<Categories />} />
+                <Route path="subcategorias" element={<Subcategories />} />
+                <Route path="paginas" element={<Pages />} />
                 <Route path="pedidos" element={<Orders />} />
                 <Route path="clientes" element={<Customers />} />
                 <Route path="leads" element={<Leads />} />
+                <Route path="crm" element={<CrmKanban />} />
+                <Route path="planner" element={<SocialPlanner />} />
+                <Route path="campanias" element={<Campaigns />} />
+                <Route path="credenciales" element={<ApiCredentials />} />
                 <Route path="reportes" element={<Reports />} />
                 <Route path="configuracion" element={<Settings />} />
               </Route>

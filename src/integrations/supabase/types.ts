@@ -14,6 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_credentials: {
+        Row: {
+          created_at: string
+          credential_name: string
+          credential_type: string
+          credential_value: string
+          id: string
+          is_active: boolean | null
+          platform: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          credential_name: string
+          credential_type: string
+          credential_value: string
+          id?: string
+          is_active?: boolean | null
+          platform: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          credential_name?: string
+          credential_type?: string
+          credential_value?: string
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      campaigns: {
+        Row: {
+          budget: number | null
+          budget_type: string | null
+          campaign_type: string | null
+          created_at: string
+          created_by: string | null
+          creatives: Json | null
+          end_date: string | null
+          external_campaign_id: string | null
+          id: string
+          metrics: Json | null
+          name: string
+          notes: string | null
+          platform: string
+          start_date: string | null
+          status: string | null
+          target_audience: Json | null
+          updated_at: string
+        }
+        Insert: {
+          budget?: number | null
+          budget_type?: string | null
+          campaign_type?: string | null
+          created_at?: string
+          created_by?: string | null
+          creatives?: Json | null
+          end_date?: string | null
+          external_campaign_id?: string | null
+          id?: string
+          metrics?: Json | null
+          name: string
+          notes?: string | null
+          platform: string
+          start_date?: string | null
+          status?: string | null
+          target_audience?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          budget?: number | null
+          budget_type?: string | null
+          campaign_type?: string | null
+          created_at?: string
+          created_by?: string | null
+          creatives?: Json | null
+          end_date?: string | null
+          external_campaign_id?: string | null
+          id?: string
+          metrics?: Json | null
+          name?: string
+          notes?: string | null
+          platform?: string
+          start_date?: string | null
+          status?: string | null
+          target_audience?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -233,6 +326,45 @@ export type Database = {
         }
         Relationships: []
       }
+      pages: {
+        Row: {
+          content: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          is_published: boolean | null
+          meta_description: string | null
+          meta_title: string | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean | null
+          meta_description?: string | null
+          meta_title?: string | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_published?: boolean | null
+          meta_description?: string | null
+          meta_title?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category_id: string | null
@@ -340,6 +472,75 @@ export type Database = {
         }
         Relationships: []
       }
+      scheduled_posts: {
+        Row: {
+          campaign_id: string | null
+          content: string | null
+          created_at: string
+          created_by: string | null
+          error_message: string | null
+          external_post_id: string | null
+          hashtags: string[] | null
+          id: string
+          media_urls: string[] | null
+          platform: string
+          published_at: string | null
+          scheduled_at: string
+          social_account_id: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          external_post_id?: string | null
+          hashtags?: string[] | null
+          id?: string
+          media_urls?: string[] | null
+          platform: string
+          published_at?: string | null
+          scheduled_at: string
+          social_account_id?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string | null
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          error_message?: string | null
+          external_post_id?: string | null
+          hashtags?: string[] | null
+          id?: string
+          media_urls?: string[] | null
+          platform?: string
+          published_at?: string | null
+          scheduled_at?: string
+          social_account_id?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scheduled_posts_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scheduled_posts_social_account_id_fkey"
+            columns: ["social_account_id"]
+            isOneToOne: false
+            referencedRelation: "social_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       settings: {
         Row: {
           created_at: string
@@ -369,6 +570,86 @@ export type Database = {
           value?: string | null
         }
         Relationships: []
+      }
+      social_accounts: {
+        Row: {
+          access_token: string | null
+          account_id: string | null
+          account_name: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          platform: string
+          refresh_token: string | null
+          token_expires_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_token?: string | null
+          account_id?: string | null
+          account_name: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          platform: string
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string | null
+          account_id?: string | null
+          account_name?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          platform?: string
+          refresh_token?: string | null
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subcategories: {
+        Row: {
+          category_id: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          slug: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          slug: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subcategories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
