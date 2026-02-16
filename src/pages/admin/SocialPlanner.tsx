@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Plus, Loader2, Calendar as CalendarIcon, Instagram, Facebook, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Plus, Loader2, ChevronLeft, ChevronRight, Upload, X, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,14 +22,11 @@ interface ScheduledPost {
   scheduled_at: string;
   status: string;
   hashtags: string[];
+  media_urls: string[];
 }
 
 const platformIcons: Record<string, string> = {
-  instagram: '📸',
-  facebook: '📘',
-  tiktok: '🎵',
-  pinterest: '📌',
-  x: '𝕏',
+  instagram: '📸', facebook: '📘', tiktok: '🎵', pinterest: '📌', x: '𝕏',
 };
 
 const platformColors: Record<string, string> = {
@@ -55,7 +52,11 @@ export default function SocialPlanner() {
   const [formData, setFormData] = useState({
     platform: 'instagram', content: '', scheduled_at: '', hashtags: '',
   });
+  const [mediaFiles, setMediaFiles] = useState<File[]>([]);
+  const [mediaPreviews, setMediaPreviews] = useState<string[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   useEffect(() => { fetchPosts(); }, [currentDate]);
@@ -64,7 +65,6 @@ export default function SocialPlanner() {
     try {
       const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
       const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59).toISOString();
-
       const { data, error } = await supabase
         .from('scheduled_posts')
         .select('*')
@@ -80,25 +80,70 @@ export default function SocialPlanner() {
     }
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length + mediaFiles.length > 10) {
+      toast({ title: 'Máximo 10 archivos', variant: 'destructive' });
+      return;
+    }
+    setMediaFiles(prev => [...prev, ...files]);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setMediaPreviews(prev => [...prev, ev.target?.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeMedia = (index: number) => {
+    setMediaFiles(prev => prev.filter((_, i) => i !== index));
+    setMediaPreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadFiles = async (): Promise<string[]> => {
+    const urls: string[] = [];
+    for (const file of mediaFiles) {
+      const ext = file.name.split('.').pop();
+      const path = `posts/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error } = await supabase.storage.from('social-media').upload(path, file);
+      if (error) throw error;
+      const { data: urlData } = supabase.storage.from('social-media').getPublicUrl(path);
+      urls.push(urlData.publicUrl);
+    }
+    return urls;
+  };
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
+      let mediaUrls: string[] = [];
+      if (mediaFiles.length > 0) {
+        setIsUploading(true);
+        mediaUrls = await uploadFiles();
+        setIsUploading(false);
+      }
+
       const { error } = await supabase.from('scheduled_posts').insert({
         platform: formData.platform,
         content: formData.content || null,
         scheduled_at: formData.scheduled_at,
         hashtags: formData.hashtags.split(',').map((h) => h.trim()).filter(Boolean),
+        media_urls: mediaUrls,
         status: 'scheduled',
       });
       if (error) throw error;
       setIsDialogOpen(false);
       setFormData({ platform: 'instagram', content: '', scheduled_at: '', hashtags: '' });
+      setMediaFiles([]);
+      setMediaPreviews([]);
       fetchPosts();
       toast({ title: 'Post agendado' });
     } catch (error: any) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } finally {
       setIsSaving(false);
+      setIsUploading(false);
     }
   };
 
@@ -106,7 +151,6 @@ export default function SocialPlanner() {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + dir, 1));
   };
 
-  // Build calendar grid
   const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
   const firstDayOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
   const calendarDays = Array.from({ length: 42 }, (_, i) => {
@@ -128,11 +172,14 @@ export default function SocialPlanner() {
           <h1 className="font-display text-3xl font-bold text-foreground">Planner Social</h1>
           <p className="text-muted-foreground">Calendario de publicaciones en redes sociales</p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={(open) => {
+          setIsDialogOpen(open);
+          if (!open) { setMediaFiles([]); setMediaPreviews([]); }
+        }}>
           <DialogTrigger asChild>
             <Button><Plus className="h-4 w-4 mr-2" /> Nuevo Post</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-lg">
             <DialogHeader><DialogTitle>Agendar Post</DialogTitle></DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
@@ -152,6 +199,49 @@ export default function SocialPlanner() {
                 <Label>Contenido</Label>
                 <Textarea value={formData.content} onChange={(e) => setFormData({ ...formData, content: e.target.value })} rows={4} placeholder="Texto del post..." />
               </div>
+
+              {/* Media Upload */}
+              <div className="space-y-2">
+                <Label>Mídia (imágenes/vídeos)</Label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,video/*"
+                  multiple
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="h-4 w-4 mr-2" /> Subir archivos
+                </Button>
+                {mediaPreviews.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2 mt-2">
+                    {mediaPreviews.map((preview, i) => (
+                      <div key={i} className="relative group aspect-square rounded-lg overflow-hidden border">
+                        {mediaFiles[i]?.type.startsWith('video/') ? (
+                          <div className="w-full h-full flex items-center justify-center bg-muted">
+                            <span className="text-xs text-muted-foreground">🎬 Video</span>
+                          </div>
+                        ) : (
+                          <img src={preview} alt="" className="w-full h-full object-cover" />
+                        )}
+                        <button
+                          onClick={() => removeMedia(i)}
+                          className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className="space-y-2">
                 <Label>Fecha y hora</Label>
                 <Input type="datetime-local" value={formData.scheduled_at} onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })} />
@@ -164,7 +254,8 @@ export default function SocialPlanner() {
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancelar</Button>
               <Button onClick={handleSave} disabled={isSaving || !formData.scheduled_at}>
-                {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Agendar
+                {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+                {isUploading ? 'Subiendo...' : 'Agendar'}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -197,7 +288,7 @@ export default function SocialPlanner() {
                       <div className="mt-1 space-y-0.5">
                         {dayPosts.slice(0, 3).map((post) => (
                           <div key={post.id} className={`text-[10px] px-1 py-0.5 rounded truncate border ${platformColors[post.platform] || ''}`}>
-                            {platformIcons[post.platform]} {post.content?.slice(0, 20) || 'Post'}
+                            {platformIcons[post.platform]} {post.media_urls?.length > 0 && '📎 '}{post.content?.slice(0, 15) || 'Post'}
                           </div>
                         ))}
                         {dayPosts.length > 3 && (
@@ -213,7 +304,6 @@ export default function SocialPlanner() {
         </CardContent>
       </Card>
 
-      {/* Upcoming posts list */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Próximas Publicaciones</CardTitle>
@@ -228,7 +318,12 @@ export default function SocialPlanner() {
                   <div className="flex items-center gap-3">
                     <span className="text-xl">{platformIcons[post.platform]}</span>
                     <div>
-                      <p className="text-sm font-medium line-clamp-1">{post.content || 'Sin contenido'}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium line-clamp-1">{post.content || 'Sin contenido'}</p>
+                        {post.media_urls?.length > 0 && (
+                          <Badge variant="outline" className="text-xs"><ImageIcon className="h-3 w-3 mr-1" />{post.media_urls.length}</Badge>
+                        )}
+                      </div>
                       <p className="text-xs text-muted-foreground">
                         {new Date(post.scheduled_at).toLocaleDateString('es-PY', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       </p>

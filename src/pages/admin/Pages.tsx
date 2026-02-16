@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Search, Edit, Trash2, Loader2, FileText, MoreHorizontal, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,10 +14,11 @@ import {
   Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 interface Page {
   id: string;
@@ -29,6 +30,19 @@ interface Page {
   is_published: boolean;
   created_at: string;
 }
+
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+};
 
 export default function Pages() {
   const [pages, setPages] = useState<Page[]>([]);
@@ -130,7 +144,7 @@ export default function Pages() {
               <Plus className="h-4 w-4 mr-2" /> Nueva Página
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader><DialogTitle>{editing ? 'Editar' : 'Nueva'} Página</DialogTitle></DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid sm:grid-cols-2 gap-4">
@@ -145,9 +159,17 @@ export default function Pages() {
               </div>
               <div className="space-y-2">
                 <Label>Contenido</Label>
-                <Textarea value={formData.content} onChange={(e) => setFormData({ ...formData, content: e.target.value })} rows={10} placeholder="Contenido de la página (HTML o texto)..." />
+                <div className="min-h-[300px] border rounded-md">
+                  <ReactQuill
+                    theme="snow"
+                    value={formData.content}
+                    onChange={(value) => setFormData({ ...formData, content: value })}
+                    modules={quillModules}
+                    style={{ height: '250px' }}
+                  />
+                </div>
               </div>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4 mt-8">
                 <div className="space-y-2">
                   <Label>Meta Título (SEO)</Label>
                   <Input value={formData.meta_title} onChange={(e) => setFormData({ ...formData, meta_title: e.target.value })} placeholder="Título para buscadores" />
