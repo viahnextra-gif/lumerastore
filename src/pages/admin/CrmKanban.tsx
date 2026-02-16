@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, Plus, MessageSquare, Mail, Phone, Sparkles, GripVertical } from 'lucide-react';
+import { Loader2, Plus, Mail, Phone, Sparkles, MessageSquare, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,6 +40,9 @@ export default function CrmKanban() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '', source: 'manual' });
   const [isSaving, setIsSaving] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  const [autoRespondLoading, setAutoRespondLoading] = useState<string | null>(null);
+  const [autoRespondResult, setAutoRespondResult] = useState<{ response_message: string; action_suggestion: string; recommended_channel: string } | null>(null);
+  const [showResponseDialog, setShowResponseDialog] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => { fetchLeads(); }, []);
@@ -56,18 +59,12 @@ export default function CrmKanban() {
     }
   };
 
-  const handleDragStart = (leadId: string) => {
-    setDraggedLead(leadId);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
+  const handleDragStart = (leadId: string) => setDraggedLead(leadId);
+  const handleDragOver = (e: React.DragEvent) => e.preventDefault();
 
   const handleDrop = async (e: React.DragEvent, newStatus: string) => {
     e.preventDefault();
     if (!draggedLead) return;
-
     try {
       const { error } = await supabase
         .from('leads')
@@ -112,9 +109,7 @@ export default function CrmKanban() {
       const { data, error } = await supabase.functions.invoke('ai-lead-scoring', {
         body: { leads: leads.map((l) => ({ id: l.id, name: l.name, email: l.email, message: l.message, source: l.source, score: l.score })) },
       });
-
       if (error) throw error;
-
       if (data?.results) {
         for (const result of data.results) {
           await supabase.from('leads').update({
@@ -126,10 +121,29 @@ export default function CrmKanban() {
         fetchLeads();
         toast({ title: 'Clasificación IA completada', description: `${data.results.length} leads actualizados` });
       }
-    } catch (error: any) {
-      toast({ title: 'IA no disponible', description: 'Configure la función de IA para usar esta funcionalidad', variant: 'destructive' });
+    } catch {
+      toast({ title: 'IA no disponible', description: 'Configure la función de IA', variant: 'destructive' });
     } finally {
       setAiLoading(false);
+    }
+  };
+
+  const handleAutoRespond = async (leadId: string) => {
+    setAutoRespondLoading(leadId);
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-lead-autorespond', {
+        body: { leadId },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAutoRespondResult(data);
+      setShowResponseDialog(true);
+      fetchLeads();
+      toast({ title: 'Respuesta IA generada' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message || 'No se pudo generar respuesta', variant: 'destructive' });
+    } finally {
+      setAutoRespondLoading(null);
     }
   };
 
@@ -142,7 +156,7 @@ export default function CrmKanban() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-3xl font-bold text-foreground">CRM Kanban</h1>
-          <p className="text-muted-foreground">Pipeline de leads con drag & drop</p>
+          <p className="text-muted-foreground">Pipeline de leads con drag & drop e IA</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleAiClassify} disabled={aiLoading || leads.length === 0}>
@@ -170,14 +184,35 @@ export default function CrmKanban() {
         </div>
       </div>
 
+      {/* AI Response Dialog */}
+      <Dialog open={showResponseDialog} onOpenChange={setShowResponseDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader><DialogTitle>🤖 Respuesta IA Generada</DialogTitle></DialogHeader>
+          {autoRespondResult && (
+            <div className="space-y-4 py-2">
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Canal recomendado</Label>
+                <Badge variant="outline" className="capitalize">{autoRespondResult.recommended_channel}</Badge>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Sugerencia de acción</Label>
+                <p className="text-sm bg-muted p-3 rounded-lg">{autoRespondResult.action_suggestion}</p>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Mensaje para el lead</Label>
+                <div className="text-sm bg-muted p-3 rounded-lg whitespace-pre-wrap">{autoRespondResult.response_message}</div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowResponseDialog(false)}>Cerrar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {columns.map((col) => (
-          <div
-            key={col.id}
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e, col.id)}
-            className="min-h-[400px]"
-          >
+          <div key={col.id} onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, col.id)} className="min-h-[400px]">
             <Card className="h-full">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
@@ -213,12 +248,27 @@ export default function CrmKanban() {
                     {lead.notes && (
                       <p className="text-xs text-muted-foreground mt-2 p-2 rounded bg-muted/50 flex items-start gap-1">
                         <Sparkles className="h-3 w-3 mt-0.5 shrink-0 text-primary" />
-                        {lead.notes}
+                        <span className="line-clamp-3">{lead.notes}</span>
                       </p>
                     )}
-                    <p className="text-xs text-muted-foreground mt-2">
-                      {new Date(lead.created_at).toLocaleDateString('es-PY', { day: 'numeric', month: 'short' })}
-                    </p>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(lead.created_at).toLocaleDateString('es-PY', { day: 'numeric', month: 'short' })}
+                      </p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 px-2 text-xs"
+                        onClick={(e) => { e.stopPropagation(); handleAutoRespond(lead.id); }}
+                        disabled={autoRespondLoading === lead.id}
+                      >
+                        {autoRespondLoading === lead.id ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <><Send className="h-3 w-3 mr-1" /> IA</>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 ))}
                 {getColumnLeads(col.id).length === 0 && (
