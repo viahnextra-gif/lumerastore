@@ -4,14 +4,18 @@ import {
   Package,
   ShoppingCart,
   Users,
-  TrendingUp,
   DollarSign,
   ArrowUpRight,
-  ArrowDownRight,
   Loader2,
+  CalendarDays,
+  Target,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+} from 'recharts';
 
 interface DashboardStats {
   totalProducts: number;
@@ -27,7 +31,40 @@ interface DashboardStats {
     status: string;
     created_at: string;
   }>;
+  revenueByDay: Array<{ date: string; revenue: number; orders: number }>;
+  ordersByStatus: Array<{ name: string; value: number; color: string }>;
+  leadsByStatus: Array<{ name: string; value: number; color: string }>;
+  postsByPlatform: Array<{ platform: string; scheduled: number; published: number }>;
 }
+
+const STATUS_COLORS: Record<string, string> = {
+  pending: '#eab308',
+  confirmed: '#3b82f6',
+  processing: '#a855f7',
+  shipped: '#6366f1',
+  delivered: '#22c55e',
+  cancelled: '#ef4444',
+};
+
+const LEAD_COLORS: Record<string, string> = {
+  cold: '#60a5fa',
+  warm: '#fbbf24',
+  hot: '#f97316',
+  converted: '#22c55e',
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  pending: 'Pendiente',
+  confirmed: 'Confirmado',
+  processing: 'Procesando',
+  shipped: 'Enviado',
+  delivered: 'Entregado',
+  cancelled: 'Cancelado',
+  cold: 'Frío',
+  warm: 'Tibio',
+  hot: 'Caliente',
+  converted: 'Convertido',
+};
 
 export default function Dashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -39,27 +76,88 @@ export default function Dashboard() {
 
   const fetchDashboardStats = async () => {
     try {
-      const [productsRes, ordersRes, profilesRes, recentOrdersRes] = await Promise.all([
-        supabase.from('products').select('id', { count: 'exact' }),
-        supabase.from('orders').select('id, total, status', { count: 'exact' }),
-        supabase.from('profiles').select('id', { count: 'exact' }),
-        supabase
-          .from('orders')
-          .select('id, order_number, customer_name, total, status, created_at')
-          .order('created_at', { ascending: false })
-          .limit(5),
-      ]);
+      const [productsRes, ordersRes, profilesRes, recentOrdersRes, leadsRes, postsRes] =
+        await Promise.all([
+          supabase.from('products').select('id', { count: 'exact' }),
+          supabase.from('orders').select('id, total, status, created_at'),
+          supabase.from('profiles').select('id', { count: 'exact' }),
+          supabase
+            .from('orders')
+            .select('id, order_number, customer_name, total, status, created_at')
+            .order('created_at', { ascending: false })
+            .limit(5),
+          supabase.from('leads').select('id, status'),
+          supabase.from('scheduled_posts').select('id, platform, status'),
+        ]);
 
-      const totalRevenue = ordersRes.data?.reduce((sum, order) => sum + Number(order.total), 0) || 0;
-      const pendingOrders = ordersRes.data?.filter((o) => o.status === 'pending').length || 0;
+      const orders = ordersRes.data || [];
+      const leads = leadsRes.data || [];
+      const posts = postsRes.data || [];
+
+      const totalRevenue = orders.reduce((sum, o) => sum + Number(o.total), 0);
+      const pendingOrders = orders.filter((o) => o.status === 'pending').length;
+
+      // Revenue by day (last 7 days)
+      const now = new Date();
+      const revenueByDay: Array<{ date: string; revenue: number; orders: number }> = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        const dayOrders = orders.filter((o) => o.created_at?.slice(0, 10) === key);
+        revenueByDay.push({
+          date: d.toLocaleDateString('es-PY', { weekday: 'short', day: 'numeric' }),
+          revenue: dayOrders.reduce((s, o) => s + Number(o.total), 0),
+          orders: dayOrders.length,
+        });
+      }
+
+      // Orders by status
+      const statusCounts: Record<string, number> = {};
+      orders.forEach((o) => {
+        statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
+      });
+      const ordersByStatus = Object.entries(statusCounts).map(([k, v]) => ({
+        name: STATUS_LABELS[k] || k,
+        value: v,
+        color: STATUS_COLORS[k] || '#94a3b8',
+      }));
+
+      // Leads by status
+      const leadCounts: Record<string, number> = {};
+      leads.forEach((l) => {
+        const s = l.status || 'cold';
+        leadCounts[s] = (leadCounts[s] || 0) + 1;
+      });
+      const leadsByStatus = Object.entries(leadCounts).map(([k, v]) => ({
+        name: STATUS_LABELS[k] || k,
+        value: v,
+        color: LEAD_COLORS[k] || '#94a3b8',
+      }));
+
+      // Posts by platform
+      const platformMap: Record<string, { scheduled: number; published: number }> = {};
+      posts.forEach((p) => {
+        if (!platformMap[p.platform]) platformMap[p.platform] = { scheduled: 0, published: 0 };
+        if (p.status === 'published') platformMap[p.platform].published++;
+        else platformMap[p.platform].scheduled++;
+      });
+      const postsByPlatform = Object.entries(platformMap).map(([k, v]) => ({
+        platform: k.charAt(0).toUpperCase() + k.slice(1),
+        ...v,
+      }));
 
       setStats({
         totalProducts: productsRes.count || 0,
-        totalOrders: ordersRes.count || 0,
+        totalOrders: orders.length,
         totalCustomers: profilesRes.count || 0,
         totalRevenue,
         pendingOrders,
         recentOrders: recentOrdersRes.data || [],
+        revenueByDay,
+        ordersByStatus,
+        leadsByStatus,
+        postsByPlatform,
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -68,13 +166,8 @@ export default function Dashboard() {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
 
   const statusColors: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
@@ -102,99 +195,140 @@ export default function Dashboard() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Ingresos Totales
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+        {[
+          { label: 'Ingresos Totales', value: formatPrice(stats?.totalRevenue || 0), icon: DollarSign, sub: `${stats?.totalOrders} pedidos` },
+          { label: 'Pedidos', value: stats?.totalOrders, icon: ShoppingCart, sub: `${stats?.pendingOrders} pendientes` },
+          { label: 'Productos', value: stats?.totalProducts, icon: Package, sub: 'productos activos' },
+          { label: 'Clientes', value: stats?.totalCustomers, icon: Users, sub: 'registrados' },
+        ].map((card, i) => (
+          <motion.div key={card.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">{card.label}</CardTitle>
+                <card.icon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">{card.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Revenue Chart */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><DollarSign className="h-5 w-5" /> Ventas - Últimos 7 días</CardTitle>
+            <CardDescription>Ingresos y cantidad de pedidos por día</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={stats?.revenueByDay}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis dataKey="date" className="text-xs" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <YAxis yAxisId="left" tickFormatter={(v) => `₲${(v / 1000).toFixed(0)}k`} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <YAxis yAxisId="right" orientation="right" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <Tooltip formatter={(value: number, name: string) => [name === 'revenue' ? formatPrice(value) : value, name === 'revenue' ? 'Ingresos' : 'Pedidos']} />
+                  <Legend formatter={(v) => (v === 'revenue' ? 'Ingresos' : 'Pedidos')} />
+                  <Bar yAxisId="left" dataKey="revenue" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                  <Line yAxisId="right" type="monotone" dataKey="orders" stroke="hsl(var(--accent-foreground))" strokeWidth={2} dot={{ r: 4 }} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Pie Charts Row */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Orders by Status */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><ShoppingCart className="h-5 w-5" /> Pedidos por Estado</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">
-                {formatPrice(stats?.totalRevenue || 0)}
-              </div>
-              <p className="text-xs text-muted-foreground flex items-center mt-1">
-                <ArrowUpRight className="h-3 w-3 text-green-500 mr-1" />
-                +12% vs mes anterior
-              </p>
+              {stats?.ordersByStatus.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">Sin pedidos</p>
+              ) : (
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={stats?.ordersByStatus} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, value }) => `${name}: ${value}`}>
+                        {stats?.ordersByStatus.map((entry, i) => (
+                          <Cell key={i} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Pedidos
-              </CardTitle>
-              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+        {/* Leads by Status */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><Target className="h-5 w-5" /> Leads por Estado</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{stats?.totalOrders}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                {stats?.pendingOrders} pendientes
-              </p>
+              {stats?.leadsByStatus.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">Sin leads</p>
+              ) : (
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie data={stats?.leadsByStatus} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, value }) => `${name}: ${value}`}>
+                        {stats?.leadsByStatus.map((entry, i) => (
+                          <Cell key={i} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Productos
-              </CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+        {/* Posts by Platform */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><CalendarDays className="h-5 w-5" /> Posts por Plataforma</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{stats?.totalProducts}</div>
-              <p className="text-xs text-muted-foreground mt-1">productos activos</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                Clientes
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-foreground">{stats?.totalCustomers}</div>
-              <p className="text-xs text-muted-foreground flex items-center mt-1">
-                <ArrowUpRight className="h-3 w-3 text-green-500 mr-1" />
-                +5 esta semana
-              </p>
+              {stats?.postsByPlatform.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">Sin posts agendados</p>
+              ) : (
+                <div className="h-56">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={stats?.postsByPlatform} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                      <YAxis type="category" dataKey="platform" tick={{ fill: 'hsl(var(--muted-foreground))' }} width={80} />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="scheduled" name="Agendados" fill="#6366f1" radius={[0, 4, 4, 0]} />
+                      <Bar dataKey="published" name="Publicados" fill="#22c55e" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
       </div>
 
       {/* Recent Orders */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
         <Card>
           <CardHeader>
             <CardTitle>Pedidos Recientes</CardTitle>
@@ -202,31 +336,20 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             {stats?.recentOrders.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8">
-                No hay pedidos aún
-              </p>
+              <p className="text-center text-muted-foreground py-8">No hay pedidos aún</p>
             ) : (
               <div className="space-y-4">
                 {stats?.recentOrders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
-                  >
+                  <div key={order.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                     <div>
                       <p className="font-medium">{order.order_number}</p>
                       <p className="text-sm text-muted-foreground">{order.customer_name}</p>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          statusColors[order.status]
-                        }`}
-                      >
-                        {order.status}
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[order.status]}`}>
+                        {STATUS_LABELS[order.status] || order.status}
                       </span>
-                      <span className="font-semibold text-primary">
-                        {formatPrice(order.total)}
-                      </span>
+                      <span className="font-semibold text-primary">{formatPrice(order.total)}</span>
                     </div>
                   </div>
                 ))}
