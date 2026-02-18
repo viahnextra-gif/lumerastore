@@ -54,6 +54,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 
 interface Product {
   id: string;
@@ -69,6 +70,7 @@ interface Product {
   sizes: string[];
   colors: string[];
   category_id: string | null;
+  video_url: string | null;
 }
 
 interface Category {
@@ -91,6 +93,7 @@ interface ProductFormData {
   colors: string;
   images: string[];
   category_id: string;
+  video_url: string | null;
 }
 
 const initialFormData: ProductFormData = {
@@ -107,6 +110,7 @@ const initialFormData: ProductFormData = {
   colors: '',
   images: [],
   category_id: '',
+  video_url: null,
 };
 
 export default function Products() {
@@ -188,6 +192,7 @@ export default function Products() {
       colors: product.colors.join(', '),
       images: product.images || [],
       category_id: product.category_id || '',
+      video_url: product.video_url || null,
     });
     setIsDialogOpen(true);
   };
@@ -223,6 +228,7 @@ export default function Products() {
         colors: formData.colors.split(',').map((c) => c.trim()).filter(Boolean),
         images: formData.images,
         category_id: formData.category_id || null,
+        video_url: formData.video_url || null,
       };
 
       if (editingProduct) {
@@ -297,15 +303,16 @@ export default function Products() {
             </DialogHeader>
 
             <Tabs defaultValue="info" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="info">Información</TabsTrigger>
-                <TabsTrigger value="images">Imágenes</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="info">Informação</TabsTrigger>
+                <TabsTrigger value="images">Imagens</TabsTrigger>
+                <TabsTrigger value="video">Vídeo</TabsTrigger>
               </TabsList>
 
               <TabsContent value="info" className="space-y-4 mt-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Nombre *</Label>
+                    <Label>Nome *</Label>
                     <Input
                       value={formData.name}
                       onChange={(e) => {
@@ -329,13 +336,13 @@ export default function Products() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Categoría</Label>
+                  <Label>Categoria</Label>
                   <Select
                     value={formData.category_id}
                     onValueChange={(value) => setFormData({ ...formData, category_id: value })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar categoría" />
+                      <SelectValue placeholder="Selecionar categoria" />
                     </SelectTrigger>
                     <SelectContent>
                       {categories.map((cat) => (
@@ -348,18 +355,18 @@ export default function Products() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Descripción</Label>
+                  <Label>Descrição</Label>
                   <Textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Descripción del producto..."
+                    placeholder="Descrição do produto..."
                     rows={3}
                   />
                 </div>
 
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>Precio (PYG) *</Label>
+                    <Label>Preço (PYG) *</Label>
                     <Input
                       type="number"
                       value={formData.price}
@@ -368,7 +375,7 @@ export default function Products() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Precio Mayorista</Label>
+                    <Label>Preço Atacado</Label>
                     <Input
                       type="number"
                       value={formData.wholesale_price}
@@ -379,7 +386,7 @@ export default function Products() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Stock</Label>
+                    <Label>Estoque</Label>
                     <Input
                       type="number"
                       value={formData.stock}
@@ -391,7 +398,7 @@ export default function Products() {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Tallas (separadas por coma)</Label>
+                    <Label>Tamanhos (separados por vírgula)</Label>
                     <Input
                       value={formData.sizes}
                       onChange={(e) => setFormData({ ...formData, sizes: e.target.value })}
@@ -399,11 +406,11 @@ export default function Products() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Colores (separados por coma)</Label>
+                    <Label>Cores (separadas por vírgula)</Label>
                     <Input
                       value={formData.colors}
                       onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
-                      placeholder="Rosa, Negro, Blanco"
+                      placeholder="Rosa, Preto, Branco"
                     />
                   </div>
                 </div>
@@ -416,7 +423,7 @@ export default function Products() {
                         setFormData({ ...formData, is_active: checked })
                       }
                     />
-                    <Label>Activo</Label>
+                    <Label>Ativo</Label>
                   </div>
                   <div className="flex items-center gap-2">
                     <Switch
@@ -425,7 +432,7 @@ export default function Products() {
                         setFormData({ ...formData, is_featured: checked })
                       }
                     />
-                    <Label>Destacado</Label>
+                    <Label>Destaque</Label>
                   </div>
                 </div>
               </TabsContent>
@@ -436,6 +443,19 @@ export default function Products() {
                   onImagesChange={(images) => setFormData({ ...formData, images })}
                   maxImages={5}
                 />
+              </TabsContent>
+
+              <TabsContent value="video" className="mt-4 space-y-3">
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Vídeo do Produto</p>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Faça upload de um vídeo de até 100MB (MP4, MOV, WebM). Será exibido na página do produto.
+                  </p>
+                  <VideoUpload
+                    videoUrl={formData.video_url}
+                    onVideoChange={(url) => setFormData({ ...formData, video_url: url })}
+                  />
+                </div>
               </TabsContent>
             </Tabs>
 

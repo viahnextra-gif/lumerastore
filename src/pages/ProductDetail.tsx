@@ -13,6 +13,7 @@ import {
   ShoppingBag,
   Check,
   Loader2,
+  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -186,6 +187,30 @@ export default function ProductDetail() {
                   </button>
                 ))}
               </div>
+            )}
+
+            {/* Product Video */}
+            {(product as any).video_url && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="rounded-2xl overflow-hidden bg-muted"
+              >
+                <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 border-b border-primary/20">
+                  <Play className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">Vídeo do Produto</span>
+                </div>
+                <video
+                  src={(product as any).video_url}
+                  controls
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full aspect-video object-cover"
+                />
+              </motion.div>
             )}
           </motion.div>
 
