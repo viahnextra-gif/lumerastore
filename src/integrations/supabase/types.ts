@@ -382,6 +382,7 @@ export type Database = {
           slug: string
           stock: number | null
           updated_at: string
+          video_url: string | null
           wholesale_price: number | null
         }
         Insert: {
@@ -400,6 +401,7 @@ export type Database = {
           slug: string
           stock?: number | null
           updated_at?: string
+          video_url?: string | null
           wholesale_price?: number | null
         }
         Update: {
@@ -418,6 +420,7 @@ export type Database = {
           slug?: string
           stock?: number | null
           updated_at?: string
+          video_url?: string | null
           wholesale_price?: number | null
         }
         Relationships: [
