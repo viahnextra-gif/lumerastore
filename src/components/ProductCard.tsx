@@ -42,7 +42,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`/produto/${product.id}`} className="block">
+      <Link to={`/producto/${product.id}`} className="block">
         {/* Image Container */}
         <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-muted">
           <img
