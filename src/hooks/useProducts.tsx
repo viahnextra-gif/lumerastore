@@ -17,6 +17,7 @@ interface DBProduct {
   sizes: string[] | null;
   colors: string[] | null;
   images: string[] | null;
+  video_url?: string | null;
   categories?: {
     slug: string;
     name: string;
@@ -42,18 +43,23 @@ const generateColorHex = (colorName: string): string => {
     creme: '#f5f5dc',
     bege: '#f5f5dc',
     azul: '#87ceeb',
+    'azul serenity': '#92a8d1',
     verde: '#3d5c3d',
+    'verde musgo': '#4a5240',
     champagne: '#f7e7ce',
     vermelho: '#dc143c',
     amarelo: '#ffd700',
     laranja: '#ff8c00',
     roxo: '#9370db',
     marrom: '#8b4513',
+    nude: '#e8c9a0',
+    caramelo: '#c68642',
+    lilás: '#c8a2c8',
   };
   return colorMap[colorName.toLowerCase()] || '#cccccc';
 };
 
-const transformProduct = (dbProduct: DBProduct): Product => {
+const transformProduct = (dbProduct: DBProduct): Product & { video_url?: string | null } => {
   return {
     id: dbProduct.id,
     name: dbProduct.name,
@@ -67,6 +73,7 @@ const transformProduct = (dbProduct: DBProduct): Product => {
     isBestSeller: dbProduct.is_featured || false,
     wholesalePrice: dbProduct.wholesale_price || undefined,
     minWholesaleQty: dbProduct.min_wholesale_qty || undefined,
+    video_url: dbProduct.video_url || null,
   };
 };
 
