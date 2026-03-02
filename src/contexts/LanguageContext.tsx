@@ -1,0 +1,323 @@
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+
+export type Language = 'pt' | 'es' | 'en';
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+// Translations
+const translations: Record<Language, Record<string, string>> = {
+  pt: {
+    // Nav
+    'nav.home': 'Início',
+    'nav.catalog': 'Catálogo',
+    'nav.dresses': 'Vestidos',
+    'nav.sets': 'Conjuntos',
+    'nav.wholesale': 'Atacado',
+    'nav.admin': 'Painel Admin',
+    'nav.account': 'Minha Conta',
+    'nav.login': 'Entrar',
+
+    // Hero
+    'hero.badge': '✨ Nova Coleção Verão 2025',
+    'hero.title1': 'Elegância que',
+    'hero.title2': 'define seu estilo',
+    'hero.subtitle': 'Descubra a última tendência em moda feminina. Peças únicas para cada momento da sua vida.',
+    'hero.cta.catalog': 'Ver Catálogo',
+    'hero.cta.wholesale': 'Comprar no Atacado',
+    'hero.cta.viewProduct': 'Ver Produto',
+    'hero.from': 'A partir de',
+    'hero.happyClients': 'Clientes felizes',
+
+    // Features
+    'features.shipping': 'Envio Express',
+    'features.shippingDesc': 'Entrega rápida para todo o Paraguai',
+    'features.security': 'Pagamento Seguro',
+    'features.securityDesc': 'Transações 100% protegidas',
+    'features.returns': 'Trocas Fáceis',
+    'features.returnsDesc': '30 dias para trocar seu produto',
+    'features.support': 'Suporte 24/7',
+    'features.supportDesc': 'Atendimento via WhatsApp',
+
+    // Categories
+    'categories.title': 'Explore por Categoria',
+    'categories.subtitle': 'Encontre exatamente o que procura nas nossas categorias cuidadosamente selecionadas',
+    'categories.products': 'produtos',
+
+    // Featured
+    'featured.title': 'Produtos em Destaque',
+    'featured.subtitle': 'Os favoritos das nossas clientes',
+    'featured.viewAll': 'Ver Tudo',
+    'featured.empty': 'Nenhum produto em destaque ainda',
+
+    // AI Assistant
+    'ai.title': 'Assistente de Moda com IA',
+    'ai.subtitle': 'Monte listas de compras, tire dúvidas sobre produtos, envios, trocas e muito mais',
+    'ai.placeholder': 'Pergunte sobre moda, produtos, envios, políticas...',
+    'ai.welcome': 'Olá! 👋 Sou sua assistente de moda da Meca Store. Posso te ajudar a montar looks, criar listas de compras, tirar dúvidas sobre produtos, envios, políticas de troca e muito mais. Como posso ajudar?',
+    'ai.error': 'Desculpe, houve um erro. Tente novamente ou fale conosco pelo WhatsApp.',
+    'ai.suggestions.1': '📋 Montar lista de compras',
+    'ai.suggestions.2': '👗 Sugerir looks para evento',
+    'ai.suggestions.3': '🚚 Info sobre envios',
+    'ai.suggestions.4': '🔄 Política de trocas',
+
+    // Video Reels
+    'reels.title': 'Nossos Reels',
+    'reels.subtitle': 'Veja nossas últimas tendências em vídeo',
+
+    // B2B
+    'b2b.badge': '🏪 Para Revendedoras',
+    'b2b.title': 'Junte-se à Nossa Rede Atacadista',
+    'b2b.subtitle': 'Acesse preços exclusivos, packs especiais a partir de 3 peças, e material de apoio para impulsionar seu negócio.',
+    'b2b.cta': 'Solicitar Acesso Atacadista',
+    'b2b.catalog': 'Ver Catálogo B2B',
+
+    // New Arrivals
+    'arrivals.title': 'Novas Chegadas',
+    'arrivals.subtitle': 'As últimas peças da nossa coleção',
+    'arrivals.empty': 'Nenhum produto disponível',
+    'arrivals.viewAll': 'Ver Catálogo Completo',
+
+    // FAQ
+    'faq.title': 'Perguntas Frequentes',
+    'faq.subtitle': 'Encontre respostas para as dúvidas mais comuns',
+    'faq.q1': 'Como funciona o envio?',
+    'faq.a1': 'Realizamos envios para todo o Paraguai. Pedidos acima de ₲ 500.000 têm frete grátis. O prazo de entrega é de 2 a 5 dias úteis dependendo da localidade.',
+    'faq.q2': 'Qual a política de trocas?',
+    'faq.a2': 'Você tem 30 dias para solicitar a troca do produto. O item deve estar sem uso, com etiquetas e embalagem original. Entre em contato pelo WhatsApp para iniciar o processo.',
+    'faq.q3': 'Como saber meu tamanho?',
+    'faq.a3': 'Cada produto possui uma tabela de medidas na página de detalhes. Se tiver dúvidas, nosso assistente de IA ou equipe de atendimento pode te ajudar a escolher o tamanho ideal.',
+    'faq.q4': 'O pagamento é seguro?',
+    'faq.a4': 'Sim! Utilizamos criptografia de ponta a ponta em todas as transações. Aceitamos cartões de crédito, débito, transferência bancária e pagamento na entrega.',
+    'faq.q5': 'Como funciona o atacado?',
+    'faq.a5': 'Para compras no atacado, o pedido mínimo é de 3 peças por modelo. Oferecemos preços especiais e condições exclusivas. Acesse nossa página de atacado para mais informações.',
+    'faq.q6': 'Qual a política de privacidade?',
+    'faq.a6': 'Seus dados pessoais são protegidos e utilizados apenas para processar pedidos e melhorar sua experiência. Nunca compartilhamos suas informações com terceiros sem seu consentimento.',
+
+    // Footer
+    'footer.newsletter.title': 'Junte-se à nossa comunidade',
+    'footer.newsletter.subtitle': 'Receba ofertas exclusivas e novidades de moda',
+    'footer.newsletter.placeholder': 'Seu email',
+    'footer.newsletter.button': 'Inscrever',
+    'footer.brand.desc': 'Seu destino de moda feminina no Paraguai. Qualidade, estilo e preços incríveis.',
+    'footer.shop': 'Loja',
+    'footer.company': 'Empresa',
+    'footer.help': 'Ajuda',
+    'footer.about': 'Sobre Nós',
+    'footer.blog': 'Blog',
+    'footer.contact': 'Contato',
+    'footer.faq': 'FAQ',
+    'footer.shipping': 'Envios',
+    'footer.returns': 'Devoluções',
+    'footer.sizeGuide': 'Guia de Tamanhos',
+    'footer.rights': '© 2025 Meca Store. Todos os direitos reservados.',
+    'footer.privacy': 'Privacidade',
+    'footer.terms': 'Termos',
+  },
+  es: {
+    'nav.home': 'Inicio',
+    'nav.catalog': 'Catálogo',
+    'nav.dresses': 'Vestidos',
+    'nav.sets': 'Conjuntos',
+    'nav.wholesale': 'Mayoreo',
+    'nav.admin': 'Panel Admin',
+    'nav.account': 'Mi Cuenta',
+    'nav.login': 'Iniciar Sesión',
+    'hero.badge': '✨ Nueva Colección Verano 2025',
+    'hero.title1': 'Elegancia que',
+    'hero.title2': 'define tu estilo',
+    'hero.subtitle': 'Descubre la última tendencia en moda femenina. Piezas únicas para cada momento de tu vida.',
+    'hero.cta.catalog': 'Ver Catálogo',
+    'hero.cta.wholesale': 'Comprar al Mayor',
+    'hero.cta.viewProduct': 'Ver Producto',
+    'hero.from': 'Desde',
+    'hero.happyClients': 'Clientas felices',
+    'features.shipping': 'Envío Express',
+    'features.shippingDesc': 'Entrega rápida a todo Paraguay',
+    'features.security': 'Pago Seguro',
+    'features.securityDesc': 'Transacciones 100% protegidas',
+    'features.returns': 'Cambios Fáciles',
+    'features.returnsDesc': '30 días para cambiar tu producto',
+    'features.support': 'Soporte 24/7',
+    'features.supportDesc': 'Atención vía WhatsApp',
+    'categories.title': 'Explora por Categoría',
+    'categories.subtitle': 'Encuentra exactamente lo que buscas en nuestras categorías cuidadosamente seleccionadas',
+    'categories.products': 'productos',
+    'featured.title': 'Productos Destacados',
+    'featured.subtitle': 'Los favoritos de nuestras clientas',
+    'featured.viewAll': 'Ver Todo',
+    'featured.empty': 'No hay productos destacados aún',
+    'ai.title': 'Asistente de Moda con IA',
+    'ai.subtitle': 'Crea listas de compras, resuelve dudas sobre productos, envíos, cambios y más',
+    'ai.placeholder': 'Pregunta sobre moda, productos, envíos, políticas...',
+    'ai.welcome': '¡Hola! 👋 Soy tu asistente de moda de Meca Store. Puedo ayudarte a armar looks, crear listas de compras, responder dudas sobre productos, envíos, políticas de cambio y más. ¿En qué puedo ayudarte?',
+    'ai.error': 'Lo siento, hubo un error. Intenta de nuevo o contáctanos por WhatsApp.',
+    'ai.suggestions.1': '📋 Crear lista de compras',
+    'ai.suggestions.2': '👗 Sugerir looks para evento',
+    'ai.suggestions.3': '🚚 Info sobre envíos',
+    'ai.suggestions.4': '🔄 Política de cambios',
+    'reels.title': 'Nuestros Reels',
+    'reels.subtitle': 'Mira las últimas tendencias en video',
+    'b2b.badge': '🏪 Para Revendedoras',
+    'b2b.title': 'Únete a Nuestra Red Mayorista',
+    'b2b.subtitle': 'Accede a precios exclusivos, packs especiales desde 3 piezas, y material de apoyo para impulsar tu negocio.',
+    'b2b.cta': 'Solicitar Acceso Mayorista',
+    'b2b.catalog': 'Ver Catálogo B2B',
+    'arrivals.title': 'Nuevas Llegadas',
+    'arrivals.subtitle': 'Las últimas piezas de nuestra colección',
+    'arrivals.empty': 'No hay productos disponibles',
+    'arrivals.viewAll': 'Ver Catálogo Completo',
+    'faq.title': 'Preguntas Frecuentes',
+    'faq.subtitle': 'Encuentra respuestas a las dudas más comunes',
+    'faq.q1': '¿Cómo funciona el envío?',
+    'faq.a1': 'Realizamos envíos a todo Paraguay. Pedidos mayores a ₲ 500.000 tienen envío gratis. El plazo de entrega es de 2 a 5 días hábiles dependiendo de la localidad.',
+    'faq.q2': '¿Cuál es la política de cambios?',
+    'faq.a2': 'Tienes 30 días para solicitar el cambio del producto. El artículo debe estar sin uso, con etiquetas y embalaje original. Contáctanos por WhatsApp para iniciar el proceso.',
+    'faq.q3': '¿Cómo saber mi talla?',
+    'faq.a3': 'Cada producto tiene una tabla de medidas en la página de detalles. Si tienes dudas, nuestro asistente de IA o equipo de atención puede ayudarte a elegir la talla ideal.',
+    'faq.q4': '¿El pago es seguro?',
+    'faq.a4': '¡Sí! Utilizamos cifrado de punta a punta en todas las transacciones. Aceptamos tarjetas de crédito, débito, transferencia bancaria y pago contra entrega.',
+    'faq.q5': '¿Cómo funciona el mayoreo?',
+    'faq.a5': 'Para compras al mayoreo, el pedido mínimo es de 3 piezas por modelo. Ofrecemos precios especiales y condiciones exclusivas. Accede a nuestra página de mayoreo para más información.',
+    'faq.q6': '¿Cuál es la política de privacidad?',
+    'faq.a6': 'Tus datos personales están protegidos y se utilizan únicamente para procesar pedidos y mejorar tu experiencia. Nunca compartimos tu información con terceros sin tu consentimiento.',
+    'footer.newsletter.title': 'Únete a nuestra comunidad',
+    'footer.newsletter.subtitle': 'Recibe ofertas exclusivas y novedades de moda',
+    'footer.newsletter.placeholder': 'Tu email',
+    'footer.newsletter.button': 'Suscribir',
+    'footer.brand.desc': 'Tu destino de moda femenina en Paraguay. Calidad, estilo y precios increíbles.',
+    'footer.shop': 'Tienda',
+    'footer.company': 'Empresa',
+    'footer.help': 'Ayuda',
+    'footer.about': 'Sobre Nosotros',
+    'footer.blog': 'Blog',
+    'footer.contact': 'Contacto',
+    'footer.faq': 'FAQ',
+    'footer.shipping': 'Envíos',
+    'footer.returns': 'Devoluciones',
+    'footer.sizeGuide': 'Guía de Tallas',
+    'footer.rights': '© 2025 Meca Store. Todos los derechos reservados.',
+    'footer.privacy': 'Privacidad',
+    'footer.terms': 'Términos',
+  },
+  en: {
+    'nav.home': 'Home',
+    'nav.catalog': 'Catalog',
+    'nav.dresses': 'Dresses',
+    'nav.sets': 'Sets',
+    'nav.wholesale': 'Wholesale',
+    'nav.admin': 'Admin Panel',
+    'nav.account': 'My Account',
+    'nav.login': 'Sign In',
+    'hero.badge': '✨ New Summer 2025 Collection',
+    'hero.title1': 'Elegance that',
+    'hero.title2': 'defines your style',
+    'hero.subtitle': 'Discover the latest trends in women\'s fashion. Unique pieces for every moment in your life.',
+    'hero.cta.catalog': 'View Catalog',
+    'hero.cta.wholesale': 'Wholesale',
+    'hero.cta.viewProduct': 'View Product',
+    'hero.from': 'From',
+    'hero.happyClients': 'Happy clients',
+    'features.shipping': 'Express Shipping',
+    'features.shippingDesc': 'Fast delivery across Paraguay',
+    'features.security': 'Secure Payment',
+    'features.securityDesc': '100% protected transactions',
+    'features.returns': 'Easy Returns',
+    'features.returnsDesc': '30 days to return your product',
+    'features.support': '24/7 Support',
+    'features.supportDesc': 'WhatsApp support',
+    'categories.title': 'Shop by Category',
+    'categories.subtitle': 'Find exactly what you\'re looking for in our carefully curated categories',
+    'categories.products': 'products',
+    'featured.title': 'Featured Products',
+    'featured.subtitle': 'Our customers\' favorites',
+    'featured.viewAll': 'View All',
+    'featured.empty': 'No featured products yet',
+    'ai.title': 'AI Fashion Assistant',
+    'ai.subtitle': 'Create shopping lists, get answers about products, shipping, returns and more',
+    'ai.placeholder': 'Ask about fashion, products, shipping, policies...',
+    'ai.welcome': 'Hello! 👋 I\'m your Meca Store fashion assistant. I can help you create outfits, build shopping lists, answer questions about products, shipping, return policies and more. How can I help?',
+    'ai.error': 'Sorry, there was an error. Please try again or contact us via WhatsApp.',
+    'ai.suggestions.1': '📋 Build a shopping list',
+    'ai.suggestions.2': '👗 Suggest outfits for an event',
+    'ai.suggestions.3': '🚚 Shipping information',
+    'ai.suggestions.4': '🔄 Return policy',
+    'reels.title': 'Our Reels',
+    'reels.subtitle': 'Watch our latest fashion trends in video',
+    'b2b.badge': '🏪 For Resellers',
+    'b2b.title': 'Join Our Wholesale Network',
+    'b2b.subtitle': 'Access exclusive prices, special packs from 3 pieces, and support material to boost your business.',
+    'b2b.cta': 'Request Wholesale Access',
+    'b2b.catalog': 'View B2B Catalog',
+    'arrivals.title': 'New Arrivals',
+    'arrivals.subtitle': 'The latest pieces from our collection',
+    'arrivals.empty': 'No products available',
+    'arrivals.viewAll': 'View Full Catalog',
+    'faq.title': 'Frequently Asked Questions',
+    'faq.subtitle': 'Find answers to the most common questions',
+    'faq.q1': 'How does shipping work?',
+    'faq.a1': 'We ship across Paraguay. Orders over ₲ 500,000 get free shipping. Delivery time is 2-5 business days depending on location.',
+    'faq.q2': 'What is the return policy?',
+    'faq.a2': 'You have 30 days to request a product exchange. The item must be unworn, with tags and original packaging. Contact us via WhatsApp to start the process.',
+    'faq.q3': 'How do I find my size?',
+    'faq.a3': 'Each product has a size chart on its detail page. If you\'re unsure, our AI assistant or support team can help you choose the ideal size.',
+    'faq.q4': 'Is payment secure?',
+    'faq.a4': 'Yes! We use end-to-end encryption for all transactions. We accept credit cards, debit cards, bank transfers and cash on delivery.',
+    'faq.q5': 'How does wholesale work?',
+    'faq.a5': 'For wholesale purchases, the minimum order is 3 pieces per style. We offer special prices and exclusive conditions. Visit our wholesale page for more information.',
+    'faq.q6': 'What is the privacy policy?',
+    'faq.a6': 'Your personal data is protected and used only to process orders and improve your experience. We never share your information with third parties without your consent.',
+    'footer.newsletter.title': 'Join our community',
+    'footer.newsletter.subtitle': 'Get exclusive offers and fashion news',
+    'footer.newsletter.placeholder': 'Your email',
+    'footer.newsletter.button': 'Subscribe',
+    'footer.brand.desc': 'Your women\'s fashion destination in Paraguay. Quality, style and incredible prices.',
+    'footer.shop': 'Shop',
+    'footer.company': 'Company',
+    'footer.help': 'Help',
+    'footer.about': 'About Us',
+    'footer.blog': 'Blog',
+    'footer.contact': 'Contact',
+    'footer.faq': 'FAQ',
+    'footer.shipping': 'Shipping',
+    'footer.returns': 'Returns',
+    'footer.sizeGuide': 'Size Guide',
+    'footer.rights': '© 2025 Meca Store. All rights reserved.',
+    'footer.privacy': 'Privacy',
+    'footer.terms': 'Terms',
+  },
+};
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(() => {
+    const saved = localStorage.getItem('meca-lang');
+    return (saved as Language) || 'pt';
+  });
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem('meca-lang', lang);
+  }, []);
+
+  const t = useCallback(
+    (key: string) => translations[language][key] || translations['pt'][key] || key,
+    [language]
+  );
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const ctx = useContext(LanguageContext);
+  if (!ctx) throw new Error('useLanguage must be used within LanguageProvider');
+  return ctx;
+}
