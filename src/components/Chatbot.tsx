@@ -6,17 +6,20 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { streamChat, parseAIResponse } from '@/lib/streamChat';
+
+interface ChatProduct {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+}
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  products?: Array<{
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-  }>;
+  products?: ChatProduct[];
 }
 
 export default function Chatbot() {
@@ -53,6 +56,8 @@ export default function Chatbot() {
     setInput('');
     setIsLoading(true);
 
+    const assistantId = crypto.randomUUID();
+
     try {
       // Save user message
       await supabase.from('chat_messages').insert({
@@ -62,59 +67,72 @@ export default function Chatbot() {
         user_id: user?.id || null,
       });
 
-      // Get AI response
-      const response = await supabase.functions.invoke('chatbot', {
-        body: {
-          message: userMessage.content,
-          sessionId,
-          userId: user?.id,
+      // Add empty assistant message for streaming
+      setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
+
+      let fullText = '';
+
+      await streamChat({
+        message: userMessage.content,
+        sessionId,
+        userId: user?.id,
+        onDelta: (chunk) => {
+          fullText += chunk;
+          // Strip tags from display during streaming
+          const display = fullText.replace(/\[PRODUCTS:[^\]]*\]?/g, '').replace(/\[LEAD:[^\]]*\]?/g, '').trim();
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: display } : m))
+          );
         },
-      });
+        onDone: async (text) => {
+          const { cleanText, productIds } = parseAIResponse(text);
 
-      if (response.error) throw response.error;
+          let products: ChatProduct[] = [];
+          if (productIds.length > 0) {
+            const { data } = await supabase
+              .from('products')
+              .select('id, name, price, images')
+              .in('id', productIds);
+            products = data?.map((p) => ({
+              id: p.id,
+              name: p.name,
+              price: p.price,
+              image: p.images?.[0] || '',
+            })) || [];
+          }
 
-      const assistantMessage: Message = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        content: response.data.message,
-        products: response.data.products,
-      };
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: cleanText, products } : m))
+          );
 
-      setMessages((prev) => [...prev, assistantMessage]);
-
-      // Save assistant message
-      await supabase.from('chat_messages').insert({
-        session_id: sessionId,
-        role: 'assistant',
-        content: assistantMessage.content,
-        user_id: user?.id || null,
+          // Save assistant message
+          await supabase.from('chat_messages').insert({
+            session_id: sessionId,
+            role: 'assistant',
+            content: cleanText,
+            user_id: user?.id || null,
+          });
+        },
       });
     } catch (error) {
       console.error('Chatbot error:', error);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: 'assistant',
-          content: 'Lo siento, hubo un error. Por favor intenta de nuevo o contáctanos por WhatsApp.',
-        },
-      ]);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === assistantId
+            ? { ...m, content: 'Lo siento, hubo un error. Por favor intenta de nuevo o contáctanos por WhatsApp.' }
+            : m
+        )
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
 
   return (
     <>
-      {/* Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors"
@@ -123,28 +141,17 @@ export default function Chatbot() {
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-            >
+            <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
               <X className="h-6 w-6" />
             </motion.div>
           ) : (
-            <motion.div
-              key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-            >
+            <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
               <MessageCircle className="h-6 w-6" />
             </motion.div>
           )}
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -153,7 +160,6 @@ export default function Chatbot() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-3rem)] h-[500px] max-h-[calc(100vh-8rem)] bg-card border border-border rounded-2xl shadow-xl flex flex-col overflow-hidden"
           >
-            {/* Header */}
             <div className="bg-primary text-primary-foreground p-4 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
                 <Sparkles className="h-5 w-5" />
@@ -164,47 +170,25 @@ export default function Chatbot() {
               </div>
             </div>
 
-            {/* Messages */}
             <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               <div className="space-y-4">
                 {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
+                  <div key={message.id} className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {message.role === 'assistant' && (
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                         <Bot className="h-4 w-4 text-primary" />
                       </div>
                     )}
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                        message.role === 'user'
-                          ? 'bg-primary text-primary-foreground rounded-br-md'
-                          : 'bg-muted text-foreground rounded-bl-md'
-                      }`}
-                    >
+                    <div className={`max-w-[80%] rounded-2xl px-4 py-2 ${message.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-md' : 'bg-muted text-foreground rounded-bl-md'}`}>
                       <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                      
-                      {/* Product Recommendations */}
                       {message.products && message.products.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.products.map((product) => (
-                            <a
-                              key={product.id}
-                              href={`/producto/${product.id}`}
-                              className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors"
-                            >
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-12 h-12 rounded object-cover"
-                              />
+                            <a key={product.id} href={`/producto/${product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
+                              <img src={product.image} alt={product.name} className="w-12 h-12 rounded object-cover" />
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium line-clamp-1">{product.name}</p>
-                                <p className="text-xs text-primary font-semibold">
-                                  {formatPrice(product.price)}
-                                </p>
+                                <p className="text-xs text-primary font-semibold">{formatPrice(product.price)}</p>
                               </div>
                             </a>
                           ))}
@@ -218,7 +202,7 @@ export default function Chatbot() {
                     )}
                   </div>
                 ))}
-                {isLoading && (
+                {isLoading && messages[messages.length - 1]?.content === '' && (
                   <div className="flex gap-2 justify-start">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                       <Bot className="h-4 w-4 text-primary" />
@@ -231,22 +215,9 @@ export default function Chatbot() {
               </div>
             </ScrollArea>
 
-            {/* Input */}
             <div className="p-4 border-t border-border">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                className="flex gap-2"
-              >
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Escribe tu mensaje..."
-                  disabled={isLoading}
-                  className="flex-1"
-                />
+              <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex gap-2">
+                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Escribe tu mensaje..." disabled={isLoading} className="flex-1" />
                 <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
                   <Send className="h-4 w-4" />
                 </Button>
