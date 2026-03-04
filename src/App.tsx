@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/hooks/useAuth";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
@@ -36,45 +37,47 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/catalogo" element={<Catalog />} />
-              <Route path="/producto/:id" element={<ProductDetail />} />
-              <Route path="/carrinho" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/atacado" element={<Wholesale />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/cuenta" element={<Account />} />
-              
-              {/* Admin Routes */}
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="productos" element={<Products />} />
-                <Route path="categorias" element={<Categories />} />
-                <Route path="subcategorias" element={<Subcategories />} />
-                <Route path="paginas" element={<Pages />} />
-                <Route path="pedidos" element={<Orders />} />
-                <Route path="clientes" element={<Customers />} />
-                <Route path="leads" element={<Leads />} />
-                <Route path="crm" element={<CrmKanban />} />
-                <Route path="planner" element={<SocialPlanner />} />
-                <Route path="campanias" element={<Campaigns />} />
-                <Route path="credenciales" element={<ApiCredentials />} />
-                <Route path="reportes" element={<Reports />} />
-                <Route path="configuracion" element={<Settings />} />
-              </Route>
-              
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Chatbot />
-          </BrowserRouter>
-        </CartProvider>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/catalogo" element={<Catalog />} />
+                <Route path="/producto/:id" element={<ProductDetail />} />
+                <Route path="/carrinho" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/atacado" element={<Wholesale />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/cuenta" element={<Account />} />
+                
+                {/* Admin Routes */}
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="productos" element={<Products />} />
+                  <Route path="categorias" element={<Categories />} />
+                  <Route path="subcategorias" element={<Subcategories />} />
+                  <Route path="paginas" element={<Pages />} />
+                  <Route path="pedidos" element={<Orders />} />
+                  <Route path="clientes" element={<Customers />} />
+                  <Route path="leads" element={<Leads />} />
+                  <Route path="crm" element={<CrmKanban />} />
+                  <Route path="planner" element={<SocialPlanner />} />
+                  <Route path="campanias" element={<Campaigns />} />
+                  <Route path="credenciales" element={<ApiCredentials />} />
+                  <Route path="reportes" element={<Reports />} />
+                  <Route path="configuracion" element={<Settings />} />
+                </Route>
+                
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Chatbot />
+            </BrowserRouter>
+          </CartProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

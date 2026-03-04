@@ -5,20 +5,23 @@ import { ShoppingBag, Search, Menu, X, User, Heart, Shield } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { supabase } from '@/integrations/supabase/client';
-
-const navLinks = [
-  { name: 'Início', href: '/' },
-  { name: 'Catálogo', href: '/catalogo' },
-  { name: 'Vestidos', href: '/catalogo?category=vestidos' },
-  { name: 'Conjuntos', href: '/catalogo?category=conjuntos' },
-  { name: 'Atacado', href: '/atacado' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { totalItems } = useCart();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.catalog'), href: '/catalogo' },
+    { name: t('nav.dresses'), href: '/catalogo?category=vestidos' },
+    { name: t('nav.sets'), href: '/catalogo?category=conjuntos' },
+    { name: t('nav.wholesale'), href: '/atacado' },
+  ];
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -42,14 +45,12 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="font-display text-2xl font-bold tracking-tight text-foreground">
             Meca<span className="text-primary">Store</span>
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -62,8 +63,8 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Actions */}
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <Button variant="ghost" size="icon" className="hidden sm:flex">
             <Search className="h-5 w-5" />
           </Button>
@@ -107,7 +108,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -132,14 +132,14 @@ export default function Header() {
                   <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="outline" size="sm" className="w-full text-primary">
                       <Shield className="h-4 w-4 mr-2" />
-                      Painel Admin
+                      {t('nav.admin')}
                     </Button>
                   </Link>
                 )}
                 <Link to={isLoggedIn ? "/conta" : "/auth"} onClick={() => setIsMenuOpen(false)}>
                   <Button variant="outline" size="sm" className="w-full">
                     <User className="h-4 w-4 mr-2" />
-                    {isLoggedIn ? 'Minha Conta' : 'Entrar'}
+                    {isLoggedIn ? t('nav.account') : t('nav.login')}
                   </Button>
                 </Link>
               </div>
