@@ -7,12 +7,20 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { streamChat, parseAIResponse } from '@/lib/streamChat';
+
+interface ChatProduct {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+}
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  products?: Array<{ id: string; name: string; price: number; image: string }>;
+  products?: ChatProduct[];
 }
 
 export default function InlineAIAssistant() {
@@ -37,51 +45,56 @@ export default function InlineAIAssistant() {
 
     if (!isActive) setIsActive(true);
 
-    const userMessage: Message = {
-      id: crypto.randomUUID(),
-      role: 'user',
-      content: messageText,
-    };
-
+    const userMessage: Message = { id: crypto.randomUUID(), role: 'user', content: messageText };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
+    const assistantId = crypto.randomUUID();
+
     try {
       await supabase.from('chat_messages').insert({
-        session_id: sessionId,
-        role: 'user',
-        content: userMessage.content,
-        user_id: user?.id || null,
+        session_id: sessionId, role: 'user', content: userMessage.content, user_id: user?.id || null,
       });
 
-      const response = await supabase.functions.invoke('chatbot', {
-        body: { message: userMessage.content, sessionId, userId: user?.id },
-      });
+      setMessages((prev) => [...prev, { id: assistantId, role: 'assistant', content: '' }]);
 
-      if (response.error) throw response.error;
+      let fullText = '';
 
-      const assistantMessage: Message = {
-        id: crypto.randomUUID(),
-        role: 'assistant',
-        content: response.data.message,
-        products: response.data.products,
-      };
+      await streamChat({
+        message: userMessage.content,
+        sessionId,
+        userId: user?.id,
+        onDelta: (chunk) => {
+          fullText += chunk;
+          const display = fullText.replace(/\[PRODUCTS:[^\]]*\]?/g, '').replace(/\[LEAD:[^\]]*\]?/g, '').trim();
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: display } : m))
+          );
+        },
+        onDone: async (text) => {
+          const { cleanText, productIds } = parseAIResponse(text);
 
-      setMessages((prev) => [...prev, assistantMessage]);
+          let products: ChatProduct[] = [];
+          if (productIds.length > 0) {
+            const { data } = await supabase.from('products').select('id, name, price, images').in('id', productIds);
+            products = data?.map((p) => ({ id: p.id, name: p.name, price: p.price, image: p.images?.[0] || '' })) || [];
+          }
 
-      await supabase.from('chat_messages').insert({
-        session_id: sessionId,
-        role: 'assistant',
-        content: assistantMessage.content,
-        user_id: user?.id || null,
+          setMessages((prev) =>
+            prev.map((m) => (m.id === assistantId ? { ...m, content: cleanText, products } : m))
+          );
+
+          await supabase.from('chat_messages').insert({
+            session_id: sessionId, role: 'assistant', content: cleanText, user_id: user?.id || null,
+          });
+        },
       });
     } catch (error) {
       console.error('AI error:', error);
-      setMessages((prev) => [
-        ...prev,
-        { id: crypto.randomUUID(), role: 'assistant', content: t('ai.error') },
-      ]);
+      setMessages((prev) =>
+        prev.map((m) => (m.id === assistantId ? { ...m, content: t('ai.error') } : m))
+      );
     } finally {
       setIsLoading(false);
     }
@@ -95,12 +108,7 @@ export default function InlineAIAssistant() {
   return (
     <section className="py-16 bg-gradient-soft">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary mb-4">
             <Sparkles className="h-4 w-4" />
             <span className="text-sm font-medium">AI Powered</span>
@@ -109,14 +117,8 @@ export default function InlineAIAssistant() {
           <p className="text-muted-foreground max-w-lg mx-auto">{t('ai.subtitle')}</p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-2xl mx-auto"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto">
           <div className="bg-card border border-border rounded-2xl shadow-card overflow-hidden">
-            {/* Messages area */}
             {isActive && (
               <ScrollArea className="max-h-[400px] p-4" ref={scrollRef}>
                 <div className="space-y-4">
@@ -127,22 +129,12 @@ export default function InlineAIAssistant() {
                           <Bot className="h-4 w-4 text-primary" />
                         </div>
                       )}
-                      <div
-                        className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                          msg.role === 'user'
-                            ? 'bg-primary text-primary-foreground rounded-br-md'
-                            : 'bg-muted text-foreground rounded-bl-md'
-                        }`}
-                      >
+                      <div className={`max-w-[80%] rounded-2xl px-4 py-2 ${msg.role === 'user' ? 'bg-primary text-primary-foreground rounded-br-md' : 'bg-muted text-foreground rounded-bl-md'}`}>
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                         {msg.products && msg.products.length > 0 && (
                           <div className="mt-3 space-y-2">
                             {msg.products.map((product) => (
-                              <a
-                                key={product.id}
-                                href={`/producto/${product.id}`}
-                                className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors"
-                              >
+                              <a key={product.id} href={`/producto/${product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
                                 <img src={product.image} alt={product.name} className="w-12 h-12 rounded object-cover" />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-medium line-clamp-1">{product.name}</p>
@@ -160,7 +152,7 @@ export default function InlineAIAssistant() {
                       )}
                     </div>
                   ))}
-                  {isLoading && (
+                  {isLoading && messages[messages.length - 1]?.content === '' && (
                     <div className="flex gap-2 justify-start">
                       <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                         <Bot className="h-4 w-4 text-primary" />
@@ -174,17 +166,12 @@ export default function InlineAIAssistant() {
               </ScrollArea>
             )}
 
-            {/* Suggestions */}
             {!isActive && (
               <div className="p-4 pb-0">
                 <p className="text-sm text-muted-foreground mb-3 text-center">{t('ai.welcome')}</p>
                 <div className="flex flex-wrap gap-2 justify-center mb-4">
                   {suggestions.map((s, i) => (
-                    <button
-                      key={i}
-                      onClick={() => handleSend(s)}
-                      className="text-xs px-3 py-1.5 rounded-full bg-accent text-accent-foreground hover:bg-primary/10 transition-colors"
-                    >
+                    <button key={i} onClick={() => handleSend(s)} className="text-xs px-3 py-1.5 rounded-full bg-accent text-accent-foreground hover:bg-primary/10 transition-colors">
                       {s}
                     </button>
                   ))}
@@ -192,22 +179,9 @@ export default function InlineAIAssistant() {
               </div>
             )}
 
-            {/* Input */}
             <div className="p-4 border-t border-border">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                className="flex gap-2"
-              >
-                <Input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder={t('ai.placeholder')}
-                  disabled={isLoading}
-                  className="flex-1"
-                />
+              <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="flex gap-2">
+                <Input value={input} onChange={(e) => setInput(e.target.value)} placeholder={t('ai.placeholder')} disabled={isLoading} className="flex-1" />
                 <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
                   <Send className="h-4 w-4" />
                 </Button>

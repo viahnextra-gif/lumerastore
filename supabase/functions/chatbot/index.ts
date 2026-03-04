@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 serve(async (req) => {
@@ -68,11 +68,11 @@ CUALIFICACIÓN DE LEADS:
 
     const messages = [
       { role: "system", content: systemPrompt },
-      ...(history?.map((m) => ({ role: m.role, content: m.content })) || []),
+      ...(history?.map((m: any) => ({ role: m.role, content: m.content })) || []),
       { role: "user", content: message },
     ];
 
-    // Call Lovable AI Gateway
+    // Call Lovable AI Gateway with streaming
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -84,78 +84,40 @@ CUALIFICACIÓN DE LEADS:
         messages,
         temperature: 0.7,
         max_tokens: 500,
+        stream: true,
       }),
     });
 
     if (!aiResponse.ok) {
+      if (aiResponse.status === 429) {
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (aiResponse.status === 402) {
+        return new Response(JSON.stringify({ error: "Payment required." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      const t = await aiResponse.text();
+      console.error("AI gateway error:", aiResponse.status, t);
       throw new Error(`AI API error: ${aiResponse.status}`);
     }
 
-    const aiData = await aiResponse.json();
-    let responseText = aiData.choices[0].message.content;
-
-    // Extract product IDs if any
-    let recommendedProducts: any[] = [];
-    const productMatch = responseText.match(/\[PRODUCTS:\s*([^\]]+)\]/);
-    if (productMatch) {
-      const productIds = productMatch[1].split(",").map((id: string) => id.trim());
-      responseText = responseText.replace(/\[PRODUCTS:[^\]]+\]/, "").trim();
-
-      // Get product details
-      const { data: recProducts } = await supabase
-        .from("products")
-        .select("id, name, price, images")
-        .in("id", productIds);
-
-      recommendedProducts =
-        recProducts?.map((p) => ({
-          id: p.id,
-          name: p.name,
-          price: p.price,
-          image: p.images?.[0] || "",
-        })) || [];
-    }
-
-    // Extract lead info if any
-    const leadMatch = responseText.match(/\[LEAD:\s*([^\]]+)\]/);
-    if (leadMatch) {
-      const leadParts = leadMatch[1].split("|");
-      responseText = responseText.replace(/\[LEAD:[^\]]+\]/, "").trim();
-
-      if (leadParts.length >= 4) {
-        const [name, email, phone, score, msg] = leadParts;
-        const leadScore = parseInt(score) || 5;
-
-        // Create or update lead
-        await supabase.from("leads").insert({
-          name: name !== "null" ? name : null,
-          email: email !== "null" ? email : null,
-          phone: phone !== "null" ? phone : null,
-          score: leadScore,
-          message: msg || message,
-          source: "chatbot",
-          status: leadScore >= 7 ? "hot" : leadScore >= 4 ? "warm" : "cold",
-        });
-      }
-    }
-
-    return new Response(
-      JSON.stringify({
-        message: responseText,
-        products: recommendedProducts,
-      }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    // Stream the response back
+    return new Response(aiResponse.body, {
+      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+    });
   } catch (error) {
     console.error("Chatbot error:", error);
     return new Response(
       JSON.stringify({
-        message: "Lo siento, hubo un problema. ¿Puedo ayudarte en algo más?",
-        products: [],
+        error: "Lo siento, hubo un problema. ¿Puedo ayudarte en algo más?",
       }),
       {
+        status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
