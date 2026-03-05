@@ -29,6 +29,12 @@ import Campaigns from "./pages/admin/Campaigns";
 import ApiCredentials from "./pages/admin/ApiCredentials";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+import MarketplaceDashboard from "./pages/admin/marketplaces/MarketplaceDashboard";
+import MarketplaceConnections from "./pages/admin/marketplaces/MarketplaceConnections";
+import MarketplaceCatalog from "./pages/admin/marketplaces/MarketplaceCatalog";
+import MarketplaceOrders from "./pages/admin/marketplaces/MarketplaceOrders";
+import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
+import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
@@ -69,6 +75,12 @@ const App = () => (
                   <Route path="credenciales" element={<ApiCredentials />} />
                   <Route path="reportes" element={<Reports />} />
                   <Route path="configuracion" element={<Settings />} />
+                  <Route path="marketplaces" element={<MarketplaceDashboard />} />
+                  <Route path="marketplaces/conexoes" element={<MarketplaceConnections />} />
+                  <Route path="marketplaces/catalogo" element={<MarketplaceCatalog />} />
+                  <Route path="marketplaces/pedidos" element={<MarketplaceOrders />} />
+                  <Route path="marketplaces/estoque" element={<MarketplaceStock />} />
+                  <Route path="marketplaces/logs" element={<MarketplaceLogs />} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />
