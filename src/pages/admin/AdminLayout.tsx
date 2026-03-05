@@ -12,6 +12,7 @@ import {
   Tag,
   LogOut,
   ChevronLeft,
+  ChevronDown,
   Menu,
   Layers,
   FileText,
@@ -19,6 +20,7 @@ import {
   CalendarDays,
   Megaphone,
   Key,
+  Store,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -45,10 +47,20 @@ const navigation = [
   { name: 'Configuración', href: '/admin/configuracion', icon: Settings },
 ];
 
+const marketplaceNav = [
+  { name: 'Dashboard', href: '/admin/marketplaces' },
+  { name: 'Conexões', href: '/admin/marketplaces/conexoes' },
+  { name: 'Catálogo', href: '/admin/marketplaces/catalogo' },
+  { name: 'Pedidos', href: '/admin/marketplaces/pedidos' },
+  { name: 'Estoque', href: '/admin/marketplaces/estoque' },
+  { name: 'Logs', href: '/admin/marketplaces/logs' },
+];
+
 function Sidebar({ className }: { className?: string }) {
   const location = useLocation();
   const { signOut } = useAuth();
   const navigate = useNavigate();
+  const [mkOpen, setMkOpen] = useState(location.pathname.startsWith('/admin/marketplaces'));
 
   const handleSignOut = async () => {
     await signOut();
@@ -87,6 +99,41 @@ function Sidebar({ className }: { className?: string }) {
               </Link>
             );
           })}
+
+          {/* Marketplaces collapsible */}
+          <div>
+            <button
+              onClick={() => setMkOpen(!mkOpen)}
+              className={cn(
+                'flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                location.pathname.startsWith('/admin/marketplaces')
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+              )}
+            >
+              <span className="flex items-center gap-3"><Store className="h-5 w-5" /> Marketplaces</span>
+              <ChevronDown className={cn('h-4 w-4 transition-transform', mkOpen && 'rotate-180')} />
+            </button>
+            {mkOpen && (
+              <div className="ml-6 mt-1 space-y-0.5">
+                {marketplaceNav.map((item) => {
+                  const isActive = location.pathname === item.href;
+                  return (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      className={cn(
+                        'block px-3 py-1.5 rounded-md text-xs font-medium transition-colors',
+                        isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
       </ScrollArea>
 

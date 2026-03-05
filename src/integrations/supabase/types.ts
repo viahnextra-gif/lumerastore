@@ -206,6 +206,152 @@ export type Database = {
         }
         Relationships: []
       }
+      marketplace_connections: {
+        Row: {
+          created_at: string
+          credentials: Json | null
+          id: string
+          marketplace: string
+          status: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          credentials?: Json | null
+          id?: string
+          marketplace: string
+          status?: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          credentials?: Json | null
+          id?: string
+          marketplace?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      marketplace_orders: {
+        Row: {
+          created_at: string
+          customer_name: string | null
+          external_order_id: string | null
+          id: string
+          marketplace: string
+          raw_payload: Json | null
+          status: string
+          tenant_id: string
+          total: number | null
+        }
+        Insert: {
+          created_at?: string
+          customer_name?: string | null
+          external_order_id?: string | null
+          id?: string
+          marketplace: string
+          raw_payload?: Json | null
+          status?: string
+          tenant_id: string
+          total?: number | null
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string | null
+          external_order_id?: string | null
+          id?: string
+          marketplace?: string
+          raw_payload?: Json | null
+          status?: string
+          tenant_id?: string
+          total?: number | null
+        }
+        Relationships: []
+      }
+      marketplace_product_map: {
+        Row: {
+          created_at: string
+          external_product_id: string | null
+          external_sku: string | null
+          id: string
+          last_sync_at: string | null
+          marketplace: string
+          product_id: string | null
+          sync_status: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          external_product_id?: string | null
+          external_sku?: string | null
+          id?: string
+          last_sync_at?: string | null
+          marketplace: string
+          product_id?: string | null
+          sync_status?: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          external_product_id?: string | null
+          external_sku?: string | null
+          id?: string
+          last_sync_at?: string | null
+          marketplace?: string
+          product_id?: string | null
+          sync_status?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_product_map_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      marketplace_sync_logs: {
+        Row: {
+          created_at: string
+          error_details: string | null
+          id: string
+          marketplace: string
+          operation_type: string
+          payload_snapshot: Json | null
+          retried_at: string | null
+          status: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_details?: string | null
+          id?: string
+          marketplace: string
+          operation_type: string
+          payload_snapshot?: Json | null
+          retried_at?: string | null
+          status?: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          error_details?: string | null
+          id?: string
+          marketplace?: string
+          operation_type?: string
+          payload_snapshot?: Json | null
+          retried_at?: string | null
+          status?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           color: string | null
