@@ -6,9 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
 export default function MarketplaceLogs() {
+  const { t } = useLanguage();
   const [logs, setLogs] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
 
@@ -25,8 +27,8 @@ export default function MarketplaceLogs() {
     const res = await supabase.functions.invoke('marketplace-sync', {
       body: { operation: 'retry', log_id: logId },
     });
-    if (res.error) toast.error('Erro ao retentar');
-    else { toast.success('Retry iniciado'); load(); }
+    if (res.error) toast.error(t('mk.error'));
+    else { toast.success('Retry OK'); load(); }
   };
 
   const statusIcon = (s: string) => {
@@ -38,14 +40,14 @@ export default function MarketplaceLogs() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Logs de Sincronização</h1>
+        <h1 className="text-2xl font-bold">{t('mk.logs')}</h1>
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-32"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="success">Sucesso</SelectItem>
-            <SelectItem value="fail">Falha</SelectItem>
-            <SelectItem value="pending">Pendente</SelectItem>
+            <SelectItem value="all">{t('mk.all')}</SelectItem>
+            <SelectItem value="success">{t('mk.success')}</SelectItem>
+            <SelectItem value="fail">{t('mk.fail')}</SelectItem>
+            <SelectItem value="pending">{t('mk.pending')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -55,18 +57,18 @@ export default function MarketplaceLogs() {
           {logs.length === 0 ? (
             <div className="py-12 text-center">
               <RefreshCw className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Nenhum log de sincronização.</p>
+              <p className="text-muted-foreground">{t('mk.noLogs')}</p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Marketplace</TableHead>
-                  <TableHead>Operação</TableHead>
-                  <TableHead>Erro</TableHead>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Ação</TableHead>
+                  <TableHead>{t('mk.statusCol')}</TableHead>
+                  <TableHead>{t('mk.marketplace')}</TableHead>
+                  <TableHead>{t('mk.operation')}</TableHead>
+                  <TableHead>{t('mk.error')}</TableHead>
+                  <TableHead>{t('mk.date')}</TableHead>
+                  <TableHead>{t('mk.action')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

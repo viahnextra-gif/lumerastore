@@ -3,9 +3,11 @@ import { Store, ShoppingCart, Package, AlertTriangle, RefreshCw, CheckCircle2 } 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MarketplaceDashboard() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [stats, setStats] = useState({ connections: 0, mappedProducts: 0, orders: 0, errors: 0 });
 
   useEffect(() => {
@@ -23,19 +25,17 @@ export default function MarketplaceDashboard() {
   }, [user]);
 
   const cards = [
-    { title: 'Conexões Ativas', value: stats.connections, icon: Store, color: 'text-green-500' },
-    { title: 'Produtos Mapeados', value: stats.mappedProducts, icon: Package, color: 'text-blue-500' },
-    { title: 'Pedidos Importados', value: stats.orders, icon: ShoppingCart, color: 'text-purple-500' },
-    { title: 'Erros de Sync', value: stats.errors, icon: AlertTriangle, color: 'text-red-500' },
+    { title: t('mk.connections.active'), value: stats.connections, icon: Store, color: 'text-green-500' },
+    { title: t('mk.mapped'), value: stats.mappedProducts, icon: Package, color: 'text-blue-500' },
+    { title: t('mk.imported'), value: stats.orders, icon: ShoppingCart, color: 'text-purple-500' },
+    { title: t('mk.syncErrors'), value: stats.errors, icon: AlertTriangle, color: 'text-red-500' },
   ];
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Marketplaces</h1>
-          <p className="text-muted-foreground text-sm">Painel de integrações omnichannel</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold">{t('mk.dashboard')}</h1>
+        <p className="text-muted-foreground text-sm">{t('mk.dashboard.subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -56,17 +56,17 @@ export default function MarketplaceDashboard() {
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <RefreshCw className="h-4 w-4" /> Últimas Sincronizações
+              <RefreshCw className="h-4 w-4" /> {t('mk.recentSync')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">Nenhuma sincronização recente.</p>
+            <p className="text-sm text-muted-foreground">{t('mk.noRecentSync')}</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4" /> Status dos Marketplaces
+              <CheckCircle2 className="h-4 w-4" /> {t('mk.status')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -74,7 +74,7 @@ export default function MarketplaceDashboard() {
               {['Mercado Livre', 'Shopee', 'Amazon', 'Magalu'].map((m) => (
                 <div key={m} className="flex items-center justify-between py-1">
                   <span className="text-sm">{m}</span>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">Desconectado</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{t('mk.disconnected')}</span>
                 </div>
               ))}
             </div>

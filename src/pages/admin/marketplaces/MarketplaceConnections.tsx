@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
 const marketplaces = [
@@ -19,6 +20,7 @@ const marketplaces = [
 
 export default function MarketplaceConnections() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [connections, setConnections] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ marketplace: '', token: '' });
@@ -33,13 +35,10 @@ export default function MarketplaceConnections() {
   const handleConnect = async () => {
     if (!form.marketplace || !user) return;
     const { error } = await supabase.from('marketplace_connections').insert({
-      tenant_id: user.id,
-      marketplace: form.marketplace,
-      credentials: { token: form.token },
-      status: 'connected',
+      tenant_id: user.id, marketplace: form.marketplace, credentials: { token: form.token }, status: 'connected',
     });
     if (error) { toast.error(error.message); return; }
-    toast.success('Marketplace conectado!');
+    toast.success(t('mk.connected') + '!');
     setOpen(false);
     setForm({ marketplace: '', token: '' });
     load();
@@ -47,25 +46,25 @@ export default function MarketplaceConnections() {
 
   const handleDisconnect = async (id: string) => {
     await supabase.from('marketplace_connections').delete().eq('id', id);
-    toast.success('Desconectado');
+    toast.success(t('mk.disconnected'));
     load();
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Conexões</h1>
+        <h1 className="text-2xl font-bold">{t('mk.connections')}</h1>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button><Plus className="h-4 w-4 mr-2" /> Conectar Marketplace</Button>
+            <Button><Plus className="h-4 w-4 mr-2" /> {t('mk.connect')}</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>Conectar Marketplace</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle>{t('mk.connect')}</DialogTitle></DialogHeader>
             <div className="space-y-4">
               <div>
-                <Label>Marketplace</Label>
+                <Label>{t('mk.marketplace')}</Label>
                 <Select value={form.marketplace} onValueChange={(v) => setForm({ ...form, marketplace: v })}>
-                  <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                  <SelectTrigger><SelectValue placeholder={t('mk.select')} /></SelectTrigger>
                   <SelectContent>
                     {marketplaces.map((m) => (
                       <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>
@@ -74,10 +73,10 @@ export default function MarketplaceConnections() {
                 </Select>
               </div>
               <div>
-                <Label>Token / API Key</Label>
-                <Input type="password" value={form.token} onChange={(e) => setForm({ ...form, token: e.target.value })} placeholder="Cole seu token aqui" />
+                <Label>{t('mk.token')}</Label>
+                <Input type="password" value={form.token} onChange={(e) => setForm({ ...form, token: e.target.value })} placeholder={t('mk.pasteToken')} />
               </div>
-              <Button onClick={handleConnect} className="w-full">Conectar</Button>
+              <Button onClick={handleConnect} className="w-full">{t('mk.connect')}</Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -88,7 +87,7 @@ export default function MarketplaceConnections() {
           <Card className="col-span-full">
             <CardContent className="py-12 text-center">
               <Store className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Nenhum marketplace conectado ainda.</p>
+              <p className="text-muted-foreground">{t('mk.noConnections')}</p>
             </CardContent>
           </Card>
         ) : connections.map((c) => (
@@ -98,7 +97,7 @@ export default function MarketplaceConnections() {
               {c.status === 'connected' ? <CheckCircle className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}
             </CardHeader>
             <CardContent className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">Desde {new Date(c.created_at).toLocaleDateString()}</span>
+              <span className="text-xs text-muted-foreground">{t('mk.since')} {new Date(c.created_at).toLocaleDateString()}</span>
               <Button variant="ghost" size="sm" onClick={() => handleDisconnect(c.id)}>
                 <Trash2 className="h-4 w-4 text-destructive" />
               </Button>

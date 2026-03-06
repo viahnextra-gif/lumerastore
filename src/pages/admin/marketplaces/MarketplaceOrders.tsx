@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { ShoppingCart, Search } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MarketplaceOrders() {
+  const { t } = useLanguage();
   const [orders, setOrders] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
 
@@ -24,11 +25,11 @@ export default function MarketplaceOrders() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Pedidos Marketplace</h1>
+        <h1 className="text-2xl font-bold">{t('mk.orders')}</h1>
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="all">{t('mk.all')}</SelectItem>
             <SelectItem value="mercadolivre">Mercado Livre</SelectItem>
             <SelectItem value="shopee">Shopee</SelectItem>
             <SelectItem value="amazon">Amazon</SelectItem>
@@ -42,18 +43,18 @@ export default function MarketplaceOrders() {
           {orders.length === 0 ? (
             <div className="py-12 text-center">
               <ShoppingCart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Nenhum pedido importado ainda.</p>
+              <p className="text-muted-foreground">{t('mk.noOrders')}</p>
             </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>ID Externo</TableHead>
-                  <TableHead>Marketplace</TableHead>
-                  <TableHead>Cliente</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Data</TableHead>
+                  <TableHead>{t('mk.externalId')}</TableHead>
+                  <TableHead>{t('mk.marketplace')}</TableHead>
+                  <TableHead>{t('mk.customer')}</TableHead>
+                  <TableHead>{t('mk.total')}</TableHead>
+                  <TableHead>{t('mk.statusCol')}</TableHead>
+                  <TableHead>{t('mk.date')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
