@@ -53,6 +53,7 @@ const marketplaceNav = [
   { name: 'Catálogo', href: '/admin/marketplaces/catalogo' },
   { name: 'Pedidos', href: '/admin/marketplaces/pedidos' },
   { name: 'Estoque', href: '/admin/marketplaces/estoque' },
+  { name: 'Mensagens', href: '/admin/marketplaces/mensagens' },
   { name: 'Logs', href: '/admin/marketplaces/logs' },
 ];
 
