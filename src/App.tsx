@@ -35,6 +35,7 @@ import MarketplaceCatalog from "./pages/admin/marketplaces/MarketplaceCatalog";
 import MarketplaceOrders from "./pages/admin/marketplaces/MarketplaceOrders";
 import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
 import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
+import MarketplaceMessages from "./pages/admin/marketplaces/MarketplaceMessages";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
