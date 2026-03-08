@@ -32,6 +32,9 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import CatalogFilters from '@/components/catalog/CatalogFilters';
 import { useProducts, useCategories } from '@/hooks/useProducts';
+import SEOHead from '@/components/seo/SEOHead';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
+import { breadcrumbSchema, itemListSchema } from '@/components/seo/schemas';
 
 const sortOptions = [
   { value: 'newest', label: 'Más Nuevos' },
@@ -178,13 +181,40 @@ export default function Catalog() {
     ? categories.find((c) => c.slug === categoryParam)?.name || 'Catálogo'
     : 'Catálogo Completo';
 
+  const seoTitle = categoryParam
+    ? `${currentCategoryName} - Moda Femenina | Meca Store`
+    : 'Catálogo Moda Femenina | Meca Store Paraguay';
+  const seoDesc = categoryParam
+    ? `Compra ${currentCategoryName.toLowerCase()} de moda femenina en Meca Store. Envíos a todo Paraguay.`
+    : 'Explora nuestra colección completa de moda femenina. Vestidos, conjuntos, blusas y más. Envíos a todo Paraguay.';
+  const breadcrumbItems = categoryParam
+    ? [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }, { name: currentCategoryName, url: `/catalogo?category=${categoryParam}` }]
+    : [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }];
+
+  const productListItems = filteredProducts.slice(0, 12).map(p => ({
+    name: p.name, url: `/producto/${p.id}`, image: p.images?.[0] || '', price: p.price,
+  }));
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={seoTitle}
+        description={seoDesc}
+        keywords={`moda femenina, ${currentCategoryName.toLowerCase()}, ropa mujer, paraguay, meca store`}
+        jsonLd={[breadcrumbSchema(breadcrumbItems), itemListSchema(productListItems)]}
+      />
       <Header />
 
       {/* Hero Banner */}
       <section className="bg-gradient-soft py-16">
         <div className="container text-center">
+          <Breadcrumbs
+            items={categoryParam
+              ? [{ label: 'Catálogo', href: '/catalogo' }, { label: currentCategoryName }]
+              : [{ label: 'Catálogo' }]
+            }
+            className="justify-center mb-6"
+          />
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

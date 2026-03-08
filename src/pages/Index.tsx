@@ -12,6 +12,8 @@ import VideoReelsGallery from '@/components/home/VideoReelsGallery';
 import { useProducts, useCategories } from '@/hooks/useProducts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState, useEffect } from 'react';
+import SEOHead from '@/components/seo/SEOHead';
+import { organizationSchema, localBusinessSchema, webSiteSchema, faqSchema } from '@/components/seo/schemas';
 
 import heroImage from '@/assets/hero-main.jpg';
 
@@ -43,8 +45,24 @@ export default function Index() {
     { icon: MessageCircle, title: t('features.support'), description: t('features.supportDesc') },
   ];
 
+  const faqItems = [
+    { question: t('faq.q1'), answer: t('faq.a1') },
+    { question: t('faq.q2'), answer: t('faq.a2') },
+    { question: t('faq.q3'), answer: t('faq.a3') },
+    { question: t('faq.q4'), answer: t('faq.a4') },
+    { question: t('faq.q5'), answer: t('faq.a5') },
+    { question: t('faq.q6'), answer: t('faq.a6') },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Meca Store - Moda Femenina | Paraguay"
+        description="Descubre la última tendencia en moda femenina. Vestidos, conjuntos, blusas y más. Venta al por mayor y menor. Envíos a todo Paraguay."
+        keywords="moda femenina, ropa mujer, vestidos, conjuntos, blusas, paraguay, atacado, mayorista, meca store"
+        canonical="https://mecastorepy.lovable.app/"
+        jsonLd={[organizationSchema(), localBusinessSchema(), webSiteSchema(), faqSchema(faqItems)]}
+      />
       <Header />
 
       {/* Hero Section */}

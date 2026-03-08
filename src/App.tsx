@@ -43,6 +43,7 @@ import MarketplaceAutomations from "./pages/admin/marketplaces/MarketplaceAutoma
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
+              <AnalyticsTracker />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/catalogo" element={<Catalog />} />
