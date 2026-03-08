@@ -153,6 +153,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'Nenhuma mensagem recebida.',
     'mk.autoRespond': 'Resposta IA',
     'mk.postSale': 'Pós-Venda',
+    'mk.postSaleAutomation': 'Automação Pós-Venda',
+    'mk.postSaleAutomation.subtitle': 'Mensagens automáticas de acompanhamento e pesquisa de satisfação',
 
     // Footer
     'footer.newsletter.title': 'Junte-se à nossa comunidade',
