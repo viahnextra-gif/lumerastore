@@ -99,7 +99,7 @@ export const blogPosts: BlogPost[] = [
     keywords: ['guía tallas ropa', 'tabla tallas mujer', 'cómo medir talla', 'tallas ropa femenina'],
     content: `
       <h2>¿Cómo tomar tus medidas?</h2>
-      <p>Para encontrar tu talla perfecta, necesitas medir tres puntos clave: busto, cintura y cadera.</p>
+      <p>Para encontrar tu talla perfecta, necesitas medir tres puntos clave: busto, cintura y cadera. Esto es especialmente importante al comprar <a href="/blog/tendencias-vestidos-2026">vestidos</a> y <a href="/blog/guia-completa-moda-femenina-paraguay">ropa femenina online</a>.</p>
       <h3>Busto</h3>
       <p>Mide alrededor de la parte más ancha de tu busto, manteniendo la cinta métrica horizontal.</p>
       <h3>Cintura</h3>
@@ -107,7 +107,7 @@ export const blogPosts: BlogPost[] = [
       <h3>Cadera</h3>
       <p>Mide la parte más ancha de tus caderas, aproximadamente 20 cm debajo de la cintura.</p>
       <h2>Tabla de Conversión</h2>
-      <p>En Meca Store trabajamos con tallas S, M, L y XL. Consulta nuestra tabla de conversión para encontrar la equivalencia con tallas numéricas.</p>
+      <p>En Meca Store trabajamos con tallas S, M, L y XL. Si buscas tallas extendidas, consulta nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size en Paraguay</a>.</p>
     `,
   },
   {
