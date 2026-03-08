@@ -28,7 +28,7 @@ export default function MarketplaceLogs() {
       body: { operation: 'retry', log_id: logId },
     });
     if (res.error) toast.error(t('mk.error'));
-    else { toast.success('Retry OK'); load(); }
+    else { toast.success(t('mk.retryOk')); load(); }
   };
 
   const statusIcon = (s: string) => {
