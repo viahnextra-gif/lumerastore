@@ -32,6 +32,9 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import CatalogFilters from '@/components/catalog/CatalogFilters';
 import { useProducts, useCategories } from '@/hooks/useProducts';
+import SEOHead from '@/components/seo/SEOHead';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
+import { breadcrumbSchema, itemListSchema } from '@/components/seo/schemas';
 
 const sortOptions = [
   { value: 'newest', label: 'Más Nuevos' },
