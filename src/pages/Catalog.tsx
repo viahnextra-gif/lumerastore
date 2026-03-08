@@ -191,7 +191,7 @@ export default function Catalog() {
     ? [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }, { name: currentCategoryName, url: `/catalogo?category=${categoryParam}` }]
     : [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }];
 
-  const productListItems = paginatedProducts.map(p => ({
+  const productListItems = filteredProducts.slice(0, 12).map(p => ({
     name: p.name, url: `/producto/${p.id}`, image: p.images?.[0] || '', price: p.price,
   }));
 
