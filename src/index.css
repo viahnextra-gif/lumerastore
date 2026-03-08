@@ -225,3 +225,34 @@
     box-shadow: var(--shadow-lg);
   }
 }
+
+/* Blog prose styling */
+.prose a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
+}
+.prose a:hover {
+  opacity: 0.8;
+}
+.prose h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: hsl(var(--foreground));
+}
+.prose h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
