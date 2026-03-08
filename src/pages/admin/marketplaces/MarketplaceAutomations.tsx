@@ -600,6 +600,7 @@ export default function MarketplaceAutomations() {
           <TabsTrigger value="templates">Templates Prontos</TabsTrigger>
           <TabsTrigger value="nodes">Biblioteca de Nós</TabsTrigger>
           <TabsTrigger value="logs"><History className="h-3.5 w-3.5 mr-1" /> Logs de Execução</TabsTrigger>
+          <TabsTrigger value="metrics"><BarChart3 className="h-3.5 w-3.5 mr-1" /> Métricas</TabsTrigger>
           {editingFlow && <TabsTrigger value="editor">✏️ Editor</TabsTrigger>}
         </TabsList>
 
