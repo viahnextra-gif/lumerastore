@@ -82,9 +82,6 @@ const App = () => (
                 <Route path="/blog/tendencias" element={<BlogCategory />} />
                 <Route path="/blog/guia" element={<BlogCategory />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/moda-femenina" element={<LandingModa />} />
-                <Route path="/mayorista" element={<LandingAtacado />} />
-                <Route path="/faq" element={<FAQ />} />
                 <Route path="/moda-femenina" element={<ModaFemenina />} />
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
                 {/* Admin Routes */}
