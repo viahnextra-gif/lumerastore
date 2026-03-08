@@ -814,9 +814,9 @@ export default function MarketplaceAutomations() {
                       return (
                         <TableRow key={exec.id}>
                           <TableCell>
-                            {exec.status === 'success' && <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs">✓ Sucesso</Badge>}
-                            {exec.status === 'failed' && <Badge className="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 text-xs">✗ Falha</Badge>}
-                            {exec.status === 'running' && <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs">⟳ Executando</Badge>}
+                            {exec.status === 'success' && <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs">{t('mk.successBadge')}</Badge>}
+                            {exec.status === 'failed' && <Badge className="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 text-xs">{t('mk.failBadge')}</Badge>}
+                            {exec.status === 'running' && <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs">{t('mk.runningBadge')}</Badge>}
                           </TableCell>
                           <TableCell className="text-sm font-medium">{exec.flow_name}</TableCell>
                           <TableCell><Badge variant="outline" className="text-xs">{exec.trigger_event || '—'}</Badge></TableCell>
