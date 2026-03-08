@@ -76,8 +76,8 @@ export default function LandingAtacado() {
             Precios exclusivos desde 6 prendas. Margen de hasta 40% para tu negocio.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>
-              Solicitar Precios <ArrowRight className="ml-2 h-5 w-5" />
+            <Button size="lg" className="bg-white text-black hover:bg-white/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>
+              Ver Catálogo B2B <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg" onClick={handleWhatsAppClick}>
               <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Directo
