@@ -23,7 +23,7 @@ export default function ModaFemenina() {
   const filteredBr = useMemo(() => brCities.filter(c => normalize(c.name).includes(query) || normalize(c.department).includes(query)), [query]);
 
   // Group BR cities by state
-  const brByState = brCities.reduce<Record<string, typeof brCities>>((acc, city) => {
+  const brByState = filteredBr.reduce<Record<string, typeof brCities>>((acc, city) => {
     if (!acc[city.department]) acc[city.department] = [];
     acc[city.department].push(city);
     return acc;
