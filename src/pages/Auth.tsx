@@ -263,6 +263,18 @@ export default function Auth() {
               </div>
             )}
 
+            {isLogin && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-sm text-primary hover:underline"
+                >
+                  Esqueci minha senha
+                </button>
+              </div>
+            )}
+
             <Button
               type="submit"
               className="w-full bg-primary text-primary-foreground"
