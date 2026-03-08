@@ -75,7 +75,7 @@ export default function LandingAtacado() {
             <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>
               Solicitar Precios <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 text-lg" onClick={handleWhatsAppClick}>
+            <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg" onClick={handleWhatsAppClick}>
               <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Directo
             </Button>
           </motion.div>
@@ -135,7 +135,7 @@ export default function LandingAtacado() {
       <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">¡Empieza a revender hoy!</h2>
-          <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" onClick={handleWhatsAppClick}>
+          <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg px-8" onClick={handleWhatsAppClick}>
             <MessageCircle className="mr-2 h-5 w-5" /> Contactar por WhatsApp
           </Button>
         </div>
