@@ -252,15 +252,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['accesorios moda 2026', 'tendencias accesorios', 'joyería tendencia', 'bolsos moda'],
     content: `
       <h2>Accesorios que Transforman tu Look</h2>
-      <p>Un buen accesorio puede convertir un outfit simple en un look memorable. Estos son los must-have de 2026.</p>
+      <p>Un buen accesorio puede convertir un <a href="/blog/outfit-perfecto-cada-ocasion">outfit simple en un look memorable</a>. Estos son los must-have de 2026.</p>
       <h3>1. Bolso Estructurado</h3>
       <p>Los bolsos con formas geométricas y estructura definida son el complemento perfecto para looks de oficina y eventos.</p>
       <h3>2. Aretes Statement</h3>
-      <p>Grandes, dorados y llamativos. Los aretes oversized elevan cualquier look básico al instante.</p>
+      <p>Grandes, dorados y llamativos. Los aretes oversized elevan cualquier look básico al instante. Combínalos con los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a>.</p>
       <h3>3. Cinturón Ancho</h3>
-      <p>Perfecto para definir la cintura sobre vestidos, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
+      <p>Perfecto para definir la cintura sobre <a href="/blog/tendencias-vestidos-2026">vestidos</a>, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
       <h2>Dónde Encontrarlos</h2>
-      <p>En Meca Store complementamos nuestra colección de ropa con accesorios seleccionados que completan tu look.</p>
+      <p>En Meca Store complementamos nuestra colección con accesorios seleccionados. Incluye estos accesorios en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a> para máxima versatilidad.</p>
     `,
   },
 ];
