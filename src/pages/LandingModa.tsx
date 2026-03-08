@@ -71,9 +71,8 @@ export default function LandingModa() {
       />
 
       {/* Hero */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[var(--gradient-hero)] opacity-95" />
-        <div className="container relative z-10 text-center">
+      <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
+        <div className="container text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -162,7 +161,7 @@ export default function LandingModa() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-[var(--gradient-hero)]">
+      <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-6">¿Lista para renovar tu estilo?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
