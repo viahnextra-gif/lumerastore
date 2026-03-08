@@ -187,15 +187,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['ropa clima calido', 'telas frescas paraguay', 'moda verano paraguay', 'vestir con calor'],
     content: `
       <h2>Las Mejores Telas para el Calor</h2>
-      <p>Paraguay tiene temperaturas que superan los 40°C en verano. Elegir la tela correcta es fundamental para estar cómoda.</p>
+      <p>Paraguay tiene temperaturas que superan los 40°C en verano. Elegir la tela correcta es fundamental para estar cómoda y con <a href="/blog/guia-completa-moda-femenina-paraguay">estilo</a>.</p>
       <h3>Algodón</h3>
       <p>La tela más transpirable y cómoda. Ideal para uso diario, permite la circulación del aire y absorbe la humedad.</p>
       <h3>Lino</h3>
       <p>Ligero y elegante, el lino es perfecto para looks casuales-chic. Se arruga fácilmente pero eso es parte de su encanto.</p>
       <h3>Viscosa</h3>
-      <p>Suave y con buena caída, la viscosa es ideal para vestidos y blusas que fluyen con el movimiento.</p>
+      <p>Suave y con buena caída, la viscosa es ideal para <a href="/blog/tendencias-vestidos-2026">vestidos</a> y blusas que fluyen con el movimiento.</p>
       <h2>Estilos Recomendados</h2>
-      <p>Vestidos sueltos, shorts de tiro alto, blusas sin mangas y faldas midi son las prendas esenciales para el verano paraguayo.</p>
+      <p>Vestidos sueltos, shorts de tiro alto, blusas sin mangas y faldas midi son las prendas esenciales. Aprende a armar tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula de verano</a> y descubre los <a href="/blog/outfit-perfecto-cada-ocasion">outfits perfectos para cada ocasión</a>.</p>
     `,
   },
   {
