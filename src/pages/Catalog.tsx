@@ -314,8 +314,8 @@ export default function Catalog() {
               </Sheet>
 
               <p className="text-sm text-muted-foreground hidden sm:block">
-                {totalCount} productos
-                {debouncedSearch && ` para "${debouncedSearch}"`}
+                {totalCount} {t('catalog.products')}
+                {debouncedSearch && ` ${t('catalog.noResultsFor')} "${debouncedSearch}"`}
               </p>
 
               <div className="flex items-center gap-4">
