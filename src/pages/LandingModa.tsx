@@ -71,8 +71,7 @@ export default function LandingModa() {
       />
 
       {/* Hero */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[var(--gradient-hero)] opacity-95" />
+      <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
         <div className="container relative z-10 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
