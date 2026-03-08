@@ -76,15 +76,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['tendencias vestidos 2026', 'vestidos moda', 'estilos vestidos', 'moda verano'],
     content: `
       <h2>Los Vestidos que Dominarán 2026</h2>
-      <p>Este año los vestidos se reinventan con nuevos cortes, colores y texturas que se adaptan a todo tipo de ocasión.</p>
+      <p>Este año los vestidos se reinventan con nuevos cortes, <a href="/blog/colores-tendencia-otono-invierno-2026">colores de tendencia</a> y texturas que se adaptan a todo tipo de ocasión.</p>
       <h3>Vestido Midi Plisado</h3>
-      <p>El vestido midi plisado es versátil y favorecedor para todo tipo de cuerpo. Ideal para la oficina y para salidas casuales.</p>
+      <p>El vestido midi plisado es versátil y favorecedor para todo tipo de cuerpo. Ideal para la oficina y para salidas casuales. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para encontrar tu fit perfecto.</p>
       <h3>Maxi Vestido Floral</h3>
-      <p>Perfecto para el verano paraguayo. Los estampados florales en telas livianas son la elección favorita para días calurosos.</p>
+      <p>Perfecto para el verano paraguayo. Los estampados florales en <a href="/blog/ropa-para-clima-calido-paraguay">telas livianas ideales para el calor</a> son la elección favorita para días calurosos.</p>
       <h3>Vestido Camisero</h3>
       <p>Un clásico que nunca pasa de moda. El vestido camisero es la definición de elegancia casual.</p>
       <h2>Cómo Combinarlos</h2>
-      <p>Cada estilo de vestido tiene sus accesorios ideales. Te mostramos las combinaciones perfectas para cada ocasión.</p>
+      <p>Cada estilo de vestido tiene sus <a href="/blog/accesorios-imprescindibles-2026">accesorios ideales</a>. Te mostramos las <a href="/blog/outfit-perfecto-cada-ocasion">combinaciones perfectas para cada ocasión</a>.</p>
     `,
   },
   {
