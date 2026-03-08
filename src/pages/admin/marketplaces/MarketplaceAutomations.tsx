@@ -494,7 +494,7 @@ export default function MarketplaceAutomations() {
     }).select().single();
     if (data) {
       await loadFlows();
-      toast.success('Automação duplicada');
+      toast.success(t('mk.automationDuplicated'));
     }
   };
 
