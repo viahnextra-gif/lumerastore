@@ -44,6 +44,7 @@ import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import BlogCategory from "./pages/BlogCategory";
 import LandingModa from "./pages/LandingModa";
 import LandingAtacado from "./pages/LandingAtacado";
 import ScrollToTop from "./components/ScrollToTop";
