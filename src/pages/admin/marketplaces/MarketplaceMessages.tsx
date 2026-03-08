@@ -173,7 +173,7 @@ export default function MarketplaceMessages() {
               <div className="bg-muted p-3 rounded-lg text-sm">{selectedMsg.content}</div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Resposta</span>
+                  <span className="text-sm font-medium">{t('mk.reply')}</span>
                   <Button variant="outline" size="sm" onClick={handleAiSuggest} disabled={aiLoading}>
                     {aiLoading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Sparkles className="h-3 w-3 mr-1" />}
                     {t('mk.autoRespond')}
