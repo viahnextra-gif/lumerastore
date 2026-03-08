@@ -78,7 +78,7 @@ export default function BlogPost() {
             <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
           </div>
 
-          <div className="prose prose-lg max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <ContentWithRouterLinks html={post.content} />
 
           {/* Share */}
           <div className="mt-10 pt-6 border-t border-border flex items-center gap-3">
