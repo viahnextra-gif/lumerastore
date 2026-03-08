@@ -27,6 +27,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/hooks/useAuth';
+import { useMarketplaceNotifications } from '@/hooks/useMarketplaceNotifications';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -55,6 +56,8 @@ const marketplaceNav = [
   { name: 'Estoque', href: '/admin/marketplaces/estoque' },
   { name: 'Mensagens', href: '/admin/marketplaces/mensagens' },
   { name: 'Automação Pós-Venda', href: '/admin/marketplaces/automacao' },
+  { name: 'Analytics', href: '/admin/marketplaces/analytics' },
+  { name: 'Automações (n8n/Make/FiqOn)', href: '/admin/marketplaces/automacoes' },
   { name: 'Logs', href: '/admin/marketplaces/logs' },
 ];
 
@@ -159,6 +162,7 @@ export default function AdminLayout() {
   const { user, isLoading, isAdmin, isAdminOrModerator } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  useMarketplaceNotifications();
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdminOrModerator)) {

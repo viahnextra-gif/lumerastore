@@ -38,6 +38,8 @@ import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
 import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
 import MarketplaceMessages from "./pages/admin/marketplaces/MarketplaceMessages";
 import PostSaleAutomation from "./pages/admin/marketplaces/PostSaleAutomation";
+import MarketplaceAnalytics from "./pages/admin/marketplaces/MarketplaceAnalytics";
+import MarketplaceAutomations from "./pages/admin/marketplaces/MarketplaceAutomations";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
@@ -88,6 +90,8 @@ const App = () => (
                   <Route path="marketplaces/logs" element={<MarketplaceLogs />} />
                   <Route path="marketplaces/mensagens" element={<MarketplaceMessages />} />
                   <Route path="marketplaces/automacao" element={<PostSaleAutomation />} />
+                  <Route path="marketplaces/analytics" element={<MarketplaceAnalytics />} />
+                  <Route path="marketplaces/automacoes" element={<MarketplaceAutomations />} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />

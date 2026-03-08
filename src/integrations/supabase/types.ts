@@ -236,6 +236,57 @@ export type Database = {
         }
         Relationships: []
       }
+      marketplace_messages: {
+        Row: {
+          ai_suggestion: string | null
+          content: string
+          created_at: string
+          customer_name: string | null
+          external_message_id: string | null
+          id: string
+          marketplace: string
+          order_id: string | null
+          replied_at: string | null
+          reply_content: string | null
+          status: string
+          subject: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          ai_suggestion?: string | null
+          content?: string
+          created_at?: string
+          customer_name?: string | null
+          external_message_id?: string | null
+          id?: string
+          marketplace: string
+          order_id?: string | null
+          replied_at?: string | null
+          reply_content?: string | null
+          status?: string
+          subject?: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          ai_suggestion?: string | null
+          content?: string
+          created_at?: string
+          customer_name?: string | null
+          external_message_id?: string | null
+          id?: string
+          marketplace?: string
+          order_id?: string | null
+          replied_at?: string | null
+          reply_content?: string | null
+          status?: string
+          subject?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       marketplace_orders: {
         Row: {
           created_at: string
