@@ -342,16 +342,15 @@ export default function Catalog() {
                 </div>
 
                 {/* Sort */}
-                <Select value={sortBy} onValueChange={(value) => setSortBy(value as typeof sortBy)}>
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as typeof sortBy)}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {sortOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="newest">{t('catalog.sortNewest')}</SelectItem>
+                    <SelectItem value="price-asc">{t('catalog.sortPriceAsc')}</SelectItem>
+                    <SelectItem value="price-desc">{t('catalog.sortPriceDesc')}</SelectItem>
+                    <SelectItem value="popular">{t('catalog.sortPopular')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
