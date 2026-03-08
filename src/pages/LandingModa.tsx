@@ -163,6 +163,8 @@ export default function LandingModa() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
