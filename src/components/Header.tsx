@@ -21,6 +21,7 @@ export default function Header() {
     { name: t('nav.dresses'), href: '/catalogo?category=vestidos' },
     { name: t('nav.sets'), href: '/catalogo?category=conjuntos' },
     { name: t('nav.wholesale'), href: '/atacado' },
+    { name: 'Blog', href: '/blog' },
   ];
 
   useEffect(() => {

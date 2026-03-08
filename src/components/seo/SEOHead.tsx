@@ -12,7 +12,7 @@ interface SEOHeadProps {
 }
 
 const BASE_URL = 'https://mecastorepy.lovable.app';
-const DEFAULT_OG_IMAGE = 'https://lovable.dev/opengraph-image-p98pqg.png';
+const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
 
 export default function SEOHead({
   title,
