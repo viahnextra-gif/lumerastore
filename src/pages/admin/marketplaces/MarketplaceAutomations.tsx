@@ -870,9 +870,9 @@ export default function MarketplaceAutomations() {
               <div className="flex gap-4">
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold">Fluxo ({editingFlow.nodes.length} nós)</h3>
+                    <h3 className="text-sm font-semibold">{t('mk.flow')} ({editingFlow.nodes.length} {t('mk.nodes')})</h3>
                     <Button size="sm" variant="outline" onClick={() => setShowNodePicker(true)}>
-                      <Plus className="h-3 w-3 mr-1" /> Adicionar Nó
+                      <Plus className="h-3 w-3 mr-1" /> {t('mk.addNode')}
                     </Button>
                   </div>
 
