@@ -19,6 +19,7 @@ export default function Header() {
     { name: t('nav.home'), href: '/' },
     { name: t('nav.catalog'), href: '/catalogo' },
     { name: 'Moda', href: '/moda' },
+    { name: 'Promoções', href: '/promocoes' },
     { name: t('nav.wholesale'), href: '/atacado' },
     { name: 'Blog', href: '/blog' },
   ];
