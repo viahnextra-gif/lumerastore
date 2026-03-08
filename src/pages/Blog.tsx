@@ -41,6 +41,12 @@ export default function Blog() {
               Guías de estilo, tendencias, tips de negocio y todo sobre moda femenina en Paraguay.
             </p>
           </motion.div>
+          {/* Category navigation */}
+          <div className="flex justify-center gap-3 mb-10 flex-wrap">
+            <Link to="/blog/moda" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Moda</Link>
+            <Link to="/blog/tendencias" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Tendencias</Link>
+            <Link to="/blog/guia" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Guías</Link>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, i) => (
