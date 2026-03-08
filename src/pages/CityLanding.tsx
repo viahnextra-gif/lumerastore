@@ -84,7 +84,7 @@ export default function CityLanding() {
     window.open(`https://wa.me/595981000000?text=Hola!%20Soy%20de%20${encodeURIComponent(city.name)}%20y%20quiero%20más%20información`, '_blank');
   };
 
-  const pageUrl = `/moda-femenina-${city.slug}`;
+  const pageUrl = `/moda-femenina/${city.slug}`;
   const canonicalUrl = `https://mecastorepy.lovable.app${pageUrl}`;
 
   const citySchema = {
