@@ -798,12 +798,12 @@ export default function MarketplaceAutomations() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Automação</TableHead>
-                      <TableHead>Evento</TableHead>
-                      <TableHead>Erro</TableHead>
-                      <TableHead>Início</TableHead>
-                      <TableHead>Duração</TableHead>
+                      <TableHead>{t('mk.statusCol')}</TableHead>
+                      <TableHead>{t('mk.automation')}</TableHead>
+                      <TableHead>{t('mk.event')}</TableHead>
+                      <TableHead>{t('mk.error')}</TableHead>
+                      <TableHead>{t('mk.start')}</TableHead>
+                      <TableHead>{t('mk.duration')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
