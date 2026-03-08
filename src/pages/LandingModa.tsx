@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import { trackEvent } from '@/components/seo/AnalyticsTracker';
 import { toast } from 'sonner';
