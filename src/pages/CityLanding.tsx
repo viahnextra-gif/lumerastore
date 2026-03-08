@@ -316,7 +316,7 @@ export default function CityLanding() {
             {otherCities.map(c => (
               <Link
                 key={c.slug}
-                to={`/moda-femenina-${c.slug}`}
+                to={`/moda-femenina/${c.slug}`}
                 className="flex items-center gap-2 p-4 bg-card rounded-xl border border-border hover:border-primary hover:shadow-md transition-all group"
               >
                 <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
