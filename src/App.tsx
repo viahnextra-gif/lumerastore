@@ -38,6 +38,8 @@ import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
 import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
 import MarketplaceMessages from "./pages/admin/marketplaces/MarketplaceMessages";
 import PostSaleAutomation from "./pages/admin/marketplaces/PostSaleAutomation";
+import MarketplaceAnalytics from "./pages/admin/marketplaces/MarketplaceAnalytics";
+import MarketplaceAutomations from "./pages/admin/marketplaces/MarketplaceAutomations";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
