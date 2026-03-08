@@ -463,8 +463,8 @@ export default function MarketplaceAutomations() {
 
   const saveFlow = async () => {
     if (!editingFlow) return;
-    if (!editingFlow.name.trim()) { toast.error('Dê um nome à automação'); return; }
-    if (editingFlow.nodes.length === 0) { toast.error('Adicione pelo menos um nó'); return; }
+    if (!editingFlow.name.trim()) { toast.error(t('mk.giveNameToAutomation')); return; }
+    if (editingFlow.nodes.length === 0) { toast.error(t('mk.addAtLeastOneNode')); return; }
 
     await saveFlowToDB(editingFlow);
     await loadFlows();
