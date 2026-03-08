@@ -386,7 +386,7 @@ export default function MarketplaceAutomations() {
     if (data) {
       setExecutions(data.map((row: any) => ({
         ...row,
-        flow_name: (row.automation_flows as any)?.name || 'Fluxo removido',
+        flow_name: (row.automation_flows as any)?.name || t('mk.flowRemoved'),
       })));
     }
   }, [user]);
