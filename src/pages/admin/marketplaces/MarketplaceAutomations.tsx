@@ -859,7 +859,7 @@ export default function MarketplaceAutomations() {
                       </Select>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Webhook URL</Label>
+                      <Label className="text-xs">{t('mk.webhookUrl')}</Label>
                       <Input value={editingFlow.webhookUrl} onChange={(e) => setEditingFlow({ ...editingFlow, webhookUrl: e.target.value })} placeholder="https://..." />
                     </div>
                   </div>
