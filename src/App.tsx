@@ -58,6 +58,7 @@ const App = () => (
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/atacado" element={<Wholesale />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/conta" element={<Account />} />
                 <Route path="/cuenta" element={<Account />} />
                 
                 {/* Admin Routes */}
