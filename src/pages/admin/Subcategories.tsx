@@ -3,38 +3,21 @@ import { Plus, Search, Edit, Trash2, Loader2, Layers, MoreHorizontal } from 'luc
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from '@/components/ui/table';
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
-} from '@/components/ui/dialog';
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-interface Subcategory {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  image_url: string | null;
-  category_id: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
-}
+interface Subcategory { id: string; name: string; slug: string; description: string | null; image_url: string | null; category_id: string; }
+interface Category { id: string; name: string; }
 
 export default function Subcategories() {
+  const { t } = useLanguage();
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,81 +28,34 @@ export default function Subcategories() {
   const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    Promise.all([fetchSubcategories(), fetchCategories()]);
-  }, []);
+  useEffect(() => { Promise.all([fetchSubcategories(), fetchCategories()]); }, []);
 
   const fetchSubcategories = async () => {
-    try {
-      const { data, error } = await supabase.from('subcategories').select('*').order('name');
-      if (error) throw error;
-      setSubcategories(data || []);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    try { const { data, error } = await supabase.from('subcategories').select('*').order('name'); if (error) throw error; setSubcategories(data || []); } catch (error) { console.error('Error:', error); } finally { setIsLoading(false); }
   };
+  const fetchCategories = async () => { const { data } = await supabase.from('categories').select('id, name').order('name'); setCategories(data || []); };
 
-  const fetchCategories = async () => {
-    const { data } = await supabase.from('categories').select('id, name').order('name');
-    setCategories(data || []);
-  };
+  const generateSlug = (name: string) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-  const generateSlug = (name: string) =>
-    name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
-  const handleEdit = (sub: Subcategory) => {
-    setEditing(sub);
-    setFormData({ name: sub.name, slug: sub.slug, description: sub.description || '', image_url: sub.image_url || '', category_id: sub.category_id });
-    setIsDialogOpen(true);
-  };
+  const handleEdit = (sub: Subcategory) => { setEditing(sub); setFormData({ name: sub.name, slug: sub.slug, description: sub.description || '', image_url: sub.image_url || '', category_id: sub.category_id }); setIsDialogOpen(true); };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('¿Eliminar esta subcategoría?')) return;
-    try {
-      const { error } = await supabase.from('subcategories').delete().eq('id', id);
-      if (error) throw error;
-      setSubcategories(subcategories.filter((s) => s.id !== id));
-      toast({ title: 'Subcategoría eliminada' });
-    } catch {
-      toast({ title: 'Error', variant: 'destructive' });
-    }
+    if (!confirm(t('admin.confirmDeleteSubcategory'))) return;
+    try { const { error } = await supabase.from('subcategories').delete().eq('id', id); if (error) throw error; setSubcategories(subcategories.filter((s) => s.id !== id)); toast({ title: t('admin.subcategoryDeleted') }); } catch { toast({ title: 'Error', variant: 'destructive' }); }
   };
 
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const data = {
-        name: formData.name,
-        slug: formData.slug || generateSlug(formData.name),
-        description: formData.description || null,
-        image_url: formData.image_url || null,
-        category_id: formData.category_id,
-      };
-
-      if (editing) {
-        const { error } = await supabase.from('subcategories').update(data).eq('id', editing.id);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from('subcategories').insert(data);
-        if (error) throw error;
-      }
-
-      setIsDialogOpen(false);
-      setEditing(null);
-      setFormData({ name: '', slug: '', description: '', image_url: '', category_id: '' });
-      fetchSubcategories();
-      toast({ title: editing ? 'Subcategoría actualizada' : 'Subcategoría creada' });
-    } catch (error: any) {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' });
-    } finally {
-      setIsSaving(false);
-    }
+      const data = { name: formData.name, slug: formData.slug || generateSlug(formData.name), description: formData.description || null, image_url: formData.image_url || null, category_id: formData.category_id };
+      if (editing) { const { error } = await supabase.from('subcategories').update(data).eq('id', editing.id); if (error) throw error; }
+      else { const { error } = await supabase.from('subcategories').insert(data); if (error) throw error; }
+      setIsDialogOpen(false); setEditing(null); setFormData({ name: '', slug: '', description: '', image_url: '', category_id: '' }); fetchSubcategories();
+      toast({ title: editing ? t('admin.subcategoryUpdated') : t('admin.subcategoryCreated') });
+    } catch (error: any) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); } finally { setIsSaving(false); }
   };
 
   const getCategoryName = (id: string) => categories.find((c) => c.id === id)?.name || '—';
-
   const filtered = subcategories.filter((s) => s.name.toLowerCase().includes(search.toLowerCase()));
 
   if (isLoading) return <div className="flex items-center justify-center h-64"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
@@ -128,44 +64,33 @@ export default function Subcategories() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-3xl font-bold text-foreground">Subcategorías</h1>
-          <p className="text-muted-foreground">Organiza productos dentro de categorías</p>
+          <h1 className="font-display text-3xl font-bold text-foreground">{t('admin.subcategoriesTitle')}</h1>
+          <p className="text-muted-foreground">{t('admin.subcategoriesSubtitle')}</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => { setEditing(null); setFormData({ name: '', slug: '', description: '', image_url: '', category_id: '' }); }}>
-              <Plus className="h-4 w-4 mr-2" /> Nueva Subcategoría
+              <Plus className="h-4 w-4 mr-2" /> {t('admin.newSubcategory')}
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader><DialogTitle>{editing ? 'Editar' : 'Nueva'} Subcategoría</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle>{editing ? t('admin.editSubcategory') : t('admin.newSubcategory')}</DialogTitle></DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
-                <Label>Categoría padre</Label>
+                <Label>{t('admin.parentCategory')}</Label>
                 <Select value={formData.category_id} onValueChange={(v) => setFormData({ ...formData, category_id: v })}>
-                  <SelectTrigger><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger>
-                  <SelectContent>
-                    {categories.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-                  </SelectContent>
+                  <SelectTrigger><SelectValue placeholder={t('admin.selectParentCategory')} /></SelectTrigger>
+                  <SelectContent>{categories.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}</SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>Nombre</Label>
-                <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value, slug: generateSlug(e.target.value) })} placeholder="Mini Vestidos" />
-              </div>
-              <div className="space-y-2">
-                <Label>Slug</Label>
-                <Input value={formData.slug} onChange={(e) => setFormData({ ...formData, slug: e.target.value })} />
-              </div>
-              <div className="space-y-2">
-                <Label>Descripción</Label>
-                <Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
-              </div>
+              <div className="space-y-2"><Label>{t('admin.categoryName')}</Label><Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value, slug: generateSlug(e.target.value) })} /></div>
+              <div className="space-y-2"><Label>{t('admin.categorySlug')}</Label><Input value={formData.slug} onChange={(e) => setFormData({ ...formData, slug: e.target.value })} /></div>
+              <div className="space-y-2"><Label>{t('admin.categoryDesc')}</Label><Textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} /></div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancelar</Button>
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>{t('admin.cancel')}</Button>
               <Button onClick={handleSave} disabled={isSaving || !formData.name || !formData.category_id}>
-                {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Guardar
+                {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} {t('admin.save')}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -176,25 +101,15 @@ export default function Subcategories() {
         <CardHeader>
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Buscar..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            <Input placeholder={t('admin.search')} value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
           </div>
         </CardHeader>
         <CardContent>
           {filtered.length === 0 ? (
-            <div className="text-center py-12">
-              <Layers className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">No hay subcategorías</p>
-            </div>
+            <div className="text-center py-12"><Layers className="h-12 w-12 mx-auto text-muted-foreground mb-4" /><p className="text-muted-foreground">{t('admin.noSubcategories')}</p></div>
           ) : (
             <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Subcategoría</TableHead>
-                  <TableHead>Categoría</TableHead>
-                  <TableHead>Slug</TableHead>
-                  <TableHead className="w-12"></TableHead>
-                </TableRow>
-              </TableHeader>
+              <TableHeader><TableRow><TableHead>{t('admin.subcategories')}</TableHead><TableHead>{t('admin.category')}</TableHead><TableHead>{t('admin.categorySlug')}</TableHead><TableHead className="w-12"></TableHead></TableRow></TableHeader>
               <TableBody>
                 {filtered.map((sub) => (
                   <TableRow key={sub.id}>
@@ -205,8 +120,8 @@ export default function Subcategories() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEdit(sub)}><Edit className="h-4 w-4 mr-2" /> Editar</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(sub.id)} className="text-destructive"><Trash2 className="h-4 w-4 mr-2" /> Eliminar</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(sub)}><Edit className="h-4 w-4 mr-2" /> {t('admin.edit')}</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(sub.id)} className="text-destructive"><Trash2 className="h-4 w-4 mr-2" /> {t('admin.delete')}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
