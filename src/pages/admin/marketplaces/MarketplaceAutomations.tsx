@@ -442,7 +442,7 @@ export default function MarketplaceAutomations() {
     };
     setEditingFlow(flow);
     setActiveTab('editor');
-    toast.success('Template carregado! Configure e salve.');
+    toast.success(t('mk.templateLoaded'));
   };
 
   const createEmptyFlow = () => {
