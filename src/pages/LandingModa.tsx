@@ -161,7 +161,7 @@ export default function LandingModa() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-[var(--gradient-hero)]">
+      <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-6">¿Lista para renovar tu estilo?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -133,7 +133,7 @@ export default function LandingAtacado() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 bg-[var(--gradient-hero)]">
+      <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">¡Empieza a revender hoy!</h2>
           <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" onClick={handleWhatsAppClick}>
