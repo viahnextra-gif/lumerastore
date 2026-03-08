@@ -80,7 +80,7 @@ export default function MarketplaceMessages() {
       status: 'replied',
       updated_at: new Date().toISOString(),
     }).eq('id', selectedMsg.id);
-    toast.success('Resposta enviada!');
+    toast.success(t('mk.replySent'));
     setReply('');
     setSelectedMsg(null);
     loadMessages();
