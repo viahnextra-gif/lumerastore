@@ -49,6 +49,7 @@ import LandingModa from "./pages/LandingModa";
 import LandingAtacado from "./pages/LandingAtacado";
 import FAQ from "./pages/FAQ";
 import CityLanding from "./pages/CityLanding";
+import ModaFemenina from "./pages/ModaFemenina";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 
