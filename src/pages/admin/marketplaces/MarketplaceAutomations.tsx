@@ -791,8 +791,8 @@ export default function MarketplaceAutomations() {
               {executions.length === 0 ? (
                 <div className="py-12 text-center">
                   <History className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">Nenhuma execução registrada</p>
-                  <p className="text-xs text-muted-foreground mt-1">As execuções aparecerão aqui quando suas automações forem disparadas</p>
+                   <p className="text-muted-foreground">{t('mk.noExecutions')}</p>
+                   <p className="text-xs text-muted-foreground mt-1">{t('mk.executionsWillAppear')}</p>
                 </div>
               ) : (
                 <Table>
