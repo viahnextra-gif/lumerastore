@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Zap, Webhook, Plus, Save, Trash2, Copy,
   ArrowRight, Mail, MessageSquare, Bell, Database, ShoppingCart,
   Package, Users, Star, Clock, Filter, GitBranch, Send, FileText,
   BarChart3, AlertTriangle, CheckCircle2, XCircle, Settings,
-  GripVertical, ChevronDown, ExternalLink
+  GripVertical, ChevronDown, ExternalLink, History, RefreshCw, Play
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,10 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -63,6 +66,20 @@ interface AutomationFlow {
   createdAt: string;
   lastRun: string | null;
   status: 'active' | 'error' | 'idle' | 'draft';
+  dbId?: string; // DB UUID
+}
+
+interface ExecutionLog {
+  id: string;
+  flow_id: string;
+  status: string;
+  trigger_event: string | null;
+  trigger_payload: any;
+  result: any;
+  error_message: string | null;
+  started_at: string;
+  completed_at: string | null;
+  flow_name?: string;
 }
 
 // ── Pre-Programmed Node Templates ──────────────────────
@@ -264,7 +281,7 @@ const FLOW_TEMPLATES: { id: string; name: string; description: string; platform:
     platform: 'n8n',
     nodes: [
       { templateId: 'trigger_new_order', config: { marketplace: 'all', min_value: '0' } },
-      { templateId: 'action_send_whatsapp', config: { phone: '{{customer.phone}}', message: 'Olá {{customer.name}}! Recebemos seu pedido #{{order.number}}. Acompanhe pelo nosso site.', template_id: '' } },
+      { templateId: 'action_send_whatsapp', config: { phone: '{{customer.phone}}', message: 'Olá {{customer.name}}! Recebemos seu pedido #{{order.number}}.', template_id: '' } },
       { templateId: 'output_log', config: { level: 'info', message: 'WhatsApp enviado para {{customer.name}}' } },
     ],
   },
@@ -291,7 +308,7 @@ const FLOW_TEMPLATES: { id: string; name: string; description: string; platform:
     nodes: [
       { templateId: 'trigger_new_lead', config: { source: 'all', min_score: '70' } },
       { templateId: 'condition_branch', config: { condition: '{{lead.score}} >= 80', true_label: 'Hot Lead', false_label: 'Warm Lead' } },
-      { templateId: 'action_send_whatsapp', config: { phone: '{{lead.phone}}', message: 'Olá {{lead.name}}! Vi que você se interessou pelos nossos produtos. Posso ajudar?', template_id: '' } },
+      { templateId: 'action_send_whatsapp', config: { phone: '{{lead.phone}}', message: 'Olá {{lead.name}}! Vi que você se interessou pelos nossos produtos.', template_id: '' } },
       { templateId: 'action_notify_team', config: { channel: 'slack', message: '🎯 Novo lead quente: {{lead.name}} (score: {{lead.score}})' } },
     ],
   },
@@ -322,14 +339,94 @@ const categoryLabels: Record<NodeCategory, { label: string; color: string }> = {
 // ── Component ──────────────────────────────────────────
 export default function MarketplaceAutomations() {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [flows, setFlows] = useState<AutomationFlow[]>([]);
+  const [executions, setExecutions] = useState<ExecutionLog[]>([]);
   const [activeTab, setActiveTab] = useState('flows');
   const [editingFlow, setEditingFlow] = useState<AutomationFlow | null>(null);
   const [showNodePicker, setShowNodePicker] = useState(false);
   const [nodePickerCategory, setNodePickerCategory] = useState<NodeCategory | 'all'>('all');
   const [editingNodeIdx, setEditingNodeIdx] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // ── Flow CRUD ──
+  // ── Load from DB ──
+  const loadFlows = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('automation_flows')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (data) {
+      setFlows(data.map((row: any) => ({
+        id: row.id,
+        dbId: row.id,
+        name: row.name,
+        platform: row.platform as Platform,
+        webhookUrl: row.webhook_url || '',
+        nodes: (row.nodes as FlowNode[]) || [],
+        enabled: row.enabled,
+        createdAt: row.created_at,
+        lastRun: row.last_run_at,
+        status: row.status as AutomationFlow['status'],
+      })));
+    }
+    setLoading(false);
+  }, [user]);
+
+  const loadExecutions = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from('automation_executions')
+      .select('*, automation_flows(name)')
+      .order('started_at', { ascending: false })
+      .limit(50);
+
+    if (data) {
+      setExecutions(data.map((row: any) => ({
+        ...row,
+        flow_name: (row.automation_flows as any)?.name || 'Fluxo removido',
+      })));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    loadFlows();
+    loadExecutions();
+  }, [loadFlows, loadExecutions]);
+
+  // Realtime execution updates
+  useEffect(() => {
+    const channel = supabase
+      .channel('automation-executions')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'automation_executions' }, () => {
+        loadExecutions();
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [loadExecutions]);
+
+  // ── Flow CRUD (persisted) ──
+  const saveFlowToDB = async (flow: AutomationFlow) => {
+    if (!user) return;
+    const payload = {
+      tenant_id: user.id,
+      name: flow.name,
+      platform: flow.platform,
+      webhook_url: flow.webhookUrl,
+      nodes: flow.nodes as any,
+      enabled: flow.enabled,
+      status: flow.status,
+    };
+
+    if (flow.dbId) {
+      await supabase.from('automation_flows').update(payload).eq('id', flow.dbId);
+    } else {
+      const { data } = await supabase.from('automation_flows').insert(payload).select().single();
+      if (data) flow.dbId = data.id;
+    }
+  };
+
   const createFlowFromTemplate = (tpl: typeof FLOW_TEMPLATES[0]) => {
     const flow: AutomationFlow = {
       id: crypto.randomUUID(),
@@ -363,42 +460,63 @@ export default function MarketplaceAutomations() {
     setActiveTab('editor');
   };
 
-  const saveFlow = () => {
+  const saveFlow = async () => {
     if (!editingFlow) return;
     if (!editingFlow.name.trim()) { toast.error('Dê um nome à automação'); return; }
     if (editingFlow.nodes.length === 0) { toast.error('Adicione pelo menos um nó'); return; }
 
-    const exists = flows.find((f) => f.id === editingFlow.id);
-    if (exists) {
-      setFlows(flows.map((f) => (f.id === editingFlow.id ? editingFlow : f)));
-    } else {
-      setFlows([...flows, editingFlow]);
-    }
-    toast.success('Automação salva!');
+    await saveFlowToDB(editingFlow);
+    await loadFlows();
+    toast.success('Automação salva no banco de dados!');
     setEditingFlow(null);
     setActiveTab('flows');
   };
 
-  const deleteFlow = (id: string) => {
-    setFlows(flows.filter((f) => f.id !== id));
+  const deleteFlow = async (id: string, dbId?: string) => {
+    if (dbId) {
+      await supabase.from('automation_flows').delete().eq('id', dbId);
+    }
+    await loadFlows();
     toast.success('Automação removida');
   };
 
-  const duplicateFlow = (flow: AutomationFlow) => {
-    const copy: AutomationFlow = {
-      ...flow,
-      id: crypto.randomUUID(),
+  const duplicateFlow = async (flow: AutomationFlow) => {
+    if (!user) return;
+    const { data } = await supabase.from('automation_flows').insert({
+      tenant_id: user.id,
       name: `${flow.name} (cópia)`,
-      nodes: flow.nodes.map((n) => ({ ...n, id: crypto.randomUUID() })),
+      platform: flow.platform,
+      webhook_url: flow.webhookUrl,
+      nodes: flow.nodes.map((n) => ({ ...n, id: crypto.randomUUID() })) as any,
+      enabled: false,
       status: 'draft',
-      createdAt: new Date().toISOString(),
-    };
-    setFlows([...flows, copy]);
-    toast.success('Automação duplicada');
+    }).select().single();
+    if (data) {
+      await loadFlows();
+      toast.success('Automação duplicada');
+    }
   };
 
-  const toggleFlow = (id: string) => {
-    setFlows(flows.map((f) => (f.id === id ? { ...f, enabled: !f.enabled, status: !f.enabled ? 'active' : 'idle' } : f)));
+  const toggleFlow = async (dbId: string, currentEnabled: boolean) => {
+    await supabase.from('automation_flows').update({
+      enabled: !currentEnabled,
+      status: !currentEnabled ? 'active' : 'idle',
+    }).eq('id', dbId);
+    await loadFlows();
+  };
+
+  const testFlow = async (flow: AutomationFlow) => {
+    if (!user || !flow.dbId) return;
+    toast.info('Testando automação...');
+    const { error } = await supabase.functions.invoke('automation-webhook', {
+      body: {
+        event_type: 'order.created',
+        tenant_id: user.id,
+        payload: { test: true, order: { number: 'TEST-001', total: 50000 }, customer: { name: 'Teste', email: 'test@test.com' } },
+      },
+    });
+    if (error) toast.error('Erro ao testar: ' + error.message);
+    else { toast.success('Teste executado! Verifique os logs.'); loadExecutions(); }
   };
 
   // ── Node Management ──
@@ -443,7 +561,6 @@ export default function MarketplaceAutomations() {
     ? NODE_TEMPLATES.filter((t) => !editingFlow || t.platforms.includes(editingFlow.platform))
     : NODE_TEMPLATES.filter((t) => t.category === nodePickerCategory && (!editingFlow || t.platforms.includes(editingFlow.platform)));
 
-  // ── Export JSON for external platforms ──
   const exportFlowJSON = (flow: AutomationFlow) => {
     const json = {
       name: flow.name,
@@ -457,6 +574,14 @@ export default function MarketplaceAutomations() {
     navigator.clipboard.writeText(JSON.stringify(json, null, 2));
     toast.success('JSON copiado! Cole no seu ' + flow.platform.toUpperCase());
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -473,12 +598,12 @@ export default function MarketplaceAutomations() {
           <TabsTrigger value="flows">Minhas Automações ({flows.length})</TabsTrigger>
           <TabsTrigger value="templates">Templates Prontos</TabsTrigger>
           <TabsTrigger value="nodes">Biblioteca de Nós</TabsTrigger>
+          <TabsTrigger value="logs"><History className="h-3.5 w-3.5 mr-1" /> Logs de Execução</TabsTrigger>
           {editingFlow && <TabsTrigger value="editor">✏️ Editor</TabsTrigger>}
         </TabsList>
 
         {/* ── Flows List ── */}
         <TabsContent value="flows" className="space-y-4">
-          {/* Platform summary */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {PLATFORMS_INFO.map((p) => {
               const count = flows.filter((f) => f.platform === p.id).length;
@@ -520,7 +645,7 @@ export default function MarketplaceAutomations() {
                     <CardContent className="p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <Switch checked={flow.enabled} onCheckedChange={() => toggleFlow(flow.id)} />
+                          <Switch checked={flow.enabled} onCheckedChange={() => flow.dbId && toggleFlow(flow.dbId, flow.enabled)} />
                           <div>
                             <div className="flex items-center gap-2">
                               <Badge className={`text-xs ${platform.color}`}>{platform.label}</Badge>
@@ -536,6 +661,11 @@ export default function MarketplaceAutomations() {
                           </div>
                         </div>
                         <div className="flex items-center gap-1">
+                          {flow.enabled && (
+                            <Button variant="ghost" size="sm" onClick={() => testFlow(flow)} title="Testar">
+                              <Play className="h-3.5 w-3.5" />
+                            </Button>
+                          )}
                           <Button variant="ghost" size="sm" onClick={() => { setEditingFlow({ ...flow }); setActiveTab('editor'); }}>
                             <Settings className="h-3.5 w-3.5" />
                           </Button>
@@ -545,7 +675,7 @@ export default function MarketplaceAutomations() {
                           <Button variant="ghost" size="sm" onClick={() => duplicateFlow(flow)}>
                             <ExternalLink className="h-3.5 w-3.5" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => deleteFlow(flow.id)}>
+                          <Button variant="ghost" size="sm" onClick={() => deleteFlow(flow.id, flow.dbId)}>
                             <Trash2 className="h-3.5 w-3.5 text-destructive" />
                           </Button>
                         </div>
@@ -648,11 +778,63 @@ export default function MarketplaceAutomations() {
           </div>
         </TabsContent>
 
+        {/* ── Execution Logs ── */}
+        <TabsContent value="logs" className="space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">Histórico de execuções das automações com status de sucesso/falha.</p>
+            <Button variant="outline" size="sm" onClick={loadExecutions}><RefreshCw className="h-3.5 w-3.5 mr-1" /> Atualizar</Button>
+          </div>
+          <Card>
+            <CardContent className="p-0">
+              {executions.length === 0 ? (
+                <div className="py-12 text-center">
+                  <History className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground">Nenhuma execução registrada</p>
+                  <p className="text-xs text-muted-foreground mt-1">As execuções aparecerão aqui quando suas automações forem disparadas</p>
+                </div>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Automação</TableHead>
+                      <TableHead>Evento</TableHead>
+                      <TableHead>Erro</TableHead>
+                      <TableHead>Início</TableHead>
+                      <TableHead>Duração</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {executions.map((exec) => {
+                      const duration = exec.completed_at
+                        ? Math.round((new Date(exec.completed_at).getTime() - new Date(exec.started_at).getTime()) / 1000)
+                        : null;
+                      return (
+                        <TableRow key={exec.id}>
+                          <TableCell>
+                            {exec.status === 'success' && <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs">✓ Sucesso</Badge>}
+                            {exec.status === 'failed' && <Badge className="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 text-xs">✗ Falha</Badge>}
+                            {exec.status === 'running' && <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs">⟳ Executando</Badge>}
+                          </TableCell>
+                          <TableCell className="text-sm font-medium">{exec.flow_name}</TableCell>
+                          <TableCell><Badge variant="outline" className="text-xs">{exec.trigger_event || '—'}</Badge></TableCell>
+                          <TableCell className="text-xs text-red-500 max-w-[200px] truncate">{exec.error_message || '—'}</TableCell>
+                          <TableCell className="text-xs">{new Date(exec.started_at).toLocaleString()}</TableCell>
+                          <TableCell className="text-xs">{duration !== null ? `${duration}s` : '—'}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* ── Flow Editor ── */}
         <TabsContent value="editor">
           {editingFlow && (
             <div className="space-y-4">
-              {/* Flow settings */}
               <Card>
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -679,7 +861,6 @@ export default function MarketplaceAutomations() {
 
               {/* Flow Canvas */}
               <div className="flex gap-4">
-                {/* Node list */}
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold">Fluxo ({editingFlow.nodes.length} nós)</h3>
@@ -726,7 +907,6 @@ export default function MarketplaceAutomations() {
                                   </div>
                                 </div>
 
-                                {/* Expanded config */}
                                 {isEditing && (
                                   <div className="mt-3 pt-3 border-t space-y-3" onClick={(e) => e.stopPropagation()}>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
