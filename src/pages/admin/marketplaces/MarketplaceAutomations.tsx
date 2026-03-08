@@ -468,7 +468,7 @@ export default function MarketplaceAutomations() {
 
     await saveFlowToDB(editingFlow);
     await loadFlows();
-    toast.success('Automação salva no banco de dados!');
+    toast.success(t('mk.automationSavedDB'));
     setEditingFlow(null);
     setActiveTab('flows');
   };
