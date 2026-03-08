@@ -516,8 +516,8 @@ export default function MarketplaceAutomations() {
         payload: { test: true, order: { number: 'TEST-001', total: 50000 }, customer: { name: 'Teste', email: 'test@test.com' } },
       },
     });
-    if (error) toast.error('Erro ao testar: ' + error.message);
-    else { toast.success('Teste executado! Verifique os logs.'); loadExecutions(); }
+    if (error) toast.error(t('mk.testError') + ': ' + error.message);
+    else { toast.success(t('mk.testExecuted')); loadExecutions(); }
   };
 
   // ── Node Management ──
