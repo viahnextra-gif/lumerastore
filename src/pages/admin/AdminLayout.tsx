@@ -27,6 +27,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/hooks/useAuth';
+import { useMarketplaceNotifications } from '@/hooks/useMarketplaceNotifications';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
