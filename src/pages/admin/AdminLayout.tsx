@@ -55,6 +55,8 @@ const marketplaceNav = [
   { name: 'Estoque', href: '/admin/marketplaces/estoque' },
   { name: 'Mensagens', href: '/admin/marketplaces/mensagens' },
   { name: 'Automação Pós-Venda', href: '/admin/marketplaces/automacao' },
+  { name: 'Analytics', href: '/admin/marketplaces/analytics' },
+  { name: 'Automações (n8n/Make/FiqOn)', href: '/admin/marketplaces/automacoes' },
   { name: 'Logs', href: '/admin/marketplaces/logs' },
 ];
 
