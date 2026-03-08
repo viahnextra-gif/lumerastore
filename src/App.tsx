@@ -44,6 +44,7 @@ import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import BlogCategory from "./pages/BlogCategory";
 import LandingModa from "./pages/LandingModa";
 import LandingAtacado from "./pages/LandingAtacado";
 import ScrollToTop from "./components/ScrollToTop";
@@ -74,6 +75,9 @@ const App = () => (
                 <Route path="/conta" element={<Account />} />
                 <Route path="/cuenta" element={<Account />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/moda" element={<BlogCategory />} />
+                <Route path="/blog/tendencias" element={<BlogCategory />} />
+                <Route path="/blog/guia" element={<BlogCategory />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/moda-femenina" element={<LandingModa />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
