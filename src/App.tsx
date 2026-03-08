@@ -47,6 +47,7 @@ import BlogPost from "./pages/BlogPost";
 import BlogCategory from "./pages/BlogCategory";
 import LandingModa from "./pages/LandingModa";
 import LandingAtacado from "./pages/LandingAtacado";
+import FAQ from "./pages/FAQ";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 
@@ -81,6 +82,7 @@ const App = () => (
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/moda-femenina" element={<LandingModa />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
+                <Route path="/faq" element={<FAQ />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
