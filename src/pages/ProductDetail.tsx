@@ -2,18 +2,8 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ChevronLeft,
-  Heart,
-  Share2,
-  Truck,
-  Shield,
-  RefreshCcw,
-  Minus,
-  Plus,
-  ShoppingBag,
-  Check,
-  Loader2,
-  Play,
+  ChevronLeft, Heart, Share2, Truck, Shield, RefreshCcw,
+  Minus, Plus, ShoppingBag, Check, Loader2, Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,6 +14,7 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import { useProduct, useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/contexts/CartContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import SEOHead from '@/components/seo/SEOHead';
@@ -34,6 +25,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const { toast } = useToast();
   const { addToCart } = useCart();
+  const { t } = useLanguage();
   
   const { product, isLoading, error } = useProduct(id || '');
   const { products: relatedProductsData } = useProducts({ categorySlug: product?.category });
@@ -43,7 +35,6 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
@@ -64,15 +55,14 @@ export default function ProductDetail() {
     );
   }
 
-  // Not found state
   if (!product || error) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
         <div className="container py-20 text-center">
-          <h1 className="text-2xl font-bold mb-4">Producto no encontrado</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('product.notFound')}</h1>
           <Link to="/catalogo">
-            <Button>Volver al Catálogo</Button>
+            <Button>{t('product.backToCatalog')}</Button>
           </Link>
         </div>
         <Footer />
@@ -81,122 +71,69 @@ export default function ProductDetail() {
   }
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
+    return new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
   };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      toast({
-        title: 'Selecciona una talla',
-        description: 'Por favor elige una talla antes de agregar al carrito.',
-        variant: 'destructive',
-      });
+      toast({ title: t('product.selectSizeAlert'), description: t('product.selectSizeDesc'), variant: 'destructive' });
       return;
     }
     if (!selectedColor) {
-      toast({
-        title: 'Selecciona un color',
-        description: 'Por favor elige un color antes de agregar al carrito.',
-        variant: 'destructive',
-      });
+      toast({ title: t('product.selectColorAlert'), description: t('product.selectColorDesc'), variant: 'destructive' });
       return;
     }
-
     addToCart(product, selectedSize, selectedColor, quantity);
-    toast({
-      title: '¡Agregado al carrito!',
-      description: `${product.name} x${quantity} ha sido agregado.`,
-    });
+    toast({ title: t('product.addedToCart'), description: `${product.name} x${quantity} ${t('product.addedDesc')}` });
   };
 
-  const relatedProducts = relatedProductsData
-    .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+  const relatedProducts = relatedProductsData.filter((p) => p.id !== product.id).slice(0, 4);
 
   const breadcrumbItems = [
-    { name: 'Inicio', url: '/' },
-    { name: 'Catálogo', url: '/catalogo' },
+    { name: t('nav.home'), url: '/' },
+    { name: t('nav.catalog'), url: '/catalogo' },
     { name: product.category, url: `/catalogo?category=${product.category}` },
     { name: product.name, url: `/producto/${product.id}` },
   ];
 
   const jsonLd = [
-    productSchema({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      images: product.images,
-      category: product.category,
-      url: `/producto/${product.id}`,
-    }),
+    productSchema({ name: product.name, description: product.description, price: product.price, images: product.images, category: product.category, url: `/producto/${product.id}` }),
     breadcrumbSchema(breadcrumbItems),
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={`${product.name} - Meca Store | Moda Femenina Paraguay`}
-        description={`${product.description?.slice(0, 150) || product.name}. Compra en Meca Store con envío a todo Paraguay.`}
+        title={`${product.name} - Meca Store`}
+        description={`${product.description?.slice(0, 150) || product.name}`}
         ogImage={product.images?.[0]}
         ogType="product"
-        keywords={`${product.name}, ${product.category}, moda femenina, paraguay, meca store`}
+        keywords={`${product.name}, ${product.category}, moda feminina, paraguay, meca store`}
         jsonLd={jsonLd}
       />
       <Header />
 
-      {/* Breadcrumb */}
       <div className="container py-4">
-        <Link
-          to="/catalogo"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
-        >
+        <Link to="/catalogo" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors">
           <ChevronLeft className="h-4 w-4 mr-1" />
-          Volver al Catálogo
+          {t('product.backToCatalog')}
         </Link>
       </div>
 
       <main className="container pb-20">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Product Images */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-4"
-          >
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-muted">
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-              
-              {/* Badges */}
+              <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
               <div className="absolute top-4 left-4 flex flex-col gap-2">
-                {product.isNew && (
-                  <Badge className="bg-primary text-primary-foreground">Nuevo</Badge>
-                )}
+                {product.isNew && <Badge className="bg-primary text-primary-foreground">{t('product.new')}</Badge>}
                 {product.originalPrice && (
-                  <Badge variant="destructive">
-                    -{Math.round((1 - product.price / product.originalPrice) * 100)}%
-                  </Badge>
+                  <Badge variant="destructive">-{Math.round((1 - product.price / product.originalPrice) * 100)}%</Badge>
                 )}
               </div>
-
-              {/* Actions */}
               <div className="absolute top-4 right-4 flex flex-col gap-2">
-                <button
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className={cn(
-                    "p-3 rounded-full transition-all",
-                    isFavorite
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-background/90 backdrop-blur-sm text-foreground hover:bg-primary hover:text-primary-foreground"
-                  )}
-                >
+                <button onClick={() => setIsFavorite(!isFavorite)} className={cn("p-3 rounded-full transition-all", isFavorite ? "bg-primary text-primary-foreground" : "bg-background/90 backdrop-blur-sm text-foreground hover:bg-primary hover:text-primary-foreground")}>
                   <Heart className={cn("h-5 w-5", isFavorite && "fill-current")} />
                 </button>
                 <button className="p-3 rounded-full bg-background/90 backdrop-blur-sm text-foreground hover:bg-muted">
@@ -204,110 +141,59 @@ export default function ProductDetail() {
                 </button>
               </div>
             </div>
-
-            {/* Thumbnail Gallery */}
             {product.images.length > 1 && (
               <div className="flex gap-2">
                 {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    className="w-20 h-24 rounded-lg overflow-hidden border-2 border-primary"
-                  >
+                  <button key={idx} className="w-20 h-24 rounded-lg overflow-hidden border-2 border-primary">
                     <img src={img} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
-
-            {/* Product Video */}
             {(product as any).video_url && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="rounded-2xl overflow-hidden bg-muted"
-              >
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-2xl overflow-hidden bg-muted">
                 <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 border-b border-primary/20">
                   <Play className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium text-primary">Vídeo do Produto</span>
+                  <span className="text-sm font-medium text-primary">{t('product.videoTitle')}</span>
                 </div>
-                <video
-                  src={(product as any).video_url}
-                  controls
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full aspect-video object-cover"
-                />
+                <video src={(product as any).video_url} controls autoPlay muted loop playsInline className="w-full aspect-video object-cover" />
               </motion.div>
             )}
           </motion.div>
 
           {/* Product Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
-          >
+          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
             <div>
-              <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">
-                {product.category}
-              </p>
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                {product.name}
-              </h1>
+              <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">{product.category}</p>
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">{product.name}</h1>
               <p className="text-muted-foreground">{product.description}</p>
             </div>
 
-            {/* Price */}
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-primary">
-                {formatPrice(product.price)}
-              </span>
-              {product.originalPrice && (
-                <span className="text-xl text-muted-foreground line-through">
-                  {formatPrice(product.originalPrice)}
-                </span>
-              )}
+              <span className="text-3xl font-bold text-primary">{formatPrice(product.price)}</span>
+              {product.originalPrice && <span className="text-xl text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>}
             </div>
 
-            {/* Wholesale Price */}
             {product.wholesalePrice && (
               <div className="p-4 rounded-xl bg-gold/10 border border-gold/20">
                 <p className="text-sm text-muted-foreground mb-1">
-                  Precio Mayorista (mín. {product.minWholesaleQty} piezas)
+                  {t('product.wholesalePrice')} ({t('product.minPieces')} {product.minWholesaleQty} {t('product.pieces')})
                 </p>
-                <p className="text-xl font-bold text-foreground">
-                  {formatPrice(product.wholesalePrice)} c/u
-                </p>
+                <p className="text-xl font-bold text-foreground">{formatPrice(product.wholesalePrice)} {t('product.perUnit')}</p>
               </div>
             )}
 
             {/* Colors */}
             <div>
               <p className="font-medium text-foreground mb-3">
-                Color: <span className="text-muted-foreground">{selectedColor || 'Selecciona'}</span>
+                {t('product.color')}: <span className="text-muted-foreground">{selectedColor || t('product.selectLabel')}</span>
               </p>
               <div className="flex gap-2">
                 {product.colors.map((color) => (
-                  <button
-                    key={color.name}
-                    onClick={() => color.available && setSelectedColor(color.name)}
-                    disabled={!color.available}
-                    className={cn(
-                      "relative w-10 h-10 rounded-full border-2 transition-all",
-                      selectedColor === color.name
-                        ? "border-primary ring-2 ring-primary ring-offset-2"
-                        : "border-border hover:border-primary",
-                      !color.available && "opacity-50 cursor-not-allowed"
-                    )}
-                    style={{ backgroundColor: color.hex }}
-                    title={color.name}
-                  >
-                    {selectedColor === color.name && (
-                      <Check className="absolute inset-0 m-auto h-4 w-4 text-foreground mix-blend-difference" />
-                    )}
+                  <button key={color.name} onClick={() => color.available && setSelectedColor(color.name)} disabled={!color.available}
+                    className={cn("relative w-10 h-10 rounded-full border-2 transition-all", selectedColor === color.name ? "border-primary ring-2 ring-primary ring-offset-2" : "border-border hover:border-primary", !color.available && "opacity-50 cursor-not-allowed")}
+                    style={{ backgroundColor: color.hex }} title={color.name}>
+                    {selectedColor === color.name && <Check className="absolute inset-0 m-auto h-4 w-4 text-foreground mix-blend-difference" />}
                   </button>
                 ))}
               </div>
@@ -316,22 +202,12 @@ export default function ProductDetail() {
             {/* Sizes */}
             <div>
               <p className="font-medium text-foreground mb-3">
-                Talla: <span className="text-muted-foreground">{selectedSize || 'Selecciona'}</span>
+                {t('product.size')}: <span className="text-muted-foreground">{selectedSize || t('product.selectLabel')}</span>
               </p>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((size) => (
-                  <button
-                    key={size.label}
-                    onClick={() => size.available && setSelectedSize(size.label)}
-                    disabled={!size.available}
-                    className={cn(
-                      "px-5 py-2.5 rounded-lg border-2 font-medium transition-all",
-                      selectedSize === size.label
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-background text-foreground border-border hover:border-primary",
-                      !size.available && "opacity-50 cursor-not-allowed line-through"
-                    )}
-                  >
+                  <button key={size.label} onClick={() => size.available && setSelectedSize(size.label)} disabled={!size.available}
+                    className={cn("px-5 py-2.5 rounded-lg border-2 font-medium transition-all", selectedSize === size.label ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground border-border hover:border-primary", !size.available && "opacity-50 cursor-not-allowed line-through")}>
                     {size.label}
                   </button>
                 ))}
@@ -340,58 +216,36 @@ export default function ProductDetail() {
 
             {/* Quantity */}
             <div>
-              <p className="font-medium text-foreground mb-3">Cantidad</p>
+              <p className="font-medium text-foreground mb-3">{t('product.quantity')}</p>
               <div className="inline-flex items-center border border-border rounded-lg">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-3 hover:bg-muted transition-colors"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3 hover:bg-muted transition-colors"><Minus className="h-4 w-4" /></button>
                 <span className="w-12 text-center font-medium">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="p-3 hover:bg-muted transition-colors"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
+                <button onClick={() => setQuantity(quantity + 1)} className="p-3 hover:bg-muted transition-colors"><Plus className="h-4 w-4" /></button>
               </div>
             </div>
 
             {/* Add to Cart */}
             <div className="flex gap-4">
-              <Button
-                size="lg"
-                className="flex-1 bg-primary text-primary-foreground hover:bg-rose-dark"
-                onClick={handleAddToCart}
-              >
+              <Button size="lg" className="flex-1 bg-primary text-primary-foreground hover:bg-rose-dark" onClick={handleAddToCart}>
                 <ShoppingBag className="h-5 w-5 mr-2" />
-                Agregar al Carrito
+                {t('product.addToCart')}
               </Button>
-              <Button size="lg" variant="outline">
-                Comprar Ahora
-              </Button>
+              <Button size="lg" variant="outline">{t('product.buyNow')}</Button>
             </div>
 
             {/* Features */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
               <div className="text-center">
-                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2">
-                  <Truck className="h-5 w-5 text-primary" />
-                </div>
-                <p className="text-xs text-muted-foreground">Envío Express</p>
+                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2"><Truck className="h-5 w-5 text-primary" /></div>
+                <p className="text-xs text-muted-foreground">{t('product.expressShipping')}</p>
               </div>
               <div className="text-center">
-                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2">
-                  <Shield className="h-5 w-5 text-primary" />
-                </div>
-                <p className="text-xs text-muted-foreground">Pago Seguro</p>
+                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2"><Shield className="h-5 w-5 text-primary" /></div>
+                <p className="text-xs text-muted-foreground">{t('product.securePayment')}</p>
               </div>
               <div className="text-center">
-                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2">
-                  <RefreshCcw className="h-5 w-5 text-primary" />
-                </div>
-                <p className="text-xs text-muted-foreground">30 días cambio</p>
+                <div className="mx-auto w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-2"><RefreshCcw className="h-5 w-5 text-primary" /></div>
+                <p className="text-xs text-muted-foreground">{t('product.returnsPolicy')}</p>
               </div>
             </div>
           </motion.div>
@@ -401,54 +255,28 @@ export default function ProductDetail() {
         <div className="mt-20">
           <Tabs defaultValue="description" className="w-full">
             <TabsList className="w-full justify-start border-b border-border bg-transparent h-auto p-0 rounded-none">
-              <TabsTrigger
-                value="description"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-              >
-                Descripción
-              </TabsTrigger>
-              <TabsTrigger
-                value="details"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-              >
-                Detalles
-              </TabsTrigger>
-              <TabsTrigger
-                value="shipping"
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-              >
-                Envío
-              </TabsTrigger>
+              <TabsTrigger value="description" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent">{t('product.description')}</TabsTrigger>
+              <TabsTrigger value="details" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent">{t('product.details')}</TabsTrigger>
+              <TabsTrigger value="shipping" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent">{t('product.shippingTab')}</TabsTrigger>
             </TabsList>
             <TabsContent value="description" className="pt-6">
               <p className="text-muted-foreground max-w-2xl">
-                {product.description} Esta prenda está confeccionada con materiales de alta calidad,
-                diseñada para brindarte comodidad y estilo en cualquier ocasión. Perfecta para
-                combinar con tus accesorios favoritos y crear looks únicos.
+                {product.description} {t('product.descriptionText')}
               </p>
             </TabsContent>
             <TabsContent value="details" className="pt-6">
               <ul className="space-y-2 text-muted-foreground max-w-2xl">
-                <li>• Material: Poliéster de alta calidad</li>
-                <li>• Corte: Regular fit</li>
-                <li>• Cuidado: Lavar a máquina en frío</li>
-                <li>• Origen: Importado</li>
+                <li>• {t('product.material')}</li>
+                <li>• {t('product.cut')}</li>
+                <li>• {t('product.care')}</li>
+                <li>• {t('product.origin')}</li>
               </ul>
             </TabsContent>
             <TabsContent value="shipping" className="pt-6">
               <div className="space-y-4 text-muted-foreground max-w-2xl">
-                <p>
-                  <strong className="text-foreground">Envío Express:</strong> 2-3 días hábiles para
-                  Asunción y Gran Asunción.
-                </p>
-                <p>
-                  <strong className="text-foreground">Envío Regular:</strong> 5-7 días hábiles para
-                  el interior del país.
-                </p>
-                <p>
-                  <strong className="text-foreground">Envío Gratis:</strong> En compras superiores a
-                  ₲ 500.000.
-                </p>
+                <p><strong className="text-foreground">{t('product.expressDetail')}</strong></p>
+                <p><strong className="text-foreground">{t('product.regularShipping')}</strong></p>
+                <p><strong className="text-foreground">{t('product.freeShipping')}</strong></p>
               </div>
             </TabsContent>
           </Tabs>
@@ -457,9 +285,7 @@ export default function ProductDetail() {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-20">
-            <h2 className="font-display text-2xl font-bold text-foreground mb-8">
-              Productos Relacionados
-            </h2>
+            <h2 className="font-display text-2xl font-bold text-foreground mb-8">{t('product.related')}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {relatedProducts.map((p, index) => (
                 <ProductCard key={p.id} product={p} index={index} />
