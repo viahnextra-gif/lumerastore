@@ -18,8 +18,7 @@ export default function Header() {
   const navLinks = [
     { name: t('nav.home'), href: '/' },
     { name: t('nav.catalog'), href: '/catalogo' },
-    { name: t('nav.dresses'), href: '/catalogo?category=vestidos' },
-    { name: t('nav.sets'), href: '/catalogo?category=conjuntos' },
+    { name: 'Moda', href: '/moda' },
     { name: t('nav.wholesale'), href: '/atacado' },
     { name: 'Blog', href: '/blog' },
   ];
