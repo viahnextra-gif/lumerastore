@@ -141,7 +141,7 @@ export default function MarketplaceMessages() {
                     <div className="flex items-start justify-between mb-1">
                       <div className="flex items-center gap-2">
                         <Badge className={`text-xs ${mkColor(msg.marketplace)}`}>{msg.marketplace}</Badge>
-                        <span className="font-medium text-sm">{msg.customer_name || 'Cliente'}</span>
+                        <span className="font-medium text-sm">{msg.customer_name || t('mk.customer')}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         {msg.status === 'pending' && <Badge variant="secondary" className="text-xs">{t('mk.pending')}</Badge>}
