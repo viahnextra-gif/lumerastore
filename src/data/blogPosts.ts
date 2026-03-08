@@ -143,13 +143,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['outfit oficina', 'look casual', 'ropa para fiesta', 'combinaciones ropa mujer'],
     content: `
       <h2>Para la Oficina</h2>
-      <p>Un pantalón de vestir con una blusa de cetim es la combinación perfecta. Agrega unos zapatos de tacón bajo y estarás lista.</p>
+      <p>Un pantalón de vestir con una blusa de cetim es la combinación perfecta. Consulta los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a> para estar a la moda.</p>
       <h3>Look Casual de Fin de Semana</h3>
-      <p>Un vestido midi con zapatillas blancas es el look más cómodo y estiloso. Agrega una cartera cruzada y lentes de sol.</p>
+      <p>Un <a href="/blog/tendencias-vestidos-2026">vestido midi</a> con zapatillas blancas es el look más cómodo y estiloso. Agrega una cartera cruzada y lentes de sol.</p>
       <h3>Cita Romántica</h3>
-      <p>Un vestido con escote y tacones elegantes. Complementa con joyería delicada y un clutch pequeño.</p>
+      <p>Un vestido con escote y tacones elegantes. Complementa con <a href="/blog/accesorios-imprescindibles-2026">joyería delicada y accesorios statement</a>.</p>
       <h2>Evento Formal</h2>
-      <p>Un vestido largo o un conjunto elegante con accesorios statement. Recuerda: menos es más en los eventos formales.</p>
+      <p>Un vestido largo o un conjunto elegante. Si buscas opciones en tallas extendidas, visita nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size</a>. Recuerda: menos es más en los eventos formales.</p>
     `,
   },
   {
