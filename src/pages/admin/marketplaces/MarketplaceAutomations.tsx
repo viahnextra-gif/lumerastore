@@ -1,9 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import {
-  Zap, Webhook, Plus, Save, Trash2, Play, Copy, ChevronRight,
+  Zap, Webhook, Plus, Save, Trash2, Copy,
   ArrowRight, Mail, MessageSquare, Bell, Database, ShoppingCart,
   Package, Users, Star, Clock, Filter, GitBranch, Send, FileText,
-  BarChart3, AlertTriangle, CheckCircle2, XCircle, Settings, Eye,
+  BarChart3, AlertTriangle, CheckCircle2, XCircle, Settings,
   GripVertical, ChevronDown, ExternalLink
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -15,9 +15,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
