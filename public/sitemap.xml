@@ -71,6 +71,46 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-asuncion</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-ciudad-del-este</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-encarnacion</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-san-lorenzo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-luque</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-caaguazu</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-pedro-juan-caballero</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mecastorepy.lovable.app/moda-femenina-coronel-oviedo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mecastorepy.lovable.app/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
