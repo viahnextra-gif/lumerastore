@@ -26,6 +26,9 @@ import { useProduct, useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/contexts/CartContext';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import SEOHead from '@/components/seo/SEOHead';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
+import { productSchema, breadcrumbSchema } from '@/components/seo/schemas';
 
 export default function ProductDetail() {
   const { id } = useParams();
