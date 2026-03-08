@@ -459,6 +459,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'No messages received.',
     'mk.autoRespond': 'AI Response',
     'mk.postSale': 'Post-Sale',
+    'mk.postSaleAutomation': 'Post-Sale Automation',
+    'mk.postSaleAutomation.subtitle': 'Automatic follow-up messages and satisfaction surveys',
   },
 };
 
