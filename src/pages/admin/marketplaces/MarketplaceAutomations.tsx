@@ -591,7 +591,7 @@ export default function MarketplaceAutomations() {
           <h1 className="text-2xl font-bold">{t('mk.automations')}</h1>
           <p className="text-sm text-muted-foreground">{t('mk.automations.subtitle')}</p>
         </div>
-        <Button onClick={createEmptyFlow}><Plus className="h-4 w-4 mr-2" /> Nova Automação</Button>
+        <Button onClick={createEmptyFlow}><Plus className="h-4 w-4 mr-2" /> {t('mk.newAutomationBtn')}</Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
