@@ -65,7 +65,7 @@ export default function MarketplaceMessages() {
       });
       if (error) throw error;
       if (data?.reply) setReply(data.reply);
-      else toast.info('Sem sugestão disponível');
+      else toast.info(t('mk.noSuggestion'));
     } catch {
       toast.error(t('mk.error'));
     } finally {
