@@ -87,6 +87,7 @@ const App = () => (
                   <Route path="marketplaces/estoque" element={<MarketplaceStock />} />
                   <Route path="marketplaces/logs" element={<MarketplaceLogs />} />
                   <Route path="marketplaces/mensagens" element={<MarketplaceMessages />} />
+                  <Route path="marketplaces/automacao" element={<PostSaleAutomation />} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />
