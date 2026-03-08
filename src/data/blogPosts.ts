@@ -26,15 +26,17 @@ export const blogPosts: BlogPost[] = [
       <h2>Las Tendencias que Dominan en Paraguay</h2>
       <p>La moda femenina en Paraguay ha evolucionado enormemente. Las mujeres paraguayas buscan prendas que combinen estilo, comodidad y calidad a precios accesibles.</p>
       <h3>1. Vestidos Florales</h3>
-      <p>Los estampados florales continúan siendo los favoritos. Ideales para el clima cálido paraguayo, estos vestidos van desde casuales hasta elegantes para eventos.</p>
+      <p>Los estampados florales continúan siendo los favoritos. Ideales para el clima cálido paraguayo, estos vestidos van desde casuales hasta elegantes para eventos. Descubre más en nuestra guía de <a href="/blog/tendencias-vestidos-2026">tendencias de vestidos 2026</a>.</p>
       <h3>2. Conjuntos Coordinados</h3>
-      <p>Los conjuntos de dos piezas (top + pantalón o top + falda) son la opción perfecta para un look profesional y moderno sin esfuerzo.</p>
+      <p>Los conjuntos de dos piezas (top + pantalón o top + falda) son la opción perfecta para un look profesional y moderno sin esfuerzo. Aprende a crear looks completos en <a href="/blog/outfit-perfecto-cada-ocasion">el outfit perfecto para cada ocasión</a>.</p>
       <h3>3. Blusas de Cetim</h3>
       <p>Las blusas de tela satinada aportan elegancia instantánea. Perfectas para combinar con jeans para un look casual-chic o con pantalones de vestir para la oficina.</p>
       <h2>Cómo Elegir la Talla Correcta</h2>
-      <p>En Meca Store ofrecemos una guía de tallas detallada. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
+      <p>En Meca Store ofrecemos una <a href="/blog/guia-tallas-ropa-femenina">guía de tallas detallada</a>. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
+      <h2>Elige las Telas Correctas</h2>
+      <p>Para el clima paraguayo, la elección de telas es fundamental. Consulta nuestra <a href="/blog/ropa-para-clima-calido-paraguay">guía de telas y estilos para clima cálido</a>.</p>
       <h2>Dónde Comprar Moda Femenina en Paraguay</h2>
-      <p>Meca Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Desde Asunción hasta Ciudad del Este, entregamos tu pedido en la puerta de tu casa.</p>
+      <p>Meca Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Si quieres emprender, lee nuestra guía sobre <a href="/blog/como-revender-ropa-femenina-paraguay">cómo revender ropa femenina</a>.</p>
     `,
   },
   {
