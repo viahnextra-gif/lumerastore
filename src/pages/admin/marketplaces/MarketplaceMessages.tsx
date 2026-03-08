@@ -184,8 +184,8 @@ export default function MarketplaceMessages() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedMsg(null)}>Cancelar</Button>
-            <Button onClick={handleSendReply} disabled={!reply.trim()}><Send className="h-3 w-3 mr-1" /> Enviar</Button>
+            <Button variant="outline" onClick={() => setSelectedMsg(null)}>{t('mk.cancel')}</Button>
+            <Button onClick={handleSendReply} disabled={!reply.trim()}><Send className="h-3 w-3 mr-1" /> {t('mk.send')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
