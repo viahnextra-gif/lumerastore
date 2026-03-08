@@ -378,10 +378,10 @@ export default function Catalog() {
             ) : (
               <div className="text-center py-20">
                 <p className="text-muted-foreground text-lg">
-                  No se encontraron productos{debouncedSearch ? ` para "${debouncedSearch}"` : ' con los filtros seleccionados'}.
+                  {t('catalog.noResults')}{debouncedSearch ? ` ${t('catalog.noResultsFor')} "${debouncedSearch}"` : ` ${t('catalog.noResultsFilters')}`}.
                 </p>
                 <Button variant="outline" className="mt-4" onClick={() => { clearFilters(); setSearchQuery(''); }}>
-                  Limpiar Filtros
+                  {t('catalog.clearFilters')}
                 </Button>
               </div>
             )}
