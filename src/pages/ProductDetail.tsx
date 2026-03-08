@@ -117,8 +117,35 @@ export default function ProductDetail() {
     .filter((p) => p.id !== product.id)
     .slice(0, 4);
 
+  const breadcrumbItems = [
+    { name: 'Inicio', url: '/' },
+    { name: 'Catálogo', url: '/catalogo' },
+    { name: product.category, url: `/catalogo?category=${product.category}` },
+    { name: product.name, url: `/producto/${product.id}` },
+  ];
+
+  const jsonLd = [
+    productSchema({
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      images: product.images,
+      category: product.category,
+      url: `/producto/${product.id}`,
+    }),
+    breadcrumbSchema(breadcrumbItems),
+  ];
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${product.name} - Meca Store | Moda Femenina Paraguay`}
+        description={`${product.description?.slice(0, 150) || product.name}. Compra en Meca Store con envío a todo Paraguay.`}
+        ogImage={product.images?.[0]}
+        ogType="product"
+        keywords={`${product.name}, ${product.category}, moda femenina, paraguay, meca store`}
+        jsonLd={jsonLd}
+      />
       <Header />
 
       {/* Breadcrumb */}
