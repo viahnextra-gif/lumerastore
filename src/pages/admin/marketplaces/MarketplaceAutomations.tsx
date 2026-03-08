@@ -939,7 +939,7 @@ export default function MarketplaceAutomations() {
                                       <Button size="sm" variant="ghost" onClick={() => moveNode(idx, -1)} disabled={idx === 0}>↑</Button>
                                       <Button size="sm" variant="ghost" onClick={() => moveNode(idx, 1)} disabled={idx === editingFlow.nodes.length - 1}>↓</Button>
                                       <Button size="sm" variant="ghost" className="text-destructive ml-auto" onClick={() => removeNode(idx)}>
-                                        <Trash2 className="h-3 w-3 mr-1" /> Remover
+                                         <Trash2 className="h-3 w-3 mr-1" /> {t('mk.remove')}
                                       </Button>
                                     </div>
                                   </div>
