@@ -836,6 +836,7 @@ export default function MarketplaceAutomations() {
         {/* ── Metrics Dashboard ── */}
         <TabsContent value="metrics" className="space-y-4">
           <AutomationMetricsDashboard executions={executions} />
+        </TabsContent>
 
         {/* ── Flow Editor ── */}
         <TabsContent value="editor">
