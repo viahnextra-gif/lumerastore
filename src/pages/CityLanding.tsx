@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
-import { getCityBySlug, cities } from '@/data/cities';
+import { getCityBySlug, cities, getCitiesByCountry } from '@/data/cities';
 import { breadcrumbSchema, localBusinessSchema } from '@/components/seo/schemas';
 import { trackEvent } from '@/components/seo/AnalyticsTracker';
 import { toast } from 'sonner';
