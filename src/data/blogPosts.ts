@@ -26,15 +26,17 @@ export const blogPosts: BlogPost[] = [
       <h2>Las Tendencias que Dominan en Paraguay</h2>
       <p>La moda femenina en Paraguay ha evolucionado enormemente. Las mujeres paraguayas buscan prendas que combinen estilo, comodidad y calidad a precios accesibles.</p>
       <h3>1. Vestidos Florales</h3>
-      <p>Los estampados florales continúan siendo los favoritos. Ideales para el clima cálido paraguayo, estos vestidos van desde casuales hasta elegantes para eventos.</p>
+      <p>Los estampados florales continúan siendo los favoritos. Ideales para el clima cálido paraguayo, estos vestidos van desde casuales hasta elegantes para eventos. Descubre más en nuestra guía de <a href="/blog/tendencias-vestidos-2026">tendencias de vestidos 2026</a>.</p>
       <h3>2. Conjuntos Coordinados</h3>
-      <p>Los conjuntos de dos piezas (top + pantalón o top + falda) son la opción perfecta para un look profesional y moderno sin esfuerzo.</p>
+      <p>Los conjuntos de dos piezas (top + pantalón o top + falda) son la opción perfecta para un look profesional y moderno sin esfuerzo. Aprende a crear looks completos en <a href="/blog/outfit-perfecto-cada-ocasion">el outfit perfecto para cada ocasión</a>.</p>
       <h3>3. Blusas de Cetim</h3>
       <p>Las blusas de tela satinada aportan elegancia instantánea. Perfectas para combinar con jeans para un look casual-chic o con pantalones de vestir para la oficina.</p>
       <h2>Cómo Elegir la Talla Correcta</h2>
-      <p>En Meca Store ofrecemos una guía de tallas detallada. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
+      <p>En Meca Store ofrecemos una <a href="/blog/guia-tallas-ropa-femenina">guía de tallas detallada</a>. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
+      <h2>Elige las Telas Correctas</h2>
+      <p>Para el clima paraguayo, la elección de telas es fundamental. Consulta nuestra <a href="/blog/ropa-para-clima-calido-paraguay">guía de telas y estilos para clima cálido</a>.</p>
       <h2>Dónde Comprar Moda Femenina en Paraguay</h2>
-      <p>Meca Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Desde Asunción hasta Ciudad del Este, entregamos tu pedido en la puerta de tu casa.</p>
+      <p>Meca Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Si quieres emprender, lee nuestra guía sobre <a href="/blog/como-revender-ropa-femenina-paraguay">cómo revender ropa femenina</a>.</p>
     `,
   },
   {
@@ -49,17 +51,17 @@ export const blogPosts: BlogPost[] = [
     keywords: ['revender ropa paraguay', 'negocio moda femenina', 'mayorista ropa', 'ganar dinero revendiendo'],
     content: `
       <h2>¿Por qué revender moda femenina?</h2>
-      <p>El mercado de moda femenina en Paraguay es uno de los más dinámicos de Sudamérica. Con un margen promedio del 40%, es un negocio rentable y escalable.</p>
+      <p>El mercado de <a href="/blog/guia-completa-moda-femenina-paraguay">moda femenina en Paraguay</a> es uno de los más dinámicos de Sudamérica. Con un margen promedio del 40%, es un negocio rentable y escalable.</p>
       <h3>Paso 1: Elige tu proveedor</h3>
       <p>Busca proveedores confiables que ofrezcan precios mayoristas competitivos, variedad de productos y facilidades de pago. En Meca Store, ofrecemos precios especiales desde 6 prendas.</p>
       <h3>Paso 2: Define tu público</h3>
-      <p>¿Venderás a jóvenes universitarias? ¿Mujeres profesionales? ¿Madres? Definir tu nicho te ayudará a elegir las prendas correctas.</p>
+      <p>¿Venderás a jóvenes universitarias? ¿Mujeres profesionales? ¿Madres? Conoce las <a href="/blog/tendencias-vestidos-2026">tendencias de vestidos</a> y los <a href="/blog/colores-tendencia-otono-invierno-2026">colores de temporada</a> para elegir bien.</p>
       <h3>Paso 3: Crea tu presencia digital</h3>
       <p>Instagram y WhatsApp son tus mejores aliados. Publica fotos atractivas de las prendas, crea historias mostrando combinaciones y responde rápido a las consultas.</p>
       <h2>Márgenes y Precios</h2>
       <p>Comprando al por mayor en Meca Store, puedes obtener márgenes del 30% al 50% dependiendo de la categoría de producto.</p>
       <h2>Tips para el Éxito</h2>
-      <p>Ofrece servicio personalizado, acepta múltiples medios de pago, y mantén tu inventario actualizado con las últimas tendencias.</p>
+      <p>Ofrece servicio personalizado, acepta múltiples medios de pago, y mantén tu inventario actualizado con las <a href="/blog/accesorios-imprescindibles-2026">últimas tendencias en accesorios</a>.</p>
     `,
   },
   {
@@ -74,15 +76,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['tendencias vestidos 2026', 'vestidos moda', 'estilos vestidos', 'moda verano'],
     content: `
       <h2>Los Vestidos que Dominarán 2026</h2>
-      <p>Este año los vestidos se reinventan con nuevos cortes, colores y texturas que se adaptan a todo tipo de ocasión.</p>
+      <p>Este año los vestidos se reinventan con nuevos cortes, <a href="/blog/colores-tendencia-otono-invierno-2026">colores de tendencia</a> y texturas que se adaptan a todo tipo de ocasión.</p>
       <h3>Vestido Midi Plisado</h3>
-      <p>El vestido midi plisado es versátil y favorecedor para todo tipo de cuerpo. Ideal para la oficina y para salidas casuales.</p>
+      <p>El vestido midi plisado es versátil y favorecedor para todo tipo de cuerpo. Ideal para la oficina y para salidas casuales. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para encontrar tu fit perfecto.</p>
       <h3>Maxi Vestido Floral</h3>
-      <p>Perfecto para el verano paraguayo. Los estampados florales en telas livianas son la elección favorita para días calurosos.</p>
+      <p>Perfecto para el verano paraguayo. Los estampados florales en <a href="/blog/ropa-para-clima-calido-paraguay">telas livianas ideales para el calor</a> son la elección favorita para días calurosos.</p>
       <h3>Vestido Camisero</h3>
       <p>Un clásico que nunca pasa de moda. El vestido camisero es la definición de elegancia casual.</p>
       <h2>Cómo Combinarlos</h2>
-      <p>Cada estilo de vestido tiene sus accesorios ideales. Te mostramos las combinaciones perfectas para cada ocasión.</p>
+      <p>Cada estilo de vestido tiene sus <a href="/blog/accesorios-imprescindibles-2026">accesorios ideales</a>. Te mostramos las <a href="/blog/outfit-perfecto-cada-ocasion">combinaciones perfectas para cada ocasión</a>.</p>
     `,
   },
   {
@@ -97,7 +99,7 @@ export const blogPosts: BlogPost[] = [
     keywords: ['guía tallas ropa', 'tabla tallas mujer', 'cómo medir talla', 'tallas ropa femenina'],
     content: `
       <h2>¿Cómo tomar tus medidas?</h2>
-      <p>Para encontrar tu talla perfecta, necesitas medir tres puntos clave: busto, cintura y cadera.</p>
+      <p>Para encontrar tu talla perfecta, necesitas medir tres puntos clave: busto, cintura y cadera. Esto es especialmente importante al comprar <a href="/blog/tendencias-vestidos-2026">vestidos</a> y <a href="/blog/guia-completa-moda-femenina-paraguay">ropa femenina online</a>.</p>
       <h3>Busto</h3>
       <p>Mide alrededor de la parte más ancha de tu busto, manteniendo la cinta métrica horizontal.</p>
       <h3>Cintura</h3>
@@ -105,7 +107,7 @@ export const blogPosts: BlogPost[] = [
       <h3>Cadera</h3>
       <p>Mide la parte más ancha de tus caderas, aproximadamente 20 cm debajo de la cintura.</p>
       <h2>Tabla de Conversión</h2>
-      <p>En Meca Store trabajamos con tallas S, M, L y XL. Consulta nuestra tabla de conversión para encontrar la equivalencia con tallas numéricas.</p>
+      <p>En Meca Store trabajamos con tallas S, M, L y XL. Si buscas tallas extendidas, consulta nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size en Paraguay</a>.</p>
     `,
   },
   {
@@ -122,11 +124,11 @@ export const blogPosts: BlogPost[] = [
       <h2>¿Qué es la Moda Sustentable?</h2>
       <p>La moda sustentable busca reducir el impacto ambiental de la industria textil a través de prácticas responsables de producción, distribución y consumo.</p>
       <h3>Calidad sobre Cantidad</h3>
-      <p>Invertir en prendas de buena calidad que duren más temporadas es más sustentable y económico a largo plazo que comprar ropa barata que se deteriora rápido.</p>
+      <p>Invertir en prendas de buena calidad que duren más temporadas es más sustentable y económico a largo plazo. Aprende a armar un <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula con solo 20 prendas</a>.</p>
       <h3>Prendas Versátiles</h3>
-      <p>Elige prendas que puedas combinar de múltiples formas. Un buen conjunto coordinado te da varios looks diferentes.</p>
+      <p>Elige prendas que puedas combinar de múltiples formas. Un buen <a href="/blog/outfit-perfecto-cada-ocasion">conjunto coordinado te da varios looks</a> diferentes.</p>
       <h2>Tips Prácticos</h2>
-      <p>Cuida tus prendas siguiendo las instrucciones de lavado, repara en vez de desechar, y dona la ropa que ya no uses.</p>
+      <p>Cuida tus prendas siguiendo las instrucciones de lavado, elige <a href="/blog/ropa-para-clima-calido-paraguay">telas adecuadas al clima</a>, repara en vez de desechar, y dona la ropa que ya no uses.</p>
     `,
   },
   {
@@ -141,13 +143,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['outfit oficina', 'look casual', 'ropa para fiesta', 'combinaciones ropa mujer'],
     content: `
       <h2>Para la Oficina</h2>
-      <p>Un pantalón de vestir con una blusa de cetim es la combinación perfecta. Agrega unos zapatos de tacón bajo y estarás lista.</p>
+      <p>Un pantalón de vestir con una blusa de cetim es la combinación perfecta. Consulta los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a> para estar a la moda.</p>
       <h3>Look Casual de Fin de Semana</h3>
-      <p>Un vestido midi con zapatillas blancas es el look más cómodo y estiloso. Agrega una cartera cruzada y lentes de sol.</p>
+      <p>Un <a href="/blog/tendencias-vestidos-2026">vestido midi</a> con zapatillas blancas es el look más cómodo y estiloso. Agrega una cartera cruzada y lentes de sol.</p>
       <h3>Cita Romántica</h3>
-      <p>Un vestido con escote y tacones elegantes. Complementa con joyería delicada y un clutch pequeño.</p>
+      <p>Un vestido con escote y tacones elegantes. Complementa con <a href="/blog/accesorios-imprescindibles-2026">joyería delicada y accesorios statement</a>.</p>
       <h2>Evento Formal</h2>
-      <p>Un vestido largo o un conjunto elegante con accesorios statement. Recuerda: menos es más en los eventos formales.</p>
+      <p>Un vestido largo o un conjunto elegante. Si buscas opciones en tallas extendidas, visita nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size</a>. Recuerda: menos es más en los eventos formales.</p>
     `,
   },
   {
@@ -162,15 +164,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['colores tendencia 2026', 'moda otoño invierno paraguay', 'paleta colores moda', 'tendencias color'],
     content: `
       <h2>La Paleta Otoño-Invierno 2026</h2>
-      <p>Este año los tonos terrosos, burdeos y verdes bosque dominan las pasarelas y las calles de Asunción.</p>
+      <p>Este año los tonos terrosos, burdeos y verdes bosque dominan las pasarelas y las calles de Asunción. Descubre cómo integrarlos en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a>.</p>
       <h3>Terracota y Óxido</h3>
       <p>Los tonos cálidos de terracota son perfectos para el clima de transición en Paraguay. Combinan con neutros y denim.</p>
       <h3>Burdeos Profundo</h3>
-      <p>El burdeos reemplaza al negro como el color elegante por excelencia. Ideal para blusas, vestidos y accesorios.</p>
+      <p>El burdeos reemplaza al negro como el color elegante por excelencia. Ideal para <a href="/blog/tendencias-vestidos-2026">vestidos</a>, blusas y <a href="/blog/accesorios-imprescindibles-2026">accesorios</a>.</p>
       <h3>Verde Salvia</h3>
-      <p>Un tono suave y sofisticado que funciona tanto en prendas casuales como en looks de oficina.</p>
+      <p>Un tono suave y sofisticado que funciona tanto en prendas casuales como en <a href="/blog/outfit-perfecto-cada-ocasion">looks de oficina</a>.</p>
       <h2>Cómo Combinar los Colores de Temporada</h2>
-      <p>La regla de oro: combina un color tendencia con un neutro. Terracota + blanco, burdeos + beige, verde + crema.</p>
+      <p>La regla de oro: combina un color tendencia con un neutro. Aprende más en nuestra <a href="/blog/guia-completa-moda-femenina-paraguay">guía completa de moda femenina</a>.</p>
     `,
   },
   {
@@ -185,15 +187,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['ropa clima calido', 'telas frescas paraguay', 'moda verano paraguay', 'vestir con calor'],
     content: `
       <h2>Las Mejores Telas para el Calor</h2>
-      <p>Paraguay tiene temperaturas que superan los 40°C en verano. Elegir la tela correcta es fundamental para estar cómoda.</p>
+      <p>Paraguay tiene temperaturas que superan los 40°C en verano. Elegir la tela correcta es fundamental para estar cómoda y con <a href="/blog/guia-completa-moda-femenina-paraguay">estilo</a>.</p>
       <h3>Algodón</h3>
       <p>La tela más transpirable y cómoda. Ideal para uso diario, permite la circulación del aire y absorbe la humedad.</p>
       <h3>Lino</h3>
       <p>Ligero y elegante, el lino es perfecto para looks casuales-chic. Se arruga fácilmente pero eso es parte de su encanto.</p>
       <h3>Viscosa</h3>
-      <p>Suave y con buena caída, la viscosa es ideal para vestidos y blusas que fluyen con el movimiento.</p>
+      <p>Suave y con buena caída, la viscosa es ideal para <a href="/blog/tendencias-vestidos-2026">vestidos</a> y blusas que fluyen con el movimiento.</p>
       <h2>Estilos Recomendados</h2>
-      <p>Vestidos sueltos, shorts de tiro alto, blusas sin mangas y faldas midi son las prendas esenciales para el verano paraguayo.</p>
+      <p>Vestidos sueltos, shorts de tiro alto, blusas sin mangas y faldas midi son las prendas esenciales. Aprende a armar tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula de verano</a> y descubre los <a href="/blog/outfit-perfecto-cada-ocasion">outfits perfectos para cada ocasión</a>.</p>
     `,
   },
   {
@@ -208,13 +210,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['capsule wardrobe', 'guardarropa cápsula', 'prendas básicas mujer', 'armario minimalista'],
     content: `
       <h2>¿Qué es un Capsule Wardrobe?</h2>
-      <p>Un guardarropa cápsula consiste en un número limitado de prendas versátiles que se combinan entre sí para crear múltiples outfits.</p>
+      <p>Un guardarropa cápsula consiste en un número limitado de prendas versátiles que se combinan entre sí para crear múltiples outfits. Es la base de la <a href="/blog/moda-sustentable-paraguay">moda sustentable</a>.</p>
       <h3>Las 20 Prendas Esenciales</h3>
-      <p>5 tops (2 blusas, 2 camisetas, 1 camisa), 4 bottoms (2 pantalones, 1 falda, 1 short), 3 vestidos, 3 capas (blazer, cardigan, chaqueta), 3 pares de zapatos y 2 accesorios clave.</p>
+      <p>5 tops (2 blusas, 2 camisetas, 1 camisa), 4 bottoms (2 pantalones, 1 falda, 1 short), 3 <a href="/blog/tendencias-vestidos-2026">vestidos</a>, 3 capas (blazer, cardigan, chaqueta), 3 pares de zapatos y 2 <a href="/blog/accesorios-imprescindibles-2026">accesorios clave</a>.</p>
       <h3>Elige una Paleta de Color</h3>
-      <p>Selecciona 3-4 colores que combinen entre sí. Un neutro oscuro, un neutro claro y 1-2 colores de acento.</p>
+      <p>Selecciona 3-4 colores que combinen entre sí. Inspírate en los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a>. Un neutro oscuro, un neutro claro y 1-2 colores de acento.</p>
       <h2>Beneficios del Guardarropa Cápsula</h2>
-      <p>Ahorro de tiempo al vestirte, menos gasto en ropa innecesaria y un estilo más definido y consistente.</p>
+      <p>Ahorro de tiempo al vestirte, menos gasto en ropa innecesaria y un estilo más definido. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para asegurarte de elegir bien.</p>
     `,
   },
   {
@@ -229,13 +231,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['moda plus size paraguay', 'ropa tallas grandes', 'moda curvy', 'estilo plus size'],
     content: `
       <h2>La Moda Plus Size Crece en Paraguay</h2>
-      <p>Cada vez más marcas en Paraguay ofrecen opciones de moda en tallas extendidas, reconociendo que el estilo no tiene talla.</p>
+      <p>Cada vez más marcas en Paraguay ofrecen opciones de <a href="/blog/guia-completa-moda-femenina-paraguay">moda femenina</a> en tallas extendidas, reconociendo que el estilo no tiene talla.</p>
       <h3>Tendencias Plus Size 2026</h3>
-      <p>Vestidos wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
+      <p><a href="/blog/tendencias-vestidos-2026">Vestidos</a> wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
       <h3>Tips de Estilo</h3>
-      <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar colores vibrantes.</p>
+      <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar <a href="/blog/colores-tendencia-otono-invierno-2026">colores vibrantes de temporada</a>. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para encontrar tu medida perfecta.</p>
       <h2>En Meca Store</h2>
-      <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL, porque creemos que toda mujer merece vestir con estilo.</p>
+      <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL. Arma tu <a href="/blog/outfit-perfecto-cada-ocasion">outfit perfecto para cada ocasión</a>, porque creemos que toda mujer merece vestir con estilo.</p>
     `,
   },
   {
@@ -250,15 +252,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['accesorios moda 2026', 'tendencias accesorios', 'joyería tendencia', 'bolsos moda'],
     content: `
       <h2>Accesorios que Transforman tu Look</h2>
-      <p>Un buen accesorio puede convertir un outfit simple en un look memorable. Estos son los must-have de 2026.</p>
+      <p>Un buen accesorio puede convertir un <a href="/blog/outfit-perfecto-cada-ocasion">outfit simple en un look memorable</a>. Estos son los must-have de 2026.</p>
       <h3>1. Bolso Estructurado</h3>
       <p>Los bolsos con formas geométricas y estructura definida son el complemento perfecto para looks de oficina y eventos.</p>
       <h3>2. Aretes Statement</h3>
-      <p>Grandes, dorados y llamativos. Los aretes oversized elevan cualquier look básico al instante.</p>
+      <p>Grandes, dorados y llamativos. Los aretes oversized elevan cualquier look básico al instante. Combínalos con los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a>.</p>
       <h3>3. Cinturón Ancho</h3>
-      <p>Perfecto para definir la cintura sobre vestidos, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
+      <p>Perfecto para definir la cintura sobre <a href="/blog/tendencias-vestidos-2026">vestidos</a>, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
       <h2>Dónde Encontrarlos</h2>
-      <p>En Meca Store complementamos nuestra colección de ropa con accesorios seleccionados que completan tu look.</p>
+      <p>En Meca Store complementamos nuestra colección con accesorios seleccionados. Incluye estos accesorios en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a> para máxima versatilidad.</p>
     `,
   },
 ];
