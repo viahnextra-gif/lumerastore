@@ -35,13 +35,7 @@ import { useProducts, useCategories } from '@/hooks/useProducts';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { breadcrumbSchema, itemListSchema } from '@/components/seo/schemas';
-
-const sortOptions = [
-  { value: 'newest', label: 'Más Nuevos' },
-  { value: 'price-asc', label: 'Precio: Menor a Mayor' },
-  { value: 'price-desc', label: 'Precio: Mayor a Menor' },
-  { value: 'popular', label: 'Más Populares' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const sizeOptions = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
 const colorOptions = ['Rosa', 'Rosê', 'Branco', 'Preto', 'Terracota', 'Creme', 'Bege', 'Azul', 'Verde', 'Champagne'];
