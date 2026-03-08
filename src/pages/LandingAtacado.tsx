@@ -144,6 +144,8 @@ export default function LandingAtacado() {
           </Button>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
