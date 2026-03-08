@@ -508,7 +508,7 @@ export default function MarketplaceAutomations() {
 
   const testFlow = async (flow: AutomationFlow) => {
     if (!user || !flow.dbId) return;
-    toast.info('Testando automação...');
+    toast.info(t('mk.testingAutomation'));
     const { error } = await supabase.functions.invoke('automation-webhook', {
       body: {
         event_type: 'order.created',
