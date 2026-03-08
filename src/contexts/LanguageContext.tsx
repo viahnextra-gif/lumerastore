@@ -153,6 +153,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'Nenhuma mensagem recebida.',
     'mk.autoRespond': 'Resposta IA',
     'mk.postSale': 'Pós-Venda',
+    'mk.postSaleAutomation': 'Automação Pós-Venda',
+    'mk.postSaleAutomation.subtitle': 'Mensagens automáticas de acompanhamento e pesquisa de satisfação',
 
     // Footer
     'footer.newsletter.title': 'Junte-se à nossa comunidade',
@@ -296,6 +298,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'Sin mensajes recibidos.',
     'mk.autoRespond': 'Respuesta IA',
     'mk.postSale': 'Post-Venta',
+    'mk.postSaleAutomation': 'Automatización Post-Venta',
+    'mk.postSaleAutomation.subtitle': 'Mensajes automáticos de seguimiento y encuesta de satisfacción',
     'footer.newsletter.title': 'Únete a nuestra comunidad',
     'footer.newsletter.subtitle': 'Recibe ofertas exclusivas y novedades de moda',
     'footer.newsletter.placeholder': 'Tu email',
@@ -455,6 +459,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'No messages received.',
     'mk.autoRespond': 'AI Response',
     'mk.postSale': 'Post-Sale',
+    'mk.postSaleAutomation': 'Post-Sale Automation',
+    'mk.postSaleAutomation.subtitle': 'Automatic follow-up messages and satisfaction surveys',
   },
 };
 

@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Wholesale from "./pages/Wholesale";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Account from "./pages/Account";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
@@ -36,6 +37,7 @@ import MarketplaceOrders from "./pages/admin/marketplaces/MarketplaceOrders";
 import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
 import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
 import MarketplaceMessages from "./pages/admin/marketplaces/MarketplaceMessages";
+import PostSaleAutomation from "./pages/admin/marketplaces/PostSaleAutomation";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 
@@ -58,6 +60,7 @@ const App = () => (
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/atacado" element={<Wholesale />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/conta" element={<Account />} />
                 <Route path="/cuenta" element={<Account />} />
                 
@@ -84,6 +87,7 @@ const App = () => (
                   <Route path="marketplaces/estoque" element={<MarketplaceStock />} />
                   <Route path="marketplaces/logs" element={<MarketplaceLogs />} />
                   <Route path="marketplaces/mensagens" element={<MarketplaceMessages />} />
+                  <Route path="marketplaces/automacao" element={<PostSaleAutomation />} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />
