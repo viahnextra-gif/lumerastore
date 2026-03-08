@@ -37,7 +37,7 @@ export default function Promocoes() {
       <SEOHead
         title="Promoções Sazonais | MecaStore"
         description="Aproveite as melhores promoções de moda feminina. Descontos imperdíveis em vestidos, blusas, saias e muito mais."
-        canonicalUrl="/promocoes"
+        canonical="/promocoes"
       />
       <Header />
 
