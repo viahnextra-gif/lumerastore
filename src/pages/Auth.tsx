@@ -94,7 +94,7 @@ export default function Auth() {
             title: '¡Bienvenido!',
             description: 'Has iniciado sesión correctamente',
           });
-          navigate('/');
+          // Navigation handled by useEffect after role loads
         }
       } else {
         const result = signupSchema.safeParse(formData);
