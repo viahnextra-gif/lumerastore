@@ -231,13 +231,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['moda plus size paraguay', 'ropa tallas grandes', 'moda curvy', 'estilo plus size'],
     content: `
       <h2>La Moda Plus Size Crece en Paraguay</h2>
-      <p>Cada vez más marcas en Paraguay ofrecen opciones de moda en tallas extendidas, reconociendo que el estilo no tiene talla.</p>
+      <p>Cada vez más marcas en Paraguay ofrecen opciones de <a href="/blog/guia-completa-moda-femenina-paraguay">moda femenina</a> en tallas extendidas, reconociendo que el estilo no tiene talla.</p>
       <h3>Tendencias Plus Size 2026</h3>
-      <p>Vestidos wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
+      <p><a href="/blog/tendencias-vestidos-2026">Vestidos</a> wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
       <h3>Tips de Estilo</h3>
-      <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar colores vibrantes.</p>
+      <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar <a href="/blog/colores-tendencia-otono-invierno-2026">colores vibrantes de temporada</a>. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para encontrar tu medida perfecta.</p>
       <h2>En Meca Store</h2>
-      <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL, porque creemos que toda mujer merece vestir con estilo.</p>
+      <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL. Arma tu <a href="/blog/outfit-perfecto-cada-ocasion">outfit perfecto para cada ocasión</a>, porque creemos que toda mujer merece vestir con estilo.</p>
     `,
   },
   {
