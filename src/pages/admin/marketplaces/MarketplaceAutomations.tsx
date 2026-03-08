@@ -738,7 +738,7 @@ export default function MarketplaceAutomations() {
                       })}
                     </div>
                     <Button size="sm" variant="outline" className="mt-3 w-full" onClick={(e) => { e.stopPropagation(); createFlowFromTemplate(tpl); }}>
-                      <Plus className="h-3 w-3 mr-1" /> Usar Template
+                      <Plus className="h-3 w-3 mr-1" /> {t('mk.useTemplate')}
                     </Button>
                   </CardContent>
                 </Card>
