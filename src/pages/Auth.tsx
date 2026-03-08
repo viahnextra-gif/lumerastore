@@ -130,7 +130,7 @@ export default function Auth() {
             title: '¡Cuenta creada!',
             description: 'Tu cuenta ha sido creada exitosamente',
           });
-          navigate('/');
+          // Navigation handled by useEffect after auth state updates
         }
       }
     } catch (error) {
