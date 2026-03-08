@@ -783,8 +783,8 @@ export default function MarketplaceAutomations() {
         {/* ── Execution Logs ── */}
         <TabsContent value="logs" className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Histórico de execuções das automações com status de sucesso/falha.</p>
-            <Button variant="outline" size="sm" onClick={loadExecutions}><RefreshCw className="h-3.5 w-3.5 mr-1" /> Atualizar</Button>
+            <p className="text-sm text-muted-foreground">{t('mk.executionHistory')}</p>
+            <Button variant="outline" size="sm" onClick={loadExecutions}><RefreshCw className="h-3.5 w-3.5 mr-1" /> {t('mk.refresh')}</Button>
           </div>
           <Card>
             <CardContent className="p-0">
