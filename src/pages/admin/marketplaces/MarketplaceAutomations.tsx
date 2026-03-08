@@ -850,7 +850,7 @@ export default function MarketplaceAutomations() {
                       <Input value={editingFlow.name} onChange={(e) => setEditingFlow({ ...editingFlow, name: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Plataforma</Label>
+                      <Label className="text-xs">{t('mk.platform')}</Label>
                       <Select value={editingFlow.platform} onValueChange={(v) => setEditingFlow({ ...editingFlow, platform: v as Platform })}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
