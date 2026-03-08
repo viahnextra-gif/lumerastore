@@ -150,4 +150,115 @@ export const blogPosts: BlogPost[] = [
       <p>Un vestido largo o un conjunto elegante con accesorios statement. Recuerda: menos es más en los eventos formales.</p>
     `,
   },
+  {
+    slug: 'colores-tendencia-otono-invierno-2026',
+    title: 'Colores Tendencia Otoño-Invierno 2026: La Paleta que Domina Paraguay',
+    excerpt: 'Descubre los colores que marcarán la temporada fría en Paraguay y cómo incorporarlos a tu guardarropa.',
+    image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80',
+    category: 'Tendencias',
+    date: '12 Feb 2026',
+    dateISO: '2026-02-12',
+    readTime: '5 min',
+    keywords: ['colores tendencia 2026', 'moda otoño invierno paraguay', 'paleta colores moda', 'tendencias color'],
+    content: `
+      <h2>La Paleta Otoño-Invierno 2026</h2>
+      <p>Este año los tonos terrosos, burdeos y verdes bosque dominan las pasarelas y las calles de Asunción.</p>
+      <h3>Terracota y Óxido</h3>
+      <p>Los tonos cálidos de terracota son perfectos para el clima de transición en Paraguay. Combinan con neutros y denim.</p>
+      <h3>Burdeos Profundo</h3>
+      <p>El burdeos reemplaza al negro como el color elegante por excelencia. Ideal para blusas, vestidos y accesorios.</p>
+      <h3>Verde Salvia</h3>
+      <p>Un tono suave y sofisticado que funciona tanto en prendas casuales como en looks de oficina.</p>
+      <h2>Cómo Combinar los Colores de Temporada</h2>
+      <p>La regla de oro: combina un color tendencia con un neutro. Terracota + blanco, burdeos + beige, verde + crema.</p>
+    `,
+  },
+  {
+    slug: 'ropa-para-clima-calido-paraguay',
+    title: 'Ropa para el Clima Cálido de Paraguay: Guía de Telas y Estilos',
+    excerpt: 'Las mejores telas, cortes y estilos para mantenerte fresca y elegante en el calor paraguayo.',
+    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80',
+    category: 'Guía',
+    date: '08 Feb 2026',
+    dateISO: '2026-02-08',
+    readTime: '7 min',
+    keywords: ['ropa clima calido', 'telas frescas paraguay', 'moda verano paraguay', 'vestir con calor'],
+    content: `
+      <h2>Las Mejores Telas para el Calor</h2>
+      <p>Paraguay tiene temperaturas que superan los 40°C en verano. Elegir la tela correcta es fundamental para estar cómoda.</p>
+      <h3>Algodón</h3>
+      <p>La tela más transpirable y cómoda. Ideal para uso diario, permite la circulación del aire y absorbe la humedad.</p>
+      <h3>Lino</h3>
+      <p>Ligero y elegante, el lino es perfecto para looks casuales-chic. Se arruga fácilmente pero eso es parte de su encanto.</p>
+      <h3>Viscosa</h3>
+      <p>Suave y con buena caída, la viscosa es ideal para vestidos y blusas que fluyen con el movimiento.</p>
+      <h2>Estilos Recomendados</h2>
+      <p>Vestidos sueltos, shorts de tiro alto, blusas sin mangas y faldas midi son las prendas esenciales para el verano paraguayo.</p>
+    `,
+  },
+  {
+    slug: 'como-armar-capsule-wardrobe',
+    title: 'Cómo Armar un Capsule Wardrobe: 20 Prendas, Infinitos Looks',
+    excerpt: 'Aprende a crear un guardarropa cápsula funcional con piezas versátiles que se combinan entre sí.',
+    image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&q=80',
+    category: 'Moda',
+    date: '02 Feb 2026',
+    dateISO: '2026-02-02',
+    readTime: '8 min',
+    keywords: ['capsule wardrobe', 'guardarropa cápsula', 'prendas básicas mujer', 'armario minimalista'],
+    content: `
+      <h2>¿Qué es un Capsule Wardrobe?</h2>
+      <p>Un guardarropa cápsula consiste en un número limitado de prendas versátiles que se combinan entre sí para crear múltiples outfits.</p>
+      <h3>Las 20 Prendas Esenciales</h3>
+      <p>5 tops (2 blusas, 2 camisetas, 1 camisa), 4 bottoms (2 pantalones, 1 falda, 1 short), 3 vestidos, 3 capas (blazer, cardigan, chaqueta), 3 pares de zapatos y 2 accesorios clave.</p>
+      <h3>Elige una Paleta de Color</h3>
+      <p>Selecciona 3-4 colores que combinen entre sí. Un neutro oscuro, un neutro claro y 1-2 colores de acento.</p>
+      <h2>Beneficios del Guardarropa Cápsula</h2>
+      <p>Ahorro de tiempo al vestirte, menos gasto en ropa innecesaria y un estilo más definido y consistente.</p>
+    `,
+  },
+  {
+    slug: 'moda-plus-size-paraguay',
+    title: 'Moda Plus Size en Paraguay: Dónde Encontrar Ropa Hermosa en Todas las Tallas',
+    excerpt: 'Guía completa de moda plus size: tendencias, tips de estilo y dónde comprar en Paraguay.',
+    image: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=800&q=80',
+    category: 'Moda',
+    date: '28 Ene 2026',
+    dateISO: '2026-01-28',
+    readTime: '6 min',
+    keywords: ['moda plus size paraguay', 'ropa tallas grandes', 'moda curvy', 'estilo plus size'],
+    content: `
+      <h2>La Moda Plus Size Crece en Paraguay</h2>
+      <p>Cada vez más marcas en Paraguay ofrecen opciones de moda en tallas extendidas, reconociendo que el estilo no tiene talla.</p>
+      <h3>Tendencias Plus Size 2026</h3>
+      <p>Vestidos wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
+      <h3>Tips de Estilo</h3>
+      <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar colores vibrantes.</p>
+      <h2>En Meca Store</h2>
+      <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL, porque creemos que toda mujer merece vestir con estilo.</p>
+    `,
+  },
+  {
+    slug: 'accesorios-imprescindibles-2026',
+    title: 'Los 10 Accesorios Imprescindibles para 2026',
+    excerpt: 'Desde bolsos hasta joyería, estos son los accesorios que elevarán cualquier outfit este año.',
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=800&q=80',
+    category: 'Tendencias',
+    date: '22 Ene 2026',
+    dateISO: '2026-01-22',
+    readTime: '5 min',
+    keywords: ['accesorios moda 2026', 'tendencias accesorios', 'joyería tendencia', 'bolsos moda'],
+    content: `
+      <h2>Accesorios que Transforman tu Look</h2>
+      <p>Un buen accesorio puede convertir un outfit simple en un look memorable. Estos son los must-have de 2026.</p>
+      <h3>1. Bolso Estructurado</h3>
+      <p>Los bolsos con formas geométricas y estructura definida son el complemento perfecto para looks de oficina y eventos.</p>
+      <h3>2. Aretes Statement</h3>
+      <p>Grandes, dorados y llamativos. Los aretes oversized elevan cualquier look básico al instante.</p>
+      <h3>3. Cinturón Ancho</h3>
+      <p>Perfecto para definir la cintura sobre vestidos, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
+      <h2>Dónde Encontrarlos</h2>
+      <p>En Meca Store complementamos nuestra colección de ropa con accesorios seleccionados que completan tu look.</p>
+    `,
+  },
 ];
