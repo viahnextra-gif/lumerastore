@@ -103,7 +103,7 @@ export default function CityLanding() {
       '@type': 'City',
       name: city.name,
     },
-    priceRange: '₲₲',
+    priceRange: city.country === 'PY' ? '₲₲' : 'R$R$',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
