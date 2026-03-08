@@ -9,6 +9,27 @@ import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { blogPosts } from '@/data/blogPosts';
 
+function ContentWithRouterLinks({ html }: { html: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleClick = useCallback((e: MouseEvent) => {
+    const anchor = (e.target as HTMLElement).closest('a');
+    if (anchor && anchor.getAttribute('href')?.startsWith('/')) {
+      e.preventDefault();
+      navigate(anchor.getAttribute('href')!);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    const el = ref.current;
+    el?.addEventListener('click', handleClick);
+    return () => el?.removeEventListener('click', handleClick);
+  }, [handleClick]);
+
+  return <div ref={ref} className="prose prose-lg max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const post = blogPosts.find(p => p.slug === slug);
