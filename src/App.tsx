@@ -88,6 +88,7 @@ const App = () => (
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/promocoes" element={<Promocoes />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
