@@ -162,6 +162,7 @@ export default function AdminLayout() {
   const { user, isLoading, isAdmin, isAdminOrModerator } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  useMarketplaceNotifications();
 
   useEffect(() => {
     if (!isLoading && (!user || !isAdminOrModerator)) {
