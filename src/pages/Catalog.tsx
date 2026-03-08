@@ -291,7 +291,7 @@ export default function Catalog() {
                 </SheetTrigger>
                 <SheetContent side="left">
                   <SheetHeader>
-                    <SheetTitle>Filtros</SheetTitle>
+                    <SheetTitle>{t('catalog.filters')}</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6">
                     <CatalogFilters
