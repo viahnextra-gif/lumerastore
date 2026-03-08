@@ -235,7 +235,7 @@ export default function Catalog() {
             <div className="sticky top-24">
               <h2 className="font-display text-xl font-semibold mb-6 flex items-center gap-2">
                 <SlidersHorizontal className="h-5 w-5" />
-                Filtros
+                {t('catalog.filters')}
               </h2>
               <CatalogFilters
                 categories={categories}
