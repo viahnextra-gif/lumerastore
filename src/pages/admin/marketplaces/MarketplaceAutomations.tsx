@@ -448,7 +448,7 @@ export default function MarketplaceAutomations() {
   const createEmptyFlow = () => {
     const flow: AutomationFlow = {
       id: crypto.randomUUID(),
-      name: 'Nova Automação',
+      name: t('mk.newAutomationBtn'),
       platform: 'n8n',
       webhookUrl: '',
       nodes: [],
