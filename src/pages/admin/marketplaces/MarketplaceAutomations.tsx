@@ -708,7 +708,7 @@ export default function MarketplaceAutomations() {
 
         {/* ── Templates ── */}
         <TabsContent value="templates" className="space-y-4">
-          <p className="text-sm text-muted-foreground">Templates prontos com nós pré-configurados. Escolha, personalize e ative.</p>
+          <p className="text-sm text-muted-foreground">{t('mk.readyTemplatesDesc')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {FLOW_TEMPLATES.map((tpl) => {
               const platform = getPlatform(tpl.platform);
