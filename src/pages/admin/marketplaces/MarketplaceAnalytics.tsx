@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BarChart3, TrendingUp, ShoppingCart, DollarSign, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { BarChart3, TrendingUp, ShoppingCart, DollarSign } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
