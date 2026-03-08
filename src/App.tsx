@@ -42,6 +42,10 @@ import MarketplaceAnalytics from "./pages/admin/marketplaces/MarketplaceAnalytic
 import MarketplaceAutomations from "./pages/admin/marketplaces/MarketplaceAutomations";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import LandingModa from "./pages/LandingModa";
+import LandingAtacado from "./pages/LandingAtacado";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 

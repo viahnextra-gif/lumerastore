@@ -33,7 +33,7 @@ export default function Blog() {
 
       <section className="py-12">
         <div className="container">
-          <Breadcrumbs items={[{ name: 'Blog', url: '/blog' }]} />
+          <Breadcrumbs items={[{ label: 'Blog' }]} />
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">Blog Meca Store</h1>

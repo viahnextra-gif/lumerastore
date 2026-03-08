@@ -62,7 +62,7 @@ export default function BlogPost() {
 
       <article className="py-12">
         <div className="container max-w-3xl">
-          <Breadcrumbs items={[{ name: 'Blog', url: '/blog' }, { name: post.title, url: `/blog/${post.slug}` }]} />
+          <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: post.title }]} />
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="text-sm font-medium text-primary uppercase tracking-wider">{post.category}</span>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Package, TrendingUp, CheckCircle, MessageCircle, Users } from 'lucide-react';
+import { ArrowRight, Star, Package, TrendingUp, MessageCircle, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
