@@ -976,10 +976,10 @@ export default function MarketplaceAutomations() {
       <Dialog open={showNodePicker} onOpenChange={setShowNodePicker}>
         <DialogContent className="max-w-2xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle>Adicionar Nó</DialogTitle>
+            <DialogTitle>{t('mk.addNode')}</DialogTitle>
           </DialogHeader>
           <div className="flex gap-2 flex-wrap mb-3">
-            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>Todos</Badge>
+            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>{t('mk.all')}</Badge>
             {(Object.entries(categoryLabels) as [NodeCategory, { label: string }][]).map(([cat, info]) => (
               <Badge key={cat} variant={nodePickerCategory === cat ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory(cat)}>{info.label}</Badge>
             ))}
