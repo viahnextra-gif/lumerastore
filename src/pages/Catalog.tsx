@@ -223,7 +223,7 @@ export default function Catalog() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground max-w-lg mx-auto"
           >
-            Explora nuestra colección de moda femenina con las últimas tendencias
+            {t('catalog.subtitle')}
           </motion.p>
         </div>
       </section>
