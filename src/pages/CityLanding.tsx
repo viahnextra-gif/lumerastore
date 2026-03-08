@@ -175,7 +175,7 @@ export default function CityLanding() {
             <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" asChild>
               <Link to="/catalogo">Ver Catálogo <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 text-lg" onClick={handleWhatsAppClick}>
+            <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg" onClick={handleWhatsAppClick}>
               <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp
             </Button>
           </motion.div>
