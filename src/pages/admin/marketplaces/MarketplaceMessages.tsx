@@ -179,7 +179,7 @@ export default function MarketplaceMessages() {
                     {t('mk.autoRespond')}
                   </Button>
                 </div>
-                <Textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={4} placeholder="Digite sua resposta..." />
+                <Textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={4} placeholder={t('mk.typeReply')} />
               </div>
             </div>
           )}
