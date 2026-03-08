@@ -85,6 +85,7 @@ const App = () => (
                 <Route path="/moda-femenina" element={<LandingModa />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
                 <Route path="/faq" element={<FAQ />} />
+                <Route path="/moda-femenina" element={<ModaFemenina />} />
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
