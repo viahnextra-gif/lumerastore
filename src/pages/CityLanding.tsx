@@ -8,7 +8,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
-import { getCityBySlug, cities } from '@/data/cities';
+import { getCityBySlug, cities, getCitiesByCountry } from '@/data/cities';
 import { breadcrumbSchema, localBusinessSchema } from '@/components/seo/schemas';
 import { trackEvent } from '@/components/seo/AnalyticsTracker';
 import { toast } from 'sonner';
@@ -97,13 +97,13 @@ export default function CityLanding() {
       '@type': 'PostalAddress',
       addressLocality: city.name,
       addressRegion: city.department,
-      addressCountry: 'PY',
+      addressCountry: city.country,
     },
     areaServed: {
       '@type': 'City',
       name: city.name,
     },
-    priceRange: '₲₲',
+    priceRange: city.country === 'PY' ? '₲₲' : 'R$R$',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -118,7 +118,7 @@ export default function CityLanding() {
     { name: city.name, url: pageUrl },
   ];
 
-  const otherCities = cities.filter(c => c.slug !== city.slug).slice(0, 4);
+  const otherCities = getCitiesByCountry(city.country).filter(c => c.slug !== city.slug).slice(0, 8);
 
   return (
     <div className="min-h-screen bg-background">
@@ -310,7 +310,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-2xl font-bold text-foreground text-center mb-8">
-            Moda Femenina en otras ciudades de Paraguay
+            {city.country === 'PY' ? 'Moda Femenina en otras ciudades de Paraguay' : 'Moda Feminina em outras cidades do Brasil'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {otherCities.map(c => (
@@ -321,7 +321,7 @@ export default function CityLanding() {
               >
                 <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                 <span className="text-foreground group-hover:text-primary transition-colors font-medium text-sm">
-                  Moda en {c.name}
+                  {city.country === 'PY' ? `Moda en ${c.name}` : `Moda em ${c.name}`}
                 </span>
               </Link>
             ))}
