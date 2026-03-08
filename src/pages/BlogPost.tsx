@@ -1,4 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, ArrowLeft, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
