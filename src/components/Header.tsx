@@ -18,10 +18,10 @@ export default function Header() {
   const navLinks = [
     { name: t('nav.home'), href: '/' },
     { name: t('nav.catalog'), href: '/catalogo' },
-    { name: 'Moda', href: '/moda' },
-    { name: 'Promoções', href: '/promocoes' },
+    { name: t('nav.fashion'), href: '/moda' },
+    { name: t('nav.promo'), href: '/promocoes' },
     { name: t('nav.wholesale'), href: '/atacado' },
-    { name: 'Blog', href: '/blog' },
+    { name: t('nav.blog'), href: '/blog' },
   ];
 
   useEffect(() => {
@@ -54,11 +54,7 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-            >
+            <Link key={link.name} to={link.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               {link.name}
             </Link>
           ))}
@@ -66,44 +62,27 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
-            <Search className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="hidden sm:flex">
-            <Heart className="h-5 w-5" />
-          </Button>
+          <Button variant="ghost" size="icon" className="hidden sm:flex"><Search className="h-5 w-5" /></Button>
+          <Button variant="ghost" size="icon" className="hidden sm:flex"><Heart className="h-5 w-5" /></Button>
           {isAdmin && (
             <Link to="/admin">
-              <Button variant="ghost" size="icon" className="hidden sm:flex text-primary">
-                <Shield className="h-5 w-5" />
-              </Button>
+              <Button variant="ghost" size="icon" className="hidden sm:flex text-primary"><Shield className="h-5 w-5" /></Button>
             </Link>
           )}
           <Link to={isLoggedIn ? "/conta" : "/auth"}>
-            <Button variant="ghost" size="icon" className="hidden sm:flex">
-              <User className="h-5 w-5" />
-            </Button>
+            <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
           </Link>
           <Link to="/carrinho">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingBag className="h-5 w-5" />
               {totalItems > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium"
-                >
+                <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
                   {totalItems}
                 </motion.span>
               )}
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
+          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
@@ -111,20 +90,10 @@ export default function Header() {
 
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border overflow-hidden"
-          >
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-border overflow-hidden">
             <nav className="container py-4 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+                <Link key={link.name} to={link.href} className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2" onClick={() => setIsMenuOpen(false)}>
                   {link.name}
                 </Link>
               ))}
