@@ -124,11 +124,11 @@ export const blogPosts: BlogPost[] = [
       <h2>¿Qué es la Moda Sustentable?</h2>
       <p>La moda sustentable busca reducir el impacto ambiental de la industria textil a través de prácticas responsables de producción, distribución y consumo.</p>
       <h3>Calidad sobre Cantidad</h3>
-      <p>Invertir en prendas de buena calidad que duren más temporadas es más sustentable y económico a largo plazo que comprar ropa barata que se deteriora rápido.</p>
+      <p>Invertir en prendas de buena calidad que duren más temporadas es más sustentable y económico a largo plazo. Aprende a armar un <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula con solo 20 prendas</a>.</p>
       <h3>Prendas Versátiles</h3>
-      <p>Elige prendas que puedas combinar de múltiples formas. Un buen conjunto coordinado te da varios looks diferentes.</p>
+      <p>Elige prendas que puedas combinar de múltiples formas. Un buen <a href="/blog/outfit-perfecto-cada-ocasion">conjunto coordinado te da varios looks</a> diferentes.</p>
       <h2>Tips Prácticos</h2>
-      <p>Cuida tus prendas siguiendo las instrucciones de lavado, repara en vez de desechar, y dona la ropa que ya no uses.</p>
+      <p>Cuida tus prendas siguiendo las instrucciones de lavado, elige <a href="/blog/ropa-para-clima-calido-paraguay">telas adecuadas al clima</a>, repara en vez de desechar, y dona la ropa que ya no uses.</p>
     `,
   },
   {
