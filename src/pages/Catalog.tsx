@@ -43,6 +43,7 @@ const colorOptions = ['Rosa', 'Rosê', 'Branco', 'Preto', 'Terracota', 'Creme', 
 const ITEMS_PER_PAGE = 12;
 
 export default function Catalog() {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
   const pageParam = searchParams.get('page');
