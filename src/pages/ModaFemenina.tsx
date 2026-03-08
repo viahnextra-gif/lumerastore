@@ -117,6 +117,7 @@ export default function ModaFemenina() {
                 </div>
               </div>
             ))}
+          {filteredBr.length === 0 && <p className="text-muted-foreground">Nenhuma cidade encontrada.</p>}
         </section>
 
         {/* CTA */}
