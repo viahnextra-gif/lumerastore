@@ -23,6 +23,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import AutomationMetricsDashboard from '@/components/admin/AutomationMetricsDashboard';
 
 // ── Types ──────────────────────────────────────────────
 type Platform = 'n8n' | 'make' | 'fiqon';
