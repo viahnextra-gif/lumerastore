@@ -286,7 +286,7 @@ export default function Catalog() {
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden">
                     <Filter className="h-4 w-4 mr-2" />
-                    Filtros
+                    {t('catalog.filters')}
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
