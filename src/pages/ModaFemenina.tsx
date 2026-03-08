@@ -1,20 +1,29 @@
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight, Search } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { organizationSchema, breadcrumbSchema } from '@/components/seo/schemas';
 import { getCitiesByCountry } from '@/data/cities';
+import { Input } from '@/components/ui/input';
 
 const BASE_URL = 'https://mecastorepy.lovable.app';
 
 export default function ModaFemenina() {
+  const [search, setSearch] = useState('');
   const pyCities = getCitiesByCountry('PY');
   const brCities = getCitiesByCountry('BR');
 
+  const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const query = normalize(search);
+
+  const filteredPy = useMemo(() => pyCities.filter(c => normalize(c.name).includes(query) || normalize(c.department).includes(query)), [query]);
+  const filteredBr = useMemo(() => brCities.filter(c => normalize(c.name).includes(query) || normalize(c.department).includes(query)), [query]);
+
   // Group BR cities by state
-  const brByState = brCities.reduce<Record<string, typeof brCities>>((acc, city) => {
+  const brByState = filteredBr.reduce<Record<string, typeof brCities>>((acc, city) => {
     if (!acc[city.department]) acc[city.department] = [];
     acc[city.department].push(city);
     return acc;
@@ -57,9 +66,18 @@ export default function ModaFemenina() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               Moda Femenina en tu Ciudad
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Encuentra vestidos, conjuntos, blusas y más con envío directo. Selecciona tu ciudad para ver ofertas y envío local.
             </p>
+            <div className="max-w-md mx-auto relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar ciudad..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </div>
         </section>
 
@@ -72,10 +90,11 @@ export default function ModaFemenina() {
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {pyCities.map((city) => (
+            {filteredPy.map((city) => (
               <CityCard key={city.slug} city={city} label={`Moda en ${city.name}`} />
             ))}
           </div>
+          {filteredPy.length === 0 && <p className="text-muted-foreground">No se encontraron ciudades.</p>}
         </section>
 
         {/* Brazil */}
@@ -98,6 +117,7 @@ export default function ModaFemenina() {
                 </div>
               </div>
             ))}
+          {filteredBr.length === 0 && <p className="text-muted-foreground">Nenhuma cidade encontrada.</p>}
         </section>
 
         {/* CTA */}
