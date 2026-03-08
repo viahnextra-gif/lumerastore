@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Product, ProductColor } from '@/types/product';
 
@@ -85,14 +85,12 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsResult
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [totalCount, setTotalCount] = useState(0);
-  const mountedRef = useRef(true);
 
   useEffect(() => {
-    mountedRef.current = true;
-    
+    let cancelled = false;
+
     const fetchProducts = async () => {
       try {
-        console.log('[useProducts] Starting fetch...');
         setIsLoading(true);
         setError(null);
 
@@ -114,6 +112,7 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsResult
             .select('id')
             .eq('slug', categorySlug)
             .maybeSingle();
+          if (cancelled) return;
           if (catData) query = query.eq('category_id', catData.id);
         }
 
@@ -126,24 +125,24 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsResult
 
         query = query.range(from, to);
         const { data, error: qErr, count } = await query;
-        
-        console.log('[useProducts] Result:', { dataLength: data?.length, error: qErr?.message, count });
 
-        if (!mountedRef.current) return;
+        if (cancelled) return;
         if (qErr) throw qErr;
 
         setProducts((data as DBProduct[] || []).map(transformProduct));
         setTotalCount(count || 0);
       } catch (err) {
-        console.error('[useProducts] Error:', err);
-        if (mountedRef.current) setError(err as Error);
+        if (!cancelled) {
+          setError(err as Error);
+          console.error('[useProducts] Error:', err);
+        }
       } finally {
-        if (mountedRef.current) setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     fetchProducts();
-    return () => { mountedRef.current = false; };
+    return () => { cancelled = true; };
   }, [categorySlug, searchQuery, page, pageSize, sortBy, minPrice, maxPrice]);
 
   return { products, isLoading, error, totalCount, totalPages: Math.ceil(totalCount / pageSize) };
@@ -154,22 +153,18 @@ export function useCategories() {
     id: string; name: string; slug: string; image: string; productCount: number;
   }>>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const mountedRef = useRef(true);
 
   useEffect(() => {
-    mountedRef.current = true;
+    let cancelled = false;
 
     const fetchCategories = async () => {
       try {
-        console.log('[useCategories] Starting fetch...');
         const { data, error } = await supabase
           .from('categories')
           .select('*')
           .order('name');
 
-        console.log('[useCategories] Result:', { dataLength: data?.length, error: error?.message });
-
-        if (!mountedRef.current) return;
+        if (cancelled) return;
         if (error) throw error;
 
         const cats = await Promise.all(
@@ -189,19 +184,16 @@ export function useCategories() {
           })
         );
 
-        if (mountedRef.current) {
-          setCategories(cats);
-          console.log('[useCategories] Set categories:', cats.length);
-        }
+        if (!cancelled) setCategories(cats);
       } catch (err) {
-        console.error('[useCategories] Error:', err);
+        if (!cancelled) console.error('[useCategories] Error:', err);
       } finally {
-        if (mountedRef.current) setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     fetchCategories();
-    return () => { mountedRef.current = false; };
+    return () => { cancelled = true; };
   }, []);
 
   return { categories, isLoading };
@@ -211,10 +203,9 @@ export function useProduct(productId: string) {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const mountedRef = useRef(true);
 
   useEffect(() => {
-    mountedRef.current = true;
+    let cancelled = false;
 
     const fetchProduct = async () => {
       try {
@@ -225,21 +216,21 @@ export function useProduct(productId: string) {
           .eq('id', productId)
           .maybeSingle();
 
-        if (!mountedRef.current) return;
+        if (cancelled) return;
         if (qErr) throw qErr;
         if (data) setProduct(transformProduct(data as DBProduct));
       } catch (err) {
-        if (mountedRef.current) {
+        if (!cancelled) {
           setError(err as Error);
           console.error('[useProduct] Error:', err);
         }
       } finally {
-        if (mountedRef.current) setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     if (productId) fetchProduct();
-    return () => { mountedRef.current = false; };
+    return () => { cancelled = true; };
   }, [productId]);
 
   return { product, isLoading, error };
