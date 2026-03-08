@@ -478,7 +478,7 @@ export default function MarketplaceAutomations() {
       await supabase.from('automation_flows').delete().eq('id', dbId);
     }
     await loadFlows();
-    toast.success('Automação removida');
+    toast.success(t('mk.automationRemoved'));
   };
 
   const duplicateFlow = async (flow: AutomationFlow) => {
