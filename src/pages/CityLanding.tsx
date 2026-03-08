@@ -321,7 +321,7 @@ export default function CityLanding() {
               >
                 <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                 <span className="text-foreground group-hover:text-primary transition-colors font-medium text-sm">
-                  Moda en {c.name}
+                  {city.country === 'PY' ? `Moda en ${c.name}` : `Moda em ${c.name}`}
                 </span>
               </Link>
             ))}
