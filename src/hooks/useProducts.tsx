@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Product, ProductSize, ProductColor } from '@/types/product';
 
@@ -24,6 +24,7 @@ interface DBProduct {
   } | null;
 }
 
+// Helper to parse color strings like "Rosa:#f5c4c4" or just "Rosa"
 const parseColor = (colorStr: string): ProductColor => {
   const parts = colorStr.split(':');
   const name = parts[0].trim();
@@ -31,6 +32,7 @@ const parseColor = (colorStr: string): ProductColor => {
   return { name, hex, available: true };
 };
 
+// Generate a color hex based on common color names
 const generateColorHex = (colorName: string): string => {
   const colorMap: Record<string, string> = {
     rosa: '#f5c4c4',
@@ -95,137 +97,229 @@ interface UseProductsResult {
   totalPages: number;
 }
 
-async function fetchProducts(options: UseProductsOptions) {
-  const {
-    categorySlug,
-    searchQuery,
-    page = 1,
-    pageSize = 12,
+export function useProducts(options: UseProductsOptions = {}): UseProductsResult {
+  const { 
+    categorySlug, 
+    searchQuery, 
+    page = 1, 
+    pageSize = 12, 
     sortBy = 'newest',
     minPrice,
-    maxPrice,
+    maxPrice 
   } = options;
+  
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  useEffect(() => {
+    let cancelled = false;
 
-  let query = supabase
-    .from('products')
-    .select(`*, categories (slug, name)`, { count: 'exact' })
-    .eq('is_active', true);
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        // Calculate pagination range
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize - 1;
 
-  if (minPrice !== undefined) query = query.gte('price', minPrice);
-  if (maxPrice !== undefined) query = query.lte('price', maxPrice);
-  if (searchQuery?.trim()) query = query.ilike('name', `%${searchQuery.trim()}%`);
+        let query = supabase
+          .from('products')
+          .select(`
+            *,
+            categories (
+              slug,
+              name
+            )
+          `, { count: 'exact' })
+          .eq('is_active', true);
 
-  if (categorySlug) {
-    const { data: categoryData } = await supabase
-      .from('categories')
-      .select('id')
-      .eq('slug', categorySlug)
-      .single();
-    if (categoryData) query = query.eq('category_id', categoryData.id);
-  }
+        // Apply price filters
+        if (minPrice !== undefined) {
+          query = query.gte('price', minPrice);
+        }
+        if (maxPrice !== undefined) {
+          query = query.lte('price', maxPrice);
+        }
 
-  switch (sortBy) {
-    case 'price-asc': query = query.order('price', { ascending: true }); break;
-    case 'price-desc': query = query.order('price', { ascending: false }); break;
-    case 'popular': query = query.order('is_featured', { ascending: false }).order('created_at', { ascending: false }); break;
-    default: query = query.order('created_at', { ascending: false });
-  }
+        // Filter by search query
+        if (searchQuery && searchQuery.trim()) {
+          query = query.ilike('name', `%${searchQuery.trim()}%`);
+        }
 
-  query = query.range(from, to);
+        // Filter by category
+        if (categorySlug) {
+          const { data: categoryData } = await supabase
+            .from('categories')
+            .select('id')
+            .eq('slug', categorySlug)
+            .maybeSingle();
 
-  const { data, error, count } = await query;
-  if (error) throw error;
+          if (categoryData) {
+            query = query.eq('category_id', categoryData.id);
+          }
+        }
 
-  return {
-    products: (data as DBProduct[] || []).map(transformProduct),
-    totalCount: count || 0,
-    pageSize,
-  };
-}
+        // Apply sorting
+        switch (sortBy) {
+          case 'price-asc':
+            query = query.order('price', { ascending: true });
+            break;
+          case 'price-desc':
+            query = query.order('price', { ascending: false });
+            break;
+          case 'popular':
+            query = query.order('is_featured', { ascending: false }).order('created_at', { ascending: false });
+            break;
+          default: // newest
+            query = query.order('created_at', { ascending: false });
+        }
 
-export function useProducts(options: UseProductsOptions = {}): UseProductsResult {
-  const { categorySlug, searchQuery, page = 1, pageSize = 12, sortBy = 'newest', minPrice, maxPrice } = options;
+        query = query.range(from, to);
 
-  const queryKey = ['products', categorySlug, searchQuery, page, pageSize, sortBy, minPrice, maxPrice];
+        const { data, error: queryError, count } = await query;
 
-  const { data, isLoading, error } = useQuery({
-    queryKey,
-    queryFn: () => fetchProducts(options),
-    retry: 3,
-    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
-    staleTime: 30000,
-  });
+        if (cancelled) return;
 
-  return {
-    products: data?.products || [],
-    isLoading,
-    error: error as Error | null,
-    totalCount: data?.totalCount || 0,
-    totalPages: Math.ceil((data?.totalCount || 0) / pageSize),
-  };
-}
+        if (queryError) throw queryError;
 
-async function fetchCategories() {
-  const { data, error } = await supabase
-    .from('categories')
-    .select('*')
-    .order('name');
+        const transformedProducts = (data as DBProduct[] || []).map(transformProduct);
+        setProducts(transformedProducts);
+        setTotalCount(count || 0);
+      } catch (err) {
+        if (cancelled) return;
+        setError(err as Error);
+        console.error('Error fetching products:', err);
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
 
-  if (error) throw error;
+    fetchProducts();
 
-  const categoriesWithCounts = await Promise.all(
-    (data || []).map(async (cat) => {
-      const { count } = await supabase
-        .from('products')
-        .select('*', { count: 'exact', head: true })
-        .eq('category_id', cat.id)
-        .eq('is_active', true);
+    return () => { cancelled = true; };
+  }, [categorySlug, searchQuery, page, pageSize, sortBy, minPrice, maxPrice]);
 
-      return {
-        id: cat.id,
-        name: cat.name,
-        slug: cat.slug,
-        image: cat.image_url || '/placeholder.svg',
-        productCount: count || 0,
-      };
-    })
-  );
+  const totalPages = Math.ceil(totalCount / pageSize);
 
-  return categoriesWithCounts;
+  return { products, isLoading, error, totalCount, totalPages };
 }
 
 export function useCategories() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-    retry: 3,
-    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
-    staleTime: 60000,
-  });
+  const [categories, setCategories] = useState<Array<{
+    id: string;
+    name: string;
+    slug: string;
+    image: string;
+    productCount: number;
+  }>>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return { categories: data || [], isLoading };
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchCategories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('categories')
+          .select('*')
+          .order('name');
+
+        if (cancelled) return;
+        if (error) throw error;
+
+        // Get product counts for each category
+        const categoriesWithCounts = await Promise.all(
+          (data || []).map(async (cat) => {
+            const { count } = await supabase
+              .from('products')
+              .select('*', { count: 'exact', head: true })
+              .eq('category_id', cat.id)
+              .eq('is_active', true);
+
+            return {
+              id: cat.id,
+              name: cat.name,
+              slug: cat.slug,
+              image: cat.image_url || '/placeholder.svg',
+              productCount: count || 0,
+            };
+          })
+        );
+
+        if (!cancelled) {
+          setCategories(categoriesWithCounts);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error('Error fetching categories:', err);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchCategories();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  return { categories, isLoading };
 }
 
 export function useProduct(productId: string) {
-  const { data: product, isLoading, error } = useQuery({
-    queryKey: ['product', productId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select(`*, categories (slug, name)`)
-        .eq('id', productId)
-        .single();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-      if (error) throw error;
-      return data ? transformProduct(data as DBProduct) : null;
-    },
-    enabled: !!productId,
-    retry: 3,
-    staleTime: 30000,
-  });
+  useEffect(() => {
+    let cancelled = false;
 
-  return { product: product || null, isLoading, error: error as Error | null };
+    const fetchProduct = async () => {
+      try {
+        setIsLoading(true);
+        const { data, error: queryError } = await supabase
+          .from('products')
+          .select(`
+            *,
+            categories (
+              slug,
+              name
+            )
+          `)
+          .eq('id', productId)
+          .maybeSingle();
+
+        if (cancelled) return;
+        if (queryError) throw queryError;
+
+        if (data) {
+          setProduct(transformProduct(data as DBProduct));
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err as Error);
+          console.error('Error fetching product:', err);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    if (productId) {
+      fetchProduct();
+    }
+
+    return () => { cancelled = true; };
+  }, [productId]);
+
+  return { product, isLoading, error };
 }
