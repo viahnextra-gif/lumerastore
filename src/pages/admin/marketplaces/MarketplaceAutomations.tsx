@@ -23,6 +23,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import AutomationMetricsDashboard from '@/components/admin/AutomationMetricsDashboard';
 
 // ── Types ──────────────────────────────────────────────
 type Platform = 'n8n' | 'make' | 'fiqon';
@@ -599,6 +600,7 @@ export default function MarketplaceAutomations() {
           <TabsTrigger value="templates">Templates Prontos</TabsTrigger>
           <TabsTrigger value="nodes">Biblioteca de Nós</TabsTrigger>
           <TabsTrigger value="logs"><History className="h-3.5 w-3.5 mr-1" /> Logs de Execução</TabsTrigger>
+          <TabsTrigger value="metrics"><BarChart3 className="h-3.5 w-3.5 mr-1" /> Métricas</TabsTrigger>
           {editingFlow && <TabsTrigger value="editor">✏️ Editor</TabsTrigger>}
         </TabsList>
 
@@ -829,6 +831,11 @@ export default function MarketplaceAutomations() {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* ── Metrics Dashboard ── */}
+        <TabsContent value="metrics" className="space-y-4">
+          <AutomationMetricsDashboard executions={executions} />
         </TabsContent>
 
         {/* ── Flow Editor ── */}
