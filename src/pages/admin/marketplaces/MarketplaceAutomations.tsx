@@ -961,11 +961,11 @@ export default function MarketplaceAutomations() {
 
               {/* Action bar */}
               <div className="flex gap-2 justify-end">
-                <Button variant="outline" onClick={() => { setEditingFlow(null); setActiveTab('flows'); }}>Cancelar</Button>
+                <Button variant="outline" onClick={() => { setEditingFlow(null); setActiveTab('flows'); }}>{t('mk.cancel')}</Button>
                 <Button variant="outline" onClick={() => editingFlow && exportFlowJSON(editingFlow)}>
-                  <Copy className="h-4 w-4 mr-2" /> Exportar JSON
+                  <Copy className="h-4 w-4 mr-2" /> {t('mk.exportJson')}
                 </Button>
-                <Button onClick={saveFlow}><Save className="h-4 w-4 mr-2" /> Salvar Automação</Button>
+                <Button onClick={saveFlow}><Save className="h-4 w-4 mr-2" /> {t('mk.saveAutomation')}</Button>
               </div>
             </div>
           )}
