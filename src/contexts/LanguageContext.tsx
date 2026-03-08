@@ -298,6 +298,8 @@ const translations: Record<Language, Record<string, string>> = {
     'mk.noMessages': 'Sin mensajes recibidos.',
     'mk.autoRespond': 'Respuesta IA',
     'mk.postSale': 'Post-Venta',
+    'mk.postSaleAutomation': 'Automatización Post-Venta',
+    'mk.postSaleAutomation.subtitle': 'Mensajes automáticos de seguimiento y encuesta de satisfacción',
     'footer.newsletter.title': 'Únete a nuestra comunidad',
     'footer.newsletter.subtitle': 'Recibe ofertas exclusivas y novedades de moda',
     'footer.newsletter.placeholder': 'Tu email',
