@@ -65,7 +65,7 @@ export default function MarketplaceMessages() {
       });
       if (error) throw error;
       if (data?.reply) setReply(data.reply);
-      else toast.info('Sem sugestão disponível');
+      else toast.info(t('mk.noSuggestion'));
     } catch {
       toast.error(t('mk.error'));
     } finally {
@@ -80,7 +80,7 @@ export default function MarketplaceMessages() {
       status: 'replied',
       updated_at: new Date().toISOString(),
     }).eq('id', selectedMsg.id);
-    toast.success('Resposta enviada!');
+    toast.success(t('mk.replySent'));
     setReply('');
     setSelectedMsg(null);
     loadMessages();
@@ -141,7 +141,7 @@ export default function MarketplaceMessages() {
                     <div className="flex items-start justify-between mb-1">
                       <div className="flex items-center gap-2">
                         <Badge className={`text-xs ${mkColor(msg.marketplace)}`}>{msg.marketplace}</Badge>
-                        <span className="font-medium text-sm">{msg.customer_name || 'Cliente'}</span>
+                        <span className="font-medium text-sm">{msg.customer_name || t('mk.customer')}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         {msg.status === 'pending' && <Badge variant="secondary" className="text-xs">{t('mk.pending')}</Badge>}
@@ -173,19 +173,19 @@ export default function MarketplaceMessages() {
               <div className="bg-muted p-3 rounded-lg text-sm">{selectedMsg.content}</div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Resposta</span>
+                  <span className="text-sm font-medium">{t('mk.reply')}</span>
                   <Button variant="outline" size="sm" onClick={handleAiSuggest} disabled={aiLoading}>
                     {aiLoading ? <Loader2 className="h-3 w-3 animate-spin mr-1" /> : <Sparkles className="h-3 w-3 mr-1" />}
                     {t('mk.autoRespond')}
                   </Button>
                 </div>
-                <Textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={4} placeholder="Digite sua resposta..." />
+                <Textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={4} placeholder={t('mk.typeReply')} />
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setSelectedMsg(null)}>Cancelar</Button>
-            <Button onClick={handleSendReply} disabled={!reply.trim()}><Send className="h-3 w-3 mr-1" /> Enviar</Button>
+            <Button variant="outline" onClick={() => setSelectedMsg(null)}>{t('mk.cancel')}</Button>
+            <Button onClick={handleSendReply} disabled={!reply.trim()}><Send className="h-3 w-3 mr-1" /> {t('mk.send')}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

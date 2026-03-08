@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Bot, Mail, Star, Clock, ToggleLeft, ToggleRight, Save, Zap } from 'lucide-react';
+import { Bot, Mail, Star, Clock, Save, Zap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +8,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
@@ -73,14 +72,14 @@ export default function PostSaleAutomation() {
 
   const toggleRule = (id: string) => {
     setRules(prev => prev.map(r => r.id === id ? { ...r, is_active: !r.is_active } : r));
-    toast.success('Automação atualizada!');
+    toast.success(t('mk.automationUpdated'));
   };
 
   const saveRule = () => {
     if (!editingRule) return;
     setRules(prev => prev.map(r => r.id === editingRule.id ? editingRule : r));
     setEditingRule(null);
-    toast.success('Regra salva com sucesso!');
+    toast.success(t('mk.ruleSaved'));
   };
 
   const typeIcon = (type: string) => {
@@ -95,18 +94,18 @@ export default function PostSaleAutomation() {
 
   const typeLabel = (type: string) => {
     switch (type) {
-      case 'follow_up': return 'Acompanhamento';
-      case 'satisfaction': return 'Satisfação';
-      case 'review_request': return 'Avaliação';
-      case 'cross_sell': return 'Cross-sell';
+      case 'follow_up': return t('mk.followUp');
+      case 'satisfaction': return t('mk.satisfaction');
+      case 'review_request': return t('mk.reviewRequest');
+      case 'cross_sell': return t('mk.crossSell');
       default: return type;
     }
   };
 
   const formatDelay = (hours: number) => {
-    if (hours < 24) return `${hours}h após entrega`;
+    if (hours < 24) return `${hours}${t('mk.hourAfterDelivery')}`;
     const days = Math.floor(hours / 24);
-    return `${days} dia${days > 1 ? 's' : ''} após entrega`;
+    return `${days} ${days > 1 ? t('mk.daysAfterDelivery') : t('mk.dayAfterDelivery')}`;
   };
 
   const activeCount = rules.filter(r => r.is_active).length;
@@ -122,7 +121,7 @@ export default function PostSaleAutomation() {
           <p className="text-sm text-muted-foreground">{t('mk.postSaleAutomation.subtitle')}</p>
         </div>
         <Badge variant="secondary" className="text-sm">
-          {activeCount} ativa{activeCount !== 1 ? 's' : ''}
+          {activeCount} {activeCount !== 1 ? t('mk.activeCountPlural') : t('mk.activeCount')}
         </Badge>
       </div>
 
@@ -130,25 +129,25 @@ export default function PostSaleAutomation() {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Mensagens Enviadas</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('mk.msgSent')}</CardTitle>
           </CardHeader>
           <CardContent><p className="text-3xl font-bold text-primary">0</p></CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Taxa de Resposta</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('mk.responseRate')}</CardTitle>
           </CardHeader>
           <CardContent><p className="text-3xl font-bold text-green-500">0%</p></CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Satisfação Média</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('mk.avgSatisfaction')}</CardTitle>
           </CardHeader>
           <CardContent><p className="text-3xl font-bold text-yellow-500">--</p></CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-muted-foreground">Avaliações Obtidas</CardTitle>
+            <CardTitle className="text-sm text-muted-foreground">{t('mk.reviewsObtained')}</CardTitle>
           </CardHeader>
           <CardContent><p className="text-3xl font-bold text-blue-500">0</p></CardContent>
         </Card>
@@ -180,7 +179,7 @@ export default function PostSaleAutomation() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-4">
-                  <Button variant="ghost" size="sm" onClick={() => setEditingRule(rule)}>Editar</Button>
+                  <Button variant="ghost" size="sm" onClick={() => setEditingRule(rule)}>{t('mk.edit')}</Button>
                   <Switch checked={rule.is_active} onCheckedChange={() => toggleRule(rule.id)} />
                 </div>
               </div>
@@ -193,26 +192,26 @@ export default function PostSaleAutomation() {
       {editingRule && (
         <Card className="border-primary">
           <CardHeader>
-            <CardTitle className="text-lg">Editar Regra: {editingRule.name}</CardTitle>
-            <CardDescription>Configure o template e o tempo de disparo</CardDescription>
+            <CardTitle className="text-lg">{t('mk.editRule')}: {editingRule.name}</CardTitle>
+            <CardDescription>{t('mk.configTriggerTime')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Nome</Label>
+                <Label>{t('mk.name')}</Label>
                 <Input value={editingRule.name} onChange={(e) => setEditingRule({ ...editingRule, name: e.target.value })} />
               </div>
               <div className="space-y-2">
-                <Label>Atraso (horas)</Label>
+                <Label>{t('mk.delayHours')}</Label>
                 <Input type="number" value={editingRule.delay_hours} onChange={(e) => setEditingRule({ ...editingRule, delay_hours: parseInt(e.target.value) || 0 })} />
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Marketplace</Label>
+              <Label>{t('mk.marketplace')}</Label>
               <Select value={editingRule.marketplace} onValueChange={(v) => setEditingRule({ ...editingRule, marketplace: v })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos</SelectItem>
+                  <SelectItem value="all">{t('mk.all')}</SelectItem>
                   <SelectItem value="mercadolivre">Mercado Livre</SelectItem>
                   <SelectItem value="shopee">Shopee</SelectItem>
                   <SelectItem value="amazon">Amazon</SelectItem>
@@ -221,13 +220,13 @@ export default function PostSaleAutomation() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Template da Mensagem</Label>
+              <Label>{t('mk.messageTemplate')}</Label>
               <Textarea value={editingRule.message_template} onChange={(e) => setEditingRule({ ...editingRule, message_template: e.target.value })} rows={4} />
-              <p className="text-xs text-muted-foreground">Variáveis: {'{customer_name}'}, {'{order_id}'}, {'{product_name}'}</p>
+              <p className="text-xs text-muted-foreground">{t('mk.variables')}: {'{customer_name}'}, {'{order_id}'}, {'{product_name}'}</p>
             </div>
             <div className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={() => setEditingRule(null)}>Cancelar</Button>
-              <Button onClick={saveRule}><Save className="h-4 w-4 mr-1" /> Salvar</Button>
+              <Button variant="outline" onClick={() => setEditingRule(null)}>{t('mk.cancel')}</Button>
+              <Button onClick={saveRule}><Save className="h-4 w-4 mr-1" /> {t('mk.save')}</Button>
             </div>
           </CardContent>
         </Card>

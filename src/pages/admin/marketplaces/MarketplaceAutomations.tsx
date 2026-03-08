@@ -386,7 +386,7 @@ export default function MarketplaceAutomations() {
     if (data) {
       setExecutions(data.map((row: any) => ({
         ...row,
-        flow_name: (row.automation_flows as any)?.name || 'Fluxo removido',
+        flow_name: (row.automation_flows as any)?.name || t('mk.flowRemoved'),
       })));
     }
   }, [user]);
@@ -442,13 +442,13 @@ export default function MarketplaceAutomations() {
     };
     setEditingFlow(flow);
     setActiveTab('editor');
-    toast.success('Template carregado! Configure e salve.');
+    toast.success(t('mk.templateLoaded'));
   };
 
   const createEmptyFlow = () => {
     const flow: AutomationFlow = {
       id: crypto.randomUUID(),
-      name: 'Nova Automação',
+      name: t('mk.newAutomationBtn'),
       platform: 'n8n',
       webhookUrl: '',
       nodes: [],
@@ -463,12 +463,12 @@ export default function MarketplaceAutomations() {
 
   const saveFlow = async () => {
     if (!editingFlow) return;
-    if (!editingFlow.name.trim()) { toast.error('Dê um nome à automação'); return; }
-    if (editingFlow.nodes.length === 0) { toast.error('Adicione pelo menos um nó'); return; }
+    if (!editingFlow.name.trim()) { toast.error(t('mk.giveNameToAutomation')); return; }
+    if (editingFlow.nodes.length === 0) { toast.error(t('mk.addAtLeastOneNode')); return; }
 
     await saveFlowToDB(editingFlow);
     await loadFlows();
-    toast.success('Automação salva no banco de dados!');
+    toast.success(t('mk.automationSavedDB'));
     setEditingFlow(null);
     setActiveTab('flows');
   };
@@ -478,7 +478,7 @@ export default function MarketplaceAutomations() {
       await supabase.from('automation_flows').delete().eq('id', dbId);
     }
     await loadFlows();
-    toast.success('Automação removida');
+    toast.success(t('mk.automationRemoved'));
   };
 
   const duplicateFlow = async (flow: AutomationFlow) => {
@@ -494,7 +494,7 @@ export default function MarketplaceAutomations() {
     }).select().single();
     if (data) {
       await loadFlows();
-      toast.success('Automação duplicada');
+      toast.success(t('mk.automationDuplicated'));
     }
   };
 
@@ -508,7 +508,7 @@ export default function MarketplaceAutomations() {
 
   const testFlow = async (flow: AutomationFlow) => {
     if (!user || !flow.dbId) return;
-    toast.info('Testando automação...');
+    toast.info(t('mk.testingAutomation'));
     const { error } = await supabase.functions.invoke('automation-webhook', {
       body: {
         event_type: 'order.created',
@@ -516,8 +516,8 @@ export default function MarketplaceAutomations() {
         payload: { test: true, order: { number: 'TEST-001', total: 50000 }, customer: { name: 'Teste', email: 'test@test.com' } },
       },
     });
-    if (error) toast.error('Erro ao testar: ' + error.message);
-    else { toast.success('Teste executado! Verifique os logs.'); loadExecutions(); }
+    if (error) toast.error(t('mk.testError') + ': ' + error.message);
+    else { toast.success(t('mk.testExecuted')); loadExecutions(); }
   };
 
   // ── Node Management ──
@@ -573,7 +573,7 @@ export default function MarketplaceAutomations() {
       }),
     };
     navigator.clipboard.writeText(JSON.stringify(json, null, 2));
-    toast.success('JSON copiado! Cole no seu ' + flow.platform.toUpperCase());
+    toast.success(t('mk.jsonCopied') + ' ' + flow.platform.toUpperCase());
   };
 
   if (loading) {
@@ -591,17 +591,17 @@ export default function MarketplaceAutomations() {
           <h1 className="text-2xl font-bold">{t('mk.automations')}</h1>
           <p className="text-sm text-muted-foreground">{t('mk.automations.subtitle')}</p>
         </div>
-        <Button onClick={createEmptyFlow}><Plus className="h-4 w-4 mr-2" /> Nova Automação</Button>
+        <Button onClick={createEmptyFlow}><Plus className="h-4 w-4 mr-2" /> {t('mk.newAutomationBtn')}</Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value="flows">Minhas Automações ({flows.length})</TabsTrigger>
-          <TabsTrigger value="templates">Templates Prontos</TabsTrigger>
-          <TabsTrigger value="nodes">Biblioteca de Nós</TabsTrigger>
-          <TabsTrigger value="logs"><History className="h-3.5 w-3.5 mr-1" /> Logs de Execução</TabsTrigger>
-          <TabsTrigger value="metrics"><BarChart3 className="h-3.5 w-3.5 mr-1" /> Métricas</TabsTrigger>
-          {editingFlow && <TabsTrigger value="editor">✏️ Editor</TabsTrigger>}
+          <TabsTrigger value="flows">{t('mk.myAutomations')} ({flows.length})</TabsTrigger>
+          <TabsTrigger value="templates">{t('mk.readyTemplates')}</TabsTrigger>
+          <TabsTrigger value="nodes">{t('mk.nodeLibrary')}</TabsTrigger>
+          <TabsTrigger value="logs"><History className="h-3.5 w-3.5 mr-1" /> {t('mk.executionLogs')}</TabsTrigger>
+          <TabsTrigger value="metrics"><BarChart3 className="h-3.5 w-3.5 mr-1" /> {t('mk.metrics')}</TabsTrigger>
+          {editingFlow && <TabsTrigger value="editor">✏️ {t('mk.editor')}</TabsTrigger>}
         </TabsList>
 
         {/* ── Flows List ── */}
@@ -620,8 +620,8 @@ export default function MarketplaceAutomations() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex gap-4 text-sm">
-                      <span className="text-muted-foreground">{count} fluxos</span>
-                      <span className="text-green-600">{active} ativos</span>
+                      <span className="text-muted-foreground">{count} {t('mk.flows')}</span>
+                      <span className="text-green-600">{active} {t('mk.activeFlows')}</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -633,9 +633,9 @@ export default function MarketplaceAutomations() {
             <Card>
               <CardContent className="py-16 text-center">
                 <Zap className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground font-medium">Nenhuma automação criada</p>
-                <p className="text-xs text-muted-foreground mt-1 mb-4">Comece com um template pronto ou crie do zero</p>
-                <Button variant="outline" onClick={() => setActiveTab('templates')}>Ver Templates</Button>
+                <p className="text-muted-foreground font-medium">{t('mk.noAutomationsCreated')}</p>
+                <p className="text-xs text-muted-foreground mt-1 mb-4">{t('mk.startWithTemplate')}</p>
+                <Button variant="outline" onClick={() => setActiveTab('templates')}>{t('mk.viewTemplates')}</Button>
               </CardContent>
             </Card>
           ) : (
@@ -654,11 +654,11 @@ export default function MarketplaceAutomations() {
                               <span className="font-medium text-sm">{flow.name}</span>
                               {flow.status === 'active' && <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />}
                               {flow.status === 'error' && <XCircle className="h-3.5 w-3.5 text-red-500" />}
-                              {flow.status === 'draft' && <Badge variant="outline" className="text-xs">Rascunho</Badge>}
+                              {flow.status === 'draft' && <Badge variant="outline" className="text-xs">{t('mk.draft')}</Badge>}
                             </div>
                             <p className="text-xs text-muted-foreground mt-0.5">
-                              {flow.nodes.length} nós • Criado em {new Date(flow.createdAt).toLocaleDateString()}
-                              {flow.lastRun && ` • Última execução: ${new Date(flow.lastRun).toLocaleString()}`}
+                              {flow.nodes.length} {t('mk.nodes')} • {t('mk.createdOn')} {new Date(flow.createdAt).toLocaleDateString()}
+                              {flow.lastRun && ` • ${t('mk.lastExecution')}: ${new Date(flow.lastRun).toLocaleString()}`}
                             </p>
                           </div>
                         </div>
@@ -708,7 +708,7 @@ export default function MarketplaceAutomations() {
 
         {/* ── Templates ── */}
         <TabsContent value="templates" className="space-y-4">
-          <p className="text-sm text-muted-foreground">Templates prontos com nós pré-configurados. Escolha, personalize e ative.</p>
+          <p className="text-sm text-muted-foreground">{t('mk.readyTemplatesDesc')}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {FLOW_TEMPLATES.map((tpl) => {
               const platform = getPlatform(tpl.platform);
@@ -738,7 +738,7 @@ export default function MarketplaceAutomations() {
                       })}
                     </div>
                     <Button size="sm" variant="outline" className="mt-3 w-full" onClick={(e) => { e.stopPropagation(); createFlowFromTemplate(tpl); }}>
-                      <Plus className="h-3 w-3 mr-1" /> Usar Template
+                      <Plus className="h-3 w-3 mr-1" /> {t('mk.useTemplate')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -749,9 +749,9 @@ export default function MarketplaceAutomations() {
 
         {/* ── Nodes Library ── */}
         <TabsContent value="nodes" className="space-y-4">
-          <p className="text-sm text-muted-foreground">Todos os nós disponíveis para construir suas automações.</p>
+          <p className="text-sm text-muted-foreground">{t('mk.allNodesDesc')}</p>
           <div className="flex gap-2 flex-wrap">
-            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>Todos</Badge>
+            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>{t('mk.all')}</Badge>
             {(Object.entries(categoryLabels) as [NodeCategory, { label: string }][]).map(([cat, info]) => (
               <Badge key={cat} variant={nodePickerCategory === cat ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory(cat)}>{info.label}</Badge>
             ))}
@@ -783,27 +783,27 @@ export default function MarketplaceAutomations() {
         {/* ── Execution Logs ── */}
         <TabsContent value="logs" className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Histórico de execuções das automações com status de sucesso/falha.</p>
-            <Button variant="outline" size="sm" onClick={loadExecutions}><RefreshCw className="h-3.5 w-3.5 mr-1" /> Atualizar</Button>
+            <p className="text-sm text-muted-foreground">{t('mk.executionHistory')}</p>
+            <Button variant="outline" size="sm" onClick={loadExecutions}><RefreshCw className="h-3.5 w-3.5 mr-1" /> {t('mk.refresh')}</Button>
           </div>
           <Card>
             <CardContent className="p-0">
               {executions.length === 0 ? (
                 <div className="py-12 text-center">
                   <History className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">Nenhuma execução registrada</p>
-                  <p className="text-xs text-muted-foreground mt-1">As execuções aparecerão aqui quando suas automações forem disparadas</p>
+                   <p className="text-muted-foreground">{t('mk.noExecutions')}</p>
+                   <p className="text-xs text-muted-foreground mt-1">{t('mk.executionsWillAppear')}</p>
                 </div>
               ) : (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Automação</TableHead>
-                      <TableHead>Evento</TableHead>
-                      <TableHead>Erro</TableHead>
-                      <TableHead>Início</TableHead>
-                      <TableHead>Duração</TableHead>
+                      <TableHead>{t('mk.statusCol')}</TableHead>
+                      <TableHead>{t('mk.automation')}</TableHead>
+                      <TableHead>{t('mk.event')}</TableHead>
+                      <TableHead>{t('mk.error')}</TableHead>
+                      <TableHead>{t('mk.start')}</TableHead>
+                      <TableHead>{t('mk.duration')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -814,9 +814,9 @@ export default function MarketplaceAutomations() {
                       return (
                         <TableRow key={exec.id}>
                           <TableCell>
-                            {exec.status === 'success' && <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs">✓ Sucesso</Badge>}
-                            {exec.status === 'failed' && <Badge className="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 text-xs">✗ Falha</Badge>}
-                            {exec.status === 'running' && <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs">⟳ Executando</Badge>}
+                            {exec.status === 'success' && <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs">{t('mk.successBadge')}</Badge>}
+                            {exec.status === 'failed' && <Badge className="bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 text-xs">{t('mk.failBadge')}</Badge>}
+                            {exec.status === 'running' && <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs">{t('mk.runningBadge')}</Badge>}
                           </TableCell>
                           <TableCell className="text-sm font-medium">{exec.flow_name}</TableCell>
                           <TableCell><Badge variant="outline" className="text-xs">{exec.trigger_event || '—'}</Badge></TableCell>
@@ -846,11 +846,11 @@ export default function MarketplaceAutomations() {
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Nome da Automação</Label>
+                      <Label className="text-xs">{t('mk.automationName')}</Label>
                       <Input value={editingFlow.name} onChange={(e) => setEditingFlow({ ...editingFlow, name: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Plataforma</Label>
+                      <Label className="text-xs">{t('mk.platform')}</Label>
                       <Select value={editingFlow.platform} onValueChange={(v) => setEditingFlow({ ...editingFlow, platform: v as Platform })}>
                         <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
@@ -859,7 +859,7 @@ export default function MarketplaceAutomations() {
                       </Select>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Webhook URL</Label>
+                      <Label className="text-xs">{t('mk.webhookUrl')}</Label>
                       <Input value={editingFlow.webhookUrl} onChange={(e) => setEditingFlow({ ...editingFlow, webhookUrl: e.target.value })} placeholder="https://..." />
                     </div>
                   </div>
@@ -870,9 +870,9 @@ export default function MarketplaceAutomations() {
               <div className="flex gap-4">
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold">Fluxo ({editingFlow.nodes.length} nós)</h3>
+                    <h3 className="text-sm font-semibold">{t('mk.flow')} ({editingFlow.nodes.length} {t('mk.nodes')})</h3>
                     <Button size="sm" variant="outline" onClick={() => setShowNodePicker(true)}>
-                      <Plus className="h-3 w-3 mr-1" /> Adicionar Nó
+                      <Plus className="h-3 w-3 mr-1" /> {t('mk.addNode')}
                     </Button>
                   </div>
 
@@ -880,8 +880,8 @@ export default function MarketplaceAutomations() {
                     <Card className="border-dashed">
                       <CardContent className="py-12 text-center">
                         <Plus className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-                        <p className="text-sm text-muted-foreground">Adicione nós para construir seu fluxo</p>
-                        <Button size="sm" className="mt-3" onClick={() => setShowNodePicker(true)}>Adicionar Primeiro Nó</Button>
+                        <p className="text-sm text-muted-foreground">{t('mk.addNodesToFlow')}</p>
+                        <Button size="sm" className="mt-3" onClick={() => setShowNodePicker(true)}>{t('mk.addFirstNode')}</Button>
                       </CardContent>
                     </Card>
                   ) : (
@@ -939,7 +939,7 @@ export default function MarketplaceAutomations() {
                                       <Button size="sm" variant="ghost" onClick={() => moveNode(idx, -1)} disabled={idx === 0}>↑</Button>
                                       <Button size="sm" variant="ghost" onClick={() => moveNode(idx, 1)} disabled={idx === editingFlow.nodes.length - 1}>↓</Button>
                                       <Button size="sm" variant="ghost" className="text-destructive ml-auto" onClick={() => removeNode(idx)}>
-                                        <Trash2 className="h-3 w-3 mr-1" /> Remover
+                                         <Trash2 className="h-3 w-3 mr-1" /> {t('mk.remove')}
                                       </Button>
                                     </div>
                                   </div>
@@ -961,11 +961,11 @@ export default function MarketplaceAutomations() {
 
               {/* Action bar */}
               <div className="flex gap-2 justify-end">
-                <Button variant="outline" onClick={() => { setEditingFlow(null); setActiveTab('flows'); }}>Cancelar</Button>
+                <Button variant="outline" onClick={() => { setEditingFlow(null); setActiveTab('flows'); }}>{t('mk.cancel')}</Button>
                 <Button variant="outline" onClick={() => editingFlow && exportFlowJSON(editingFlow)}>
-                  <Copy className="h-4 w-4 mr-2" /> Exportar JSON
+                  <Copy className="h-4 w-4 mr-2" /> {t('mk.exportJson')}
                 </Button>
-                <Button onClick={saveFlow}><Save className="h-4 w-4 mr-2" /> Salvar Automação</Button>
+                <Button onClick={saveFlow}><Save className="h-4 w-4 mr-2" /> {t('mk.saveAutomation')}</Button>
               </div>
             </div>
           )}
@@ -976,10 +976,10 @@ export default function MarketplaceAutomations() {
       <Dialog open={showNodePicker} onOpenChange={setShowNodePicker}>
         <DialogContent className="max-w-2xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle>Adicionar Nó</DialogTitle>
+            <DialogTitle>{t('mk.addNode')}</DialogTitle>
           </DialogHeader>
           <div className="flex gap-2 flex-wrap mb-3">
-            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>Todos</Badge>
+            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>{t('mk.all')}</Badge>
             {(Object.entries(categoryLabels) as [NodeCategory, { label: string }][]).map(([cat, info]) => (
               <Badge key={cat} variant={nodePickerCategory === cat ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory(cat)}>{info.label}</Badge>
             ))}

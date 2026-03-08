@@ -28,7 +28,7 @@ export default function MarketplaceLogs() {
       body: { operation: 'retry', log_id: logId },
     });
     if (res.error) toast.error(t('mk.error'));
-    else { toast.success('Retry OK'); load(); }
+    else { toast.success(t('mk.retryOk')); load(); }
   };
 
   const statusIcon = (s: string) => {
@@ -82,7 +82,7 @@ export default function MarketplaceLogs() {
                     <TableCell>
                       {l.status === 'fail' && (
                         <Button variant="ghost" size="sm" onClick={() => handleRetry(l.id)}>
-                          <RefreshCw className="h-3 w-3 mr-1" /> Retry
+                          <RefreshCw className="h-3 w-3 mr-1" /> {t('mk.retry')}
                         </Button>
                       )}
                     </TableCell>
