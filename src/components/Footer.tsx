@@ -1,11 +1,18 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, MessageCircle } from 'lucide-react';
+import { Instagram, Facebook, MessageCircle, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getCitiesByCountry } from '@/data/cities';
+
+const topPyCities = ['asuncion', 'ciudad-del-este', 'encarnacion', 'luque', 'san-lorenzo', 'capiata'];
+const topBrCities = ['sao-paulo', 'rio-de-janeiro', 'brasilia', 'curitiba', 'florianopolis', 'campo-grande'];
 
 export default function Footer() {
   const { t } = useLanguage();
+
+  const pyCities = getCitiesByCountry('PY').filter(c => topPyCities.includes(c.slug));
+  const brCities = getCitiesByCountry('BR').filter(c => topBrCities.includes(c.slug));
 
   const footerLinks = {
     shop: [
@@ -106,6 +113,50 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* City SEO Links */}
+      <div className="border-t border-primary-foreground/10">
+        <div className="container py-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h4 className="font-semibold mb-4 flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                Moda Femenina en Paraguay
+              </h4>
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
+                {pyCities.map(city => (
+                  <li key={city.slug}>
+                    <Link
+                      to={`/moda-femenina/${city.slug}`}
+                      className="text-sm text-primary-foreground/60 hover:text-primary transition-colors"
+                    >
+                      Moda en {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4 flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                Moda Feminina no Brasil
+              </h4>
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
+                {brCities.map(city => (
+                  <li key={city.slug}>
+                    <Link
+                      to={`/moda-femenina/${city.slug}`}
+                      className="text-sm text-primary-foreground/60 hover:text-primary transition-colors"
+                    >
+                      Moda em {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
