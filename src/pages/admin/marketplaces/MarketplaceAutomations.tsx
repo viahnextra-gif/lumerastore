@@ -846,7 +846,7 @@ export default function MarketplaceAutomations() {
                 <CardContent className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-xs">Nome da Automação</Label>
+                      <Label className="text-xs">{t('mk.automationName')}</Label>
                       <Input value={editingFlow.name} onChange={(e) => setEditingFlow({ ...editingFlow, name: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
