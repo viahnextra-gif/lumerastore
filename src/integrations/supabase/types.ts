@@ -47,6 +47,98 @@ export type Database = {
         }
         Relationships: []
       }
+      automation_executions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          flow_id: string | null
+          id: string
+          result: Json | null
+          started_at: string
+          status: string
+          tenant_id: string
+          trigger_event: string | null
+          trigger_payload: Json | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          flow_id?: string | null
+          id?: string
+          result?: Json | null
+          started_at?: string
+          status?: string
+          tenant_id: string
+          trigger_event?: string | null
+          trigger_payload?: Json | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          flow_id?: string | null
+          id?: string
+          result?: Json | null
+          started_at?: string
+          status?: string
+          tenant_id?: string
+          trigger_event?: string | null
+          trigger_payload?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "automation_executions_flow_id_fkey"
+            columns: ["flow_id"]
+            isOneToOne: false
+            referencedRelation: "automation_flows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      automation_flows: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: string
+          last_run_at: string | null
+          name: string
+          nodes: Json
+          platform: string
+          status: string
+          tenant_id: string
+          updated_at: string
+          webhook_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name: string
+          nodes?: Json
+          platform?: string
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          name?: string
+          nodes?: Json
+          platform?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       campaigns: {
         Row: {
           budget: number | null
