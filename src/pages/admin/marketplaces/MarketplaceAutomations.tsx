@@ -573,7 +573,7 @@ export default function MarketplaceAutomations() {
       }),
     };
     navigator.clipboard.writeText(JSON.stringify(json, null, 2));
-    toast.success('JSON copiado! Cole no seu ' + flow.platform.toUpperCase());
+    toast.success(t('mk.jsonCopied') + ' ' + flow.platform.toUpperCase());
   };
 
   if (loading) {
