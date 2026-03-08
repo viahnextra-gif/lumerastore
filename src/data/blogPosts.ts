@@ -164,15 +164,15 @@ export const blogPosts: BlogPost[] = [
     keywords: ['colores tendencia 2026', 'moda otoño invierno paraguay', 'paleta colores moda', 'tendencias color'],
     content: `
       <h2>La Paleta Otoño-Invierno 2026</h2>
-      <p>Este año los tonos terrosos, burdeos y verdes bosque dominan las pasarelas y las calles de Asunción.</p>
+      <p>Este año los tonos terrosos, burdeos y verdes bosque dominan las pasarelas y las calles de Asunción. Descubre cómo integrarlos en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a>.</p>
       <h3>Terracota y Óxido</h3>
       <p>Los tonos cálidos de terracota son perfectos para el clima de transición en Paraguay. Combinan con neutros y denim.</p>
       <h3>Burdeos Profundo</h3>
-      <p>El burdeos reemplaza al negro como el color elegante por excelencia. Ideal para blusas, vestidos y accesorios.</p>
+      <p>El burdeos reemplaza al negro como el color elegante por excelencia. Ideal para <a href="/blog/tendencias-vestidos-2026">vestidos</a>, blusas y <a href="/blog/accesorios-imprescindibles-2026">accesorios</a>.</p>
       <h3>Verde Salvia</h3>
-      <p>Un tono suave y sofisticado que funciona tanto en prendas casuales como en looks de oficina.</p>
+      <p>Un tono suave y sofisticado que funciona tanto en prendas casuales como en <a href="/blog/outfit-perfecto-cada-ocasion">looks de oficina</a>.</p>
       <h2>Cómo Combinar los Colores de Temporada</h2>
-      <p>La regla de oro: combina un color tendencia con un neutro. Terracota + blanco, burdeos + beige, verde + crema.</p>
+      <p>La regla de oro: combina un color tendencia con un neutro. Aprende más en nuestra <a href="/blog/guia-completa-moda-femenina-paraguay">guía completa de moda femenina</a>.</p>
     `,
   },
   {
