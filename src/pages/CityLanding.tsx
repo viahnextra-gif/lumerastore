@@ -97,7 +97,7 @@ export default function CityLanding() {
       '@type': 'PostalAddress',
       addressLocality: city.name,
       addressRegion: city.department,
-      addressCountry: 'PY',
+      addressCountry: city.country,
     },
     areaServed: {
       '@type': 'City',
