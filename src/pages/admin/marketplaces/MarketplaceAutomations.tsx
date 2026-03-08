@@ -633,9 +633,9 @@ export default function MarketplaceAutomations() {
             <Card>
               <CardContent className="py-16 text-center">
                 <Zap className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground font-medium">Nenhuma automação criada</p>
-                <p className="text-xs text-muted-foreground mt-1 mb-4">Comece com um template pronto ou crie do zero</p>
-                <Button variant="outline" onClick={() => setActiveTab('templates')}>Ver Templates</Button>
+                <p className="text-muted-foreground font-medium">{t('mk.noAutomationsCreated')}</p>
+                <p className="text-xs text-muted-foreground mt-1 mb-4">{t('mk.startWithTemplate')}</p>
+                <Button variant="outline" onClick={() => setActiveTab('templates')}>{t('mk.viewTemplates')}</Button>
               </CardContent>
             </Card>
           ) : (
