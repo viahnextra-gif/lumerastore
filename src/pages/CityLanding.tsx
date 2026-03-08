@@ -118,7 +118,7 @@ export default function CityLanding() {
     { name: city.name, url: pageUrl },
   ];
 
-  const otherCities = cities.filter(c => c.slug !== city.slug).slice(0, 4);
+  const otherCities = getCitiesByCountry(city.country).filter(c => c.slug !== city.slug).slice(0, 8);
 
   return (
     <div className="min-h-screen bg-background">
