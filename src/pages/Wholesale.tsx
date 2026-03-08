@@ -41,8 +41,8 @@ export default function Wholesale() {
               <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90">
                 {t('wholesale.requestAccess')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10">
-                {t('wholesale.viewCatalog')}
+              <Button size="lg" className="bg-white text-black hover:bg-white/90">
+                Ver Catálogo B2B
               </Button>
             </div>
           </motion.div>
