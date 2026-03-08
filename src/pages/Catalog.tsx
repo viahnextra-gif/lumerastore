@@ -35,13 +35,7 @@ import { useProducts, useCategories } from '@/hooks/useProducts';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { breadcrumbSchema, itemListSchema } from '@/components/seo/schemas';
-
-const sortOptions = [
-  { value: 'newest', label: 'Más Nuevos' },
-  { value: 'price-asc', label: 'Precio: Menor a Mayor' },
-  { value: 'price-desc', label: 'Precio: Mayor a Menor' },
-  { value: 'popular', label: 'Más Populares' },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const sizeOptions = ['P', 'M', 'G', 'GG', '36', '38', '40', '42'];
 const colorOptions = ['Rosa', 'Rosê', 'Branco', 'Preto', 'Terracota', 'Creme', 'Bege', 'Azul', 'Verde', 'Champagne'];
@@ -49,6 +43,7 @@ const colorOptions = ['Rosa', 'Rosê', 'Branco', 'Preto', 'Terracota', 'Creme', 
 const ITEMS_PER_PAGE = 12;
 
 export default function Catalog() {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
   const pageParam = searchParams.get('page');
@@ -228,7 +223,7 @@ export default function Catalog() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground max-w-lg mx-auto"
           >
-            Explora nuestra colección de moda femenina con las últimas tendencias
+            {t('catalog.subtitle')}
           </motion.p>
         </div>
       </section>
@@ -240,7 +235,7 @@ export default function Catalog() {
             <div className="sticky top-24">
               <h2 className="font-display text-xl font-semibold mb-6 flex items-center gap-2">
                 <SlidersHorizontal className="h-5 w-5" />
-                Filtros
+                {t('catalog.filters')}
               </h2>
               <CatalogFilters
                 categories={categories}
@@ -268,7 +263,7 @@ export default function Catalog() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Buscar productos..."
+                  placeholder={t('catalog.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 pr-10"
@@ -291,12 +286,12 @@ export default function Catalog() {
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden">
                     <Filter className="h-4 w-4 mr-2" />
-                    Filtros
+                    {t('catalog.filters')}
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left">
                   <SheetHeader>
-                    <SheetTitle>Filtros</SheetTitle>
+                    <SheetTitle>{t('catalog.filters')}</SheetTitle>
                   </SheetHeader>
                   <div className="mt-6">
                     <CatalogFilters
@@ -319,8 +314,8 @@ export default function Catalog() {
               </Sheet>
 
               <p className="text-sm text-muted-foreground hidden sm:block">
-                {totalCount} productos
-                {debouncedSearch && ` para "${debouncedSearch}"`}
+                {totalCount} {t('catalog.products')}
+                {debouncedSearch && ` ${t('catalog.noResultsFor')} "${debouncedSearch}"`}
               </p>
 
               <div className="flex items-center gap-4">
@@ -347,16 +342,15 @@ export default function Catalog() {
                 </div>
 
                 {/* Sort */}
-                <Select value={sortBy} onValueChange={(value) => setSortBy(value as typeof sortBy)}>
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as typeof sortBy)}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {sortOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="newest">{t('catalog.sortNewest')}</SelectItem>
+                    <SelectItem value="price-asc">{t('catalog.sortPriceAsc')}</SelectItem>
+                    <SelectItem value="price-desc">{t('catalog.sortPriceDesc')}</SelectItem>
+                    <SelectItem value="popular">{t('catalog.sortPopular')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -384,10 +378,10 @@ export default function Catalog() {
             ) : (
               <div className="text-center py-20">
                 <p className="text-muted-foreground text-lg">
-                  No se encontraron productos{debouncedSearch ? ` para "${debouncedSearch}"` : ' con los filtros seleccionados'}.
+                  {t('catalog.noResults')}{debouncedSearch ? ` ${t('catalog.noResultsFor')} "${debouncedSearch}"` : ` ${t('catalog.noResultsFilters')}`}.
                 </p>
                 <Button variant="outline" className="mt-4" onClick={() => { clearFilters(); setSearchQuery(''); }}>
-                  Limpiar Filtros
+                  {t('catalog.clearFilters')}
                 </Button>
               </div>
             )}
