@@ -657,8 +657,8 @@ export default function MarketplaceAutomations() {
                               {flow.status === 'draft' && <Badge variant="outline" className="text-xs">{t('mk.draft')}</Badge>}
                             </div>
                             <p className="text-xs text-muted-foreground mt-0.5">
-                              {flow.nodes.length} nós • Criado em {new Date(flow.createdAt).toLocaleDateString()}
-                              {flow.lastRun && ` • Última execução: ${new Date(flow.lastRun).toLocaleString()}`}
+                              {flow.nodes.length} {t('mk.nodes')} • {t('mk.createdOn')} {new Date(flow.createdAt).toLocaleDateString()}
+                              {flow.lastRun && ` • ${t('mk.lastExecution')}: ${new Date(flow.lastRun).toLocaleString()}`}
                             </p>
                           </div>
                         </div>
