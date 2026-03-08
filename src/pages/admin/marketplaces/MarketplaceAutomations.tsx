@@ -749,9 +749,9 @@ export default function MarketplaceAutomations() {
 
         {/* ── Nodes Library ── */}
         <TabsContent value="nodes" className="space-y-4">
-          <p className="text-sm text-muted-foreground">Todos os nós disponíveis para construir suas automações.</p>
+          <p className="text-sm text-muted-foreground">{t('mk.allNodesDesc')}</p>
           <div className="flex gap-2 flex-wrap">
-            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>Todos</Badge>
+            <Badge variant={nodePickerCategory === 'all' ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory('all')}>{t('mk.all')}</Badge>
             {(Object.entries(categoryLabels) as [NodeCategory, { label: string }][]).map(([cat, info]) => (
               <Badge key={cat} variant={nodePickerCategory === cat ? 'default' : 'outline'} className="cursor-pointer" onClick={() => setNodePickerCategory(cat)}>{info.label}</Badge>
             ))}
