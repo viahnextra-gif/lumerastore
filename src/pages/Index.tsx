@@ -12,6 +12,8 @@ import VideoReelsGallery from '@/components/home/VideoReelsGallery';
 import { useProducts, useCategories } from '@/hooks/useProducts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState, useEffect } from 'react';
+import SEOHead from '@/components/seo/SEOHead';
+import { organizationSchema, localBusinessSchema, webSiteSchema, faqSchema } from '@/components/seo/schemas';
 
 import heroImage from '@/assets/hero-main.jpg';
 
