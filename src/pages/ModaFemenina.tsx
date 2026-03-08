@@ -1,17 +1,26 @@
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight, Search } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { organizationSchema, breadcrumbSchema } from '@/components/seo/schemas';
 import { getCitiesByCountry } from '@/data/cities';
+import { Input } from '@/components/ui/input';
 
 const BASE_URL = 'https://mecastorepy.lovable.app';
 
 export default function ModaFemenina() {
+  const [search, setSearch] = useState('');
   const pyCities = getCitiesByCountry('PY');
   const brCities = getCitiesByCountry('BR');
+
+  const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const query = normalize(search);
+
+  const filteredPy = useMemo(() => pyCities.filter(c => normalize(c.name).includes(query) || normalize(c.department).includes(query)), [query]);
+  const filteredBr = useMemo(() => brCities.filter(c => normalize(c.name).includes(query) || normalize(c.department).includes(query)), [query]);
 
   // Group BR cities by state
   const brByState = brCities.reduce<Record<string, typeof brCities>>((acc, city) => {

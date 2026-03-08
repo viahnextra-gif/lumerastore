@@ -82,6 +82,7 @@ const App = () => (
                 <Route path="/blog/tendencias" element={<BlogCategory />} />
                 <Route path="/blog/guia" element={<BlogCategory />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/moda" element={<LandingModa />} />
                 <Route path="/moda-femenina" element={<ModaFemenina />} />
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
