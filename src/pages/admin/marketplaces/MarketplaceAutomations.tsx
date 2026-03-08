@@ -620,8 +620,8 @@ export default function MarketplaceAutomations() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex gap-4 text-sm">
-                      <span className="text-muted-foreground">{count} fluxos</span>
-                      <span className="text-green-600">{active} ativos</span>
+                      <span className="text-muted-foreground">{count} {t('mk.flows')}</span>
+                      <span className="text-green-600">{active} {t('mk.activeFlows')}</span>
                     </div>
                   </CardContent>
                 </Card>
