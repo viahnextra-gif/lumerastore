@@ -833,6 +833,10 @@ export default function MarketplaceAutomations() {
           </Card>
         </TabsContent>
 
+        {/* ── Metrics Dashboard ── */}
+        <TabsContent value="metrics" className="space-y-4">
+          <AutomationMetricsDashboard executions={executions} />
+
         {/* ── Flow Editor ── */}
         <TabsContent value="editor">
           {editingFlow && (
