@@ -654,7 +654,7 @@ export default function MarketplaceAutomations() {
                               <span className="font-medium text-sm">{flow.name}</span>
                               {flow.status === 'active' && <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />}
                               {flow.status === 'error' && <XCircle className="h-3.5 w-3.5 text-red-500" />}
-                              {flow.status === 'draft' && <Badge variant="outline" className="text-xs">Rascunho</Badge>}
+                              {flow.status === 'draft' && <Badge variant="outline" className="text-xs">{t('mk.draft')}</Badge>}
                             </div>
                             <p className="text-xs text-muted-foreground mt-0.5">
                               {flow.nodes.length} nós • Criado em {new Date(flow.createdAt).toLocaleDateString()}
