@@ -210,13 +210,13 @@ export const blogPosts: BlogPost[] = [
     keywords: ['capsule wardrobe', 'guardarropa cápsula', 'prendas básicas mujer', 'armario minimalista'],
     content: `
       <h2>¿Qué es un Capsule Wardrobe?</h2>
-      <p>Un guardarropa cápsula consiste en un número limitado de prendas versátiles que se combinan entre sí para crear múltiples outfits.</p>
+      <p>Un guardarropa cápsula consiste en un número limitado de prendas versátiles que se combinan entre sí para crear múltiples outfits. Es la base de la <a href="/blog/moda-sustentable-paraguay">moda sustentable</a>.</p>
       <h3>Las 20 Prendas Esenciales</h3>
-      <p>5 tops (2 blusas, 2 camisetas, 1 camisa), 4 bottoms (2 pantalones, 1 falda, 1 short), 3 vestidos, 3 capas (blazer, cardigan, chaqueta), 3 pares de zapatos y 2 accesorios clave.</p>
+      <p>5 tops (2 blusas, 2 camisetas, 1 camisa), 4 bottoms (2 pantalones, 1 falda, 1 short), 3 <a href="/blog/tendencias-vestidos-2026">vestidos</a>, 3 capas (blazer, cardigan, chaqueta), 3 pares de zapatos y 2 <a href="/blog/accesorios-imprescindibles-2026">accesorios clave</a>.</p>
       <h3>Elige una Paleta de Color</h3>
-      <p>Selecciona 3-4 colores que combinen entre sí. Un neutro oscuro, un neutro claro y 1-2 colores de acento.</p>
+      <p>Selecciona 3-4 colores que combinen entre sí. Inspírate en los <a href="/blog/colores-tendencia-otono-invierno-2026">colores tendencia de la temporada</a>. Un neutro oscuro, un neutro claro y 1-2 colores de acento.</p>
       <h2>Beneficios del Guardarropa Cápsula</h2>
-      <p>Ahorro de tiempo al vestirte, menos gasto en ropa innecesaria y un estilo más definido y consistente.</p>
+      <p>Ahorro de tiempo al vestirte, menos gasto en ropa innecesaria y un estilo más definido. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para asegurarte de elegir bien.</p>
     `,
   },
   {
