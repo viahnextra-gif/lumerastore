@@ -310,7 +310,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-2xl font-bold text-foreground text-center mb-8">
-            Moda Femenina en otras ciudades de Paraguay
+            {city.country === 'PY' ? 'Moda Femenina en otras ciudades de Paraguay' : 'Moda Feminina em outras cidades do Brasil'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {otherCities.map(c => (
