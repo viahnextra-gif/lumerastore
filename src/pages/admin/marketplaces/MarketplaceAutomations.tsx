@@ -880,8 +880,8 @@ export default function MarketplaceAutomations() {
                     <Card className="border-dashed">
                       <CardContent className="py-12 text-center">
                         <Plus className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
-                        <p className="text-sm text-muted-foreground">Adicione nós para construir seu fluxo</p>
-                        <Button size="sm" className="mt-3" onClick={() => setShowNodePicker(true)}>Adicionar Primeiro Nó</Button>
+                        <p className="text-sm text-muted-foreground">{t('mk.addNodesToFlow')}</p>
+                        <Button size="sm" className="mt-3" onClick={() => setShowNodePicker(true)}>{t('mk.addFirstNode')}</Button>
                       </CardContent>
                     </Card>
                   ) : (
