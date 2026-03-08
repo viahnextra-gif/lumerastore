@@ -34,15 +34,19 @@ export default function Auth() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, user, isAdmin, isAdminOrModerator } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      if (isAdmin || isAdminOrModerator) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
-  }, [user, navigate]);
+  }, [user, isAdmin, isAdminOrModerator, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -90,7 +94,7 @@ export default function Auth() {
             title: '¡Bienvenido!',
             description: 'Has iniciado sesión correctamente',
           });
-          navigate('/');
+          // Navigation handled by useEffect after role loads
         }
       } else {
         const result = signupSchema.safeParse(formData);
@@ -126,7 +130,7 @@ export default function Auth() {
             title: '¡Cuenta creada!',
             description: 'Tu cuenta ha sido creada exitosamente',
           });
-          navigate('/');
+          // Navigation handled by useEffect after auth state updates
         }
       }
     } catch (error) {
