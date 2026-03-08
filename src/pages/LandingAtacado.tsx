@@ -60,9 +60,8 @@ export default function LandingAtacado() {
       />
 
       {/* Hero */}
-      <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[var(--gradient-gold)] opacity-90" />
-        <div className="container relative z-10 text-center">
+      <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
+        <div className="container text-center">
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="inline-block px-4 py-2 rounded-full bg-foreground/10 text-foreground text-sm font-medium mb-6">
             PROGRAMA MAYORISTA
           </motion.span>
