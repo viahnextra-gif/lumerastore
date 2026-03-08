@@ -82,6 +82,7 @@ const App = () => (
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/moda-femenina" element={<LandingModa />} />
                 <Route path="/mayorista" element={<LandingAtacado />} />
+                <Route path="/faq" element={<FAQ />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
