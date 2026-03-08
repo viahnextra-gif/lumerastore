@@ -3,6 +3,8 @@ import { ArrowRight, Star, Package, TrendingUp, MessageCircle, Users } from 'luc
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import { trackEvent } from '@/components/seo/AnalyticsTracker';
 import { toast } from 'sonner';
@@ -58,6 +60,8 @@ export default function LandingAtacado() {
         canonical="https://mecastorepy.lovable.app/mayorista"
         noindex
       />
+
+      <Header />
 
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
@@ -140,6 +144,8 @@ export default function LandingAtacado() {
           </Button>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

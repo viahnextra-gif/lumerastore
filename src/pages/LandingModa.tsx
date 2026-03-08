@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import SEOHead from '@/components/seo/SEOHead';
 import { trackEvent } from '@/components/seo/AnalyticsTracker';
 import { toast } from 'sonner';
@@ -61,6 +63,8 @@ export default function LandingModa() {
         canonical="https://mecastorepy.lovable.app/moda-femenina"
         noindex
       />
+
+      <Header />
 
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
@@ -159,6 +163,8 @@ export default function LandingModa() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
