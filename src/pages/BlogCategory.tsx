@@ -38,9 +38,10 @@ const categoryFilterMap: Record<string, string[]> = {
 };
 
 export default function BlogCategory() {
-  const { category } = useParams<{ category: string }>();
-  const meta = category ? categoryMeta[category] : null;
-  const filters = category ? categoryFilterMap[category] : null;
+  const location = useLocation();
+  const category = location.pathname.split('/').pop() || '';
+  const meta = categoryMeta[category] || null;
+  const filters = categoryFilterMap[category] || null;
 
   if (!meta || !filters) {
     return (
