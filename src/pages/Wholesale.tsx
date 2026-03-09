@@ -38,11 +38,13 @@ export default function Wholesale() {
             <h1 className="font-display text-4xl md:text-6xl font-bold text-primary-foreground mb-6">{t('wholesale.title')}</h1>
             <p className="text-xl text-primary-foreground/80 mb-8">{t('wholesale.subtitle')}</p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90">
-                {t('wholesale.requestAccess')} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button size="lg" className="bg-white text-black hover:bg-white/90">
-                Ver Catálogo B2B
+              <Link to="/catalogo">
+                <Button size="lg" className="bg-white text-black hover:bg-white/90">
+                  Ver Catálogo B2B <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851]" onClick={() => window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas', '_blank')}>
+                <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Directo
               </Button>
             </div>
           </motion.div>
