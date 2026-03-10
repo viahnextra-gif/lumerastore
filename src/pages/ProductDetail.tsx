@@ -27,6 +27,7 @@ export default function ProductDetail() {
   const { toast } = useToast();
   const { addToCart } = useCart();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   
   const { product, isLoading, error } = useProduct(id || '');
   const { products: relatedProductsData } = useProducts({ categorySlug: product?.category });
