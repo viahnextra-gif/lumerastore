@@ -136,7 +136,7 @@ export default function AdminLayout() {
           <SheetContent side="left" className="p-0 w-72"><Sidebar /></SheetContent>
         </Sheet>
         <h1 className="font-display text-xl font-bold text-primary">MECA Admin</h1>
-        <div className="w-10" />
+        <CurrencySelector />
       </header>
 
       <div className="flex">
