@@ -94,7 +94,7 @@ export default function Orders() {
     } catch (error) { toast({ title: 'Error', variant: 'destructive' }); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  
   const formatDate = (date: string) => new Date(date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
   const filteredOrders = orders.filter((order) => {

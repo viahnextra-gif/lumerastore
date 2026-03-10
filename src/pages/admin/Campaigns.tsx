@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Campaign { id: string; name: string; platform: string; campaign_type: string; status: string; budget: number; budget_type: string; start_date: string | null; end_date: string | null; notes: string | null; created_at: string; }
 
