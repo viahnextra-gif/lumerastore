@@ -97,13 +97,8 @@ export default function AccountOrders() {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
+
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('es-PY', {

@@ -22,6 +22,7 @@ export default function Index() {
   const { products, isLoading: productsLoading } = useProducts({});
   const { categories, isLoading: categoriesLoading } = useCategories();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
 
   // Hero carousel with featured products (up to 10)
   const featuredProducts = products.filter((p) => p.isBestSeller).slice(0, 10);
