@@ -12,14 +12,7 @@ export default function Cart() {
   const { items, removeFromCart, updateQuantity, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
   const { t } = useLanguage();
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+  const { formatPrice } = useCurrency();
 
   if (items.length === 0) {
     return (

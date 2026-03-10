@@ -53,13 +53,8 @@ export default function Checkout() {
   const shippingCost = totalPrice >= 500000 ? 0 : 25000;
   const total = totalPrice + shippingCost;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
