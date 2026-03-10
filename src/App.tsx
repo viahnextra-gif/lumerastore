@@ -125,6 +125,7 @@ const App = () => (
             </BrowserRouter>
           </CartProvider>
         </AuthProvider>
+        </CurrencyProvider>
       </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
