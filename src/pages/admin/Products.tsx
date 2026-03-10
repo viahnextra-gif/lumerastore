@@ -41,6 +41,7 @@ const initialFormData: ProductFormData = {
 
 export default function Products() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
