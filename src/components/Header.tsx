@@ -7,6 +7,7 @@ import { useCart } from '@/contexts/CartContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import CurrencySelector from '@/components/CurrencySelector';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
