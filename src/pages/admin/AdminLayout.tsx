@@ -15,6 +15,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useMarketplaceNotifications } from '@/hooks/useMarketplaceNotifications';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import CurrencySelector from '@/components/CurrencySelector';
 
 function Sidebar({ className }: { className?: string }) {
   const location = useLocation();
