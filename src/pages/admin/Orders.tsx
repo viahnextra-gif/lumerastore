@@ -36,6 +36,7 @@ const statusColorMap: Record<string, string> = {
 
 export default function Orders() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
