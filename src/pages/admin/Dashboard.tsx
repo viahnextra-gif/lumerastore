@@ -131,7 +131,7 @@ export default function Dashboard() {
                 <BarChart data={stats?.revenueByDay}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="date" className="text-xs" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
-                  <YAxis yAxisId="left" tickFormatter={(v) => `₲${(v / 1000).toFixed(0)}k`} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <YAxis yAxisId="left" tickFormatter={(v) => formatPrice(v)} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                   <YAxis yAxisId="right" orientation="right" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                   <Tooltip formatter={(value: number, name: string) => [name === 'revenue' ? formatPrice(value) : value, name === 'revenue' ? t('admin.revenue') : t('admin.ordersLabel')]} />
                   <Legend formatter={(v) => (v === 'revenue' ? t('admin.revenue') : t('admin.ordersLabel'))} />
