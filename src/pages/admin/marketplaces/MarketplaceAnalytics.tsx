@@ -110,7 +110,7 @@ export default function MarketplaceAnalytics() {
             <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">₲ {totalRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-bold">{formatPrice(totalRevenue)}</p>
           </CardContent>
         </Card>
         <Card>
