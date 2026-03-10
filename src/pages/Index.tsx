@@ -152,7 +152,7 @@ export default function Index() {
                   className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-card"
                 >
                   <p className="text-sm text-muted-foreground">{t('hero.from')}</p>
-                  <p className="font-display text-2xl font-bold text-primary">₲ 99.000</p>
+                  <p className="font-display text-2xl font-bold text-primary">{formatPrice(99000)}</p>
                 </motion.div>
 
                 <motion.div

@@ -58,7 +58,7 @@ export default function Campaigns() {
     } catch (error: any) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); } finally { setIsSaving(false); }
   };
 
-  const formatPrice = (n: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+  const { formatPrice } = useCurrency();
   const locale = language === 'pt' ? 'pt-BR' : language === 'es' ? 'es-PY' : 'en-US';
   const filtered = campaigns.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()));
 

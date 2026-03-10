@@ -25,6 +25,7 @@ const chartConfig = {
 export default function MarketplaceAnalytics() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [period, setPeriod] = useState('7d');
   const [ordersByMarketplace, setOrdersByMarketplace] = useState<{ name: string; value: number; total: number }[]>([]);
   const [dailySales, setDailySales] = useState<{ date: string; total: number; orders: number }[]>([]);

@@ -10,6 +10,7 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 
 export default function MarketplaceOrders() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [orders, setOrders] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
 
