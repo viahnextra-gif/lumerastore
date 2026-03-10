@@ -28,6 +28,7 @@ const LEAD_COLORS: Record<string, string> = { cold: '#60a5fa', warm: '#fbbf24', 
 
 export default function Dashboard() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
