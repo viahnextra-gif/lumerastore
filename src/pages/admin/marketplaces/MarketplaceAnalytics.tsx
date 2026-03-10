@@ -128,7 +128,7 @@ export default function MarketplaceAnalytics() {
             <TrendingUp className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">₲ {totalOrders > 0 ? Math.round(totalRevenue / totalOrders).toLocaleString() : 0}</p>
+            <p className="text-2xl font-bold">{totalOrders > 0 ? formatPrice(Math.round(totalRevenue / totalOrders)) : formatPrice(0)}</p>
           </CardContent>
         </Card>
         <Card>

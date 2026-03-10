@@ -65,7 +65,7 @@ export default function MarketplaceOrders() {
                     <TableCell className="font-mono text-xs">{o.external_order_id || '—'}</TableCell>
                     <TableCell className="capitalize">{o.marketplace}</TableCell>
                     <TableCell>{o.customer_name || '—'}</TableCell>
-                    <TableCell>{o.total?.toLocaleString('es-PY')}</TableCell>
+                    <TableCell>{formatPrice(o.total || 0)}</TableCell>
                     <TableCell><Badge variant="secondary">{o.status}</Badge></TableCell>
                     <TableCell className="text-xs">{new Date(o.created_at).toLocaleDateString()}</TableCell>
                   </TableRow>
