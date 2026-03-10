@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
@@ -19,14 +20,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const { addToCart } = useCart();
   const { t } = useLanguage();
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+  const { formatPrice } = useCurrency();
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();

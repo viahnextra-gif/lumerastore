@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/hooks/useAuth';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 
@@ -49,6 +50,7 @@ const statusLabels: Record<string, string> = {
 
 export default function AccountOrders() {
   const { user } = useAuth();
+  const { formatPrice } = useCurrency();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -95,13 +97,8 @@ export default function AccountOrders() {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
+
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('es-PY', {

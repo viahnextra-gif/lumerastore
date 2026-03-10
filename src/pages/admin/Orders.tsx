@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Order {
   id: string; order_number: string; customer_name: string; customer_email: string;
@@ -35,6 +36,7 @@ const statusColorMap: Record<string, string> = {
 
 export default function Orders() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -92,7 +94,7 @@ export default function Orders() {
     } catch (error) { toast({ title: 'Error', variant: 'destructive' }); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  
   const formatDate = (date: string) => new Date(date).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
   const filteredOrders = orders.filter((order) => {

@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import {
   ChartContainer,
   ChartTooltip,
@@ -24,6 +25,7 @@ const chartConfig = {
 export default function MarketplaceAnalytics() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [period, setPeriod] = useState('7d');
   const [ordersByMarketplace, setOrdersByMarketplace] = useState<{ name: string; value: number; total: number }[]>([]);
   const [dailySales, setDailySales] = useState<{ date: string; total: number; orders: number }[]>([]);
@@ -108,7 +110,7 @@ export default function MarketplaceAnalytics() {
             <DollarSign className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">₲ {totalRevenue.toLocaleString()}</p>
+            <p className="text-2xl font-bold">{formatPrice(totalRevenue)}</p>
           </CardContent>
         </Card>
         <Card>
@@ -126,7 +128,7 @@ export default function MarketplaceAnalytics() {
             <TrendingUp className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">₲ {totalOrders > 0 ? Math.round(totalRevenue / totalOrders).toLocaleString() : 0}</p>
+            <p className="text-2xl font-bold">{totalOrders > 0 ? formatPrice(Math.round(totalRevenue / totalOrders)) : formatPrice(0)}</p>
           </CardContent>
         </Card>
         <Card>

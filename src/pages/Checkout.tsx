@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
@@ -22,6 +23,7 @@ export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -51,13 +53,8 @@ export default function Checkout() {
   const shippingCost = totalPrice >= 500000 ? 0 : 25000;
   const total = totalPrice + shippingCost;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', {
-      style: 'currency',
-      currency: 'PYG',
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

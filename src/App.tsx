@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
@@ -60,6 +61,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <LanguageProvider>
+        <CurrencyProvider>
         <AuthProvider>
           <CartProvider>
             <Toaster />
@@ -123,6 +125,7 @@ const App = () => (
             </BrowserRouter>
           </CartProvider>
         </AuthProvider>
+        </CurrencyProvider>
       </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>

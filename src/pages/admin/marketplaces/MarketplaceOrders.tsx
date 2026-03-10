@@ -6,9 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 export default function MarketplaceOrders() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [orders, setOrders] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
 
@@ -63,7 +65,7 @@ export default function MarketplaceOrders() {
                     <TableCell className="font-mono text-xs">{o.external_order_id || '—'}</TableCell>
                     <TableCell className="capitalize">{o.marketplace}</TableCell>
                     <TableCell>{o.customer_name || '—'}</TableCell>
-                    <TableCell>{o.total?.toLocaleString('es-PY')}</TableCell>
+                    <TableCell>{formatPrice(o.total || 0)}</TableCell>
                     <TableCell><Badge variant="secondary">{o.status}</Badge></TableCell>
                     <TableCell className="text-xs">{new Date(o.created_at).toLocaleDateString()}</TableCell>
                   </TableRow>

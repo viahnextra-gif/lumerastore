@@ -11,6 +11,7 @@ import FAQSection from '@/components/home/FAQSection';
 import VideoReelsGallery from '@/components/home/VideoReelsGallery';
 import { useProducts, useCategories } from '@/hooks/useProducts';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { useState, useEffect } from 'react';
 import SEOHead from '@/components/seo/SEOHead';
 import { organizationSchema, localBusinessSchema, webSiteSchema, faqSchema } from '@/components/seo/schemas';
@@ -21,6 +22,7 @@ export default function Index() {
   const { products, isLoading: productsLoading } = useProducts({});
   const { categories, isLoading: categoriesLoading } = useCategories();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
 
   // Hero carousel with featured products (up to 10)
   const featuredProducts = products.filter((p) => p.isBestSeller).slice(0, 10);
@@ -151,7 +153,7 @@ export default function Index() {
                   className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-card"
                 >
                   <p className="text-sm text-muted-foreground">{t('hero.from')}</p>
-                  <p className="font-display text-2xl font-bold text-primary">₲ 99.000</p>
+                  <p className="font-display text-2xl font-bold text-primary">{formatPrice(99000)}</p>
                 </motion.div>
 
                 <motion.div

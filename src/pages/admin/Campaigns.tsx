@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Campaign { id: string; name: string; platform: string; campaign_type: string; status: string; budget: number; budget_type: string; start_date: string | null; end_date: string | null; notes: string | null; created_at: string; }
 
@@ -57,7 +58,7 @@ export default function Campaigns() {
     } catch (error: any) { toast({ title: 'Error', description: error.message, variant: 'destructive' }); } finally { setIsSaving(false); }
   };
 
-  const formatPrice = (n: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+  const { formatPrice } = useCurrency();
   const locale = language === 'pt' ? 'pt-BR' : language === 'es' ? 'es-PY' : 'en-US';
   const filtered = campaigns.filter((c) => c.name.toLowerCase().includes(search.toLowerCase()));
 

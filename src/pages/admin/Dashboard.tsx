@@ -4,6 +4,7 @@ import { Package, ShoppingCart, Users, DollarSign, ArrowUpRight, Loader2, Calend
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import {
   BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
@@ -27,6 +28,7 @@ const LEAD_COLORS: Record<string, string> = { cold: '#60a5fa', warm: '#fbbf24', 
 
 export default function Dashboard() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -80,7 +82,7 @@ export default function Dashboard() {
     } catch (error) { console.error('Error fetching dashboard stats:', error); } finally { setIsLoading(false); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  
 
   const statusColors: Record<string, string> = { pending: 'bg-yellow-100 text-yellow-800', confirmed: 'bg-blue-100 text-blue-800', processing: 'bg-purple-100 text-purple-800', shipped: 'bg-indigo-100 text-indigo-800', delivered: 'bg-green-100 text-green-800', cancelled: 'bg-red-100 text-red-800' };
 
@@ -129,7 +131,7 @@ export default function Dashboard() {
                 <BarChart data={stats?.revenueByDay}>
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="date" className="text-xs" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
-                  <YAxis yAxisId="left" tickFormatter={(v) => `₲${(v / 1000).toFixed(0)}k`} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <YAxis yAxisId="left" tickFormatter={(v) => formatPrice(v)} tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                   <YAxis yAxisId="right" orientation="right" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
                   <Tooltip formatter={(value: number, name: string) => [name === 'revenue' ? formatPrice(value) : value, name === 'revenue' ? t('admin.revenue') : t('admin.ordersLabel')]} />
                   <Legend formatter={(v) => (v === 'revenue' ? t('admin.revenue') : t('admin.ordersLabel'))} />

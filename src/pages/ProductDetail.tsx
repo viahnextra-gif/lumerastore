@@ -15,6 +15,7 @@ import ProductCard from '@/components/ProductCard';
 import { useProduct, useProducts } from '@/hooks/useProducts';
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import SEOHead from '@/components/seo/SEOHead';
@@ -26,6 +27,7 @@ export default function ProductDetail() {
   const { toast } = useToast();
   const { addToCart } = useCart();
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   
   const { product, isLoading, error } = useProduct(id || '');
   const { products: relatedProductsData } = useProducts({ categorySlug: product?.category });
@@ -70,9 +72,7 @@ export default function ProductDetail() {
     );
   }
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
-  };
+  
 
   const handleAddToCart = () => {
     if (!selectedSize) {

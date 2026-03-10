@@ -7,6 +7,7 @@ import { useCart } from '@/contexts/CartContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import CurrencySelector from '@/components/CurrencySelector';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,6 +63,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
+          <CurrencySelector />
           <Button variant="ghost" size="icon" className="hidden sm:flex"><Search className="h-5 w-5" /></Button>
           <Button variant="ghost" size="icon" className="hidden sm:flex"><Heart className="h-5 w-5" /></Button>
           {isAdmin && (

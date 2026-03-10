@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import ImageUpload from '@/components/admin/ImageUpload';
 import VideoUpload from '@/components/admin/VideoUpload';
 
@@ -40,6 +41,7 @@ const initialFormData: ProductFormData = {
 
 export default function Products() {
   const { t } = useLanguage();
+  const { formatPrice } = useCurrency();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,7 +70,7 @@ export default function Products() {
     } catch (error) { console.error('Error fetching categories:', error); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  
 
   const generateSlug = (name: string) => name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
