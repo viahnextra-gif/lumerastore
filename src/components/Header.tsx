@@ -100,6 +100,10 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                <div className="flex items-center gap-2">
+                  <LanguageSwitcher />
+                  <CurrencySelector />
+                </div>
                 {isAdmin && (
                   <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="outline" size="sm" className="w-full text-primary">
