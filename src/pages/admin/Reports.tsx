@@ -44,7 +44,7 @@ export default function Reports() {
     } catch (error) { console.error('Error:', error); } finally { setIsLoading(false); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  const { formatPrice } = useCurrency();
 
   const statusLabels: Record<string, string> = {
     pending: t('admin.statusPending'), confirmed: t('admin.statusConfirmed'), processing: t('admin.statusProcessing'),

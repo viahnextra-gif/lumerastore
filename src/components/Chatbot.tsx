@@ -129,8 +129,7 @@ export default function Chatbot() {
     }
   };
 
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  const { formatPrice } = useCurrency();
 
   return (
     <>
