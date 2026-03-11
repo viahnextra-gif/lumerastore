@@ -42,7 +42,7 @@ export default function CatalogFilters({
   onPriceChange,
   onClearFilters,
 }: CatalogFiltersProps) {
-
+  const { formatPrice } = useCurrency();
   const hasFilters = selectedCategories.length > 0 || selectedSizes.length > 0 || selectedColors.length > 0 || priceRange[0] > 0 || priceRange[1] < maxPriceLimit;
 
   return (
