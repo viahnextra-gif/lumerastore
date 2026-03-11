@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -128,8 +129,7 @@ export default function Chatbot() {
     }
   };
 
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  const { formatPrice } = useCurrency();
 
   return (
     <>

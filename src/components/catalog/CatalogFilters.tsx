@@ -2,6 +2,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface Category {
   id: string;
@@ -26,15 +27,6 @@ interface CatalogFiltersProps {
   onClearFilters: () => void;
 }
 
-const formatPrice = (value: number) => {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
-};
-
 export default function CatalogFilters({
   categories,
   selectedCategories,
@@ -50,6 +42,7 @@ export default function CatalogFilters({
   onPriceChange,
   onClearFilters,
 }: CatalogFiltersProps) {
+  const { formatPrice } = useCurrency();
   const hasFilters = selectedCategories.length > 0 || selectedSizes.length > 0 || selectedColors.length > 0 || priceRange[0] > 0 || priceRange[1] < maxPriceLimit;
 
   return (

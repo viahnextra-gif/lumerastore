@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 import { streamChat, parseAIResponse } from '@/lib/streamChat';
 
 interface ChatProduct {
@@ -99,8 +100,7 @@ export default function InlineAIAssistant() {
     }
   };
 
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  const { formatPrice } = useCurrency();
 
   const suggestions = [t('ai.suggestions.1'), t('ai.suggestions.2'), t('ai.suggestions.3'), t('ai.suggestions.4')];
 

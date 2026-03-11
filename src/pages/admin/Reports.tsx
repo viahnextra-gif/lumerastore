@@ -3,6 +3,7 @@ import { Loader2, TrendingUp, DollarSign, Package, ShoppingCart } from 'lucide-r
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface ReportData {
   totalRevenue: number;
@@ -43,7 +44,7 @@ export default function Reports() {
     } catch (error) { console.error('Error:', error); } finally { setIsLoading(false); }
   };
 
-  const formatPrice = (price: number) => new Intl.NumberFormat('es-PY', { style: 'currency', currency: 'PYG', minimumFractionDigits: 0 }).format(price);
+  const { formatPrice } = useCurrency();
 
   const statusLabels: Record<string, string> = {
     pending: t('admin.statusPending'), confirmed: t('admin.statusConfirmed'), processing: t('admin.statusProcessing'),
