@@ -3,6 +3,7 @@ import { Loader2, TrendingUp, DollarSign, Package, ShoppingCart } from 'lucide-r
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCurrency } from '@/contexts/CurrencyContext';
 
 interface ReportData {
   totalRevenue: number;
