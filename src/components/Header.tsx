@@ -84,6 +84,11 @@ export default function Header() {
           <Link to={isLoggedIn ? "/conta" : "/auth"}>
             <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
           </Link>
+          {isLoggedIn && (
+            <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Logout">
+              <LogOut className="h-5 w-5" />
+            </Button>
+          )}
           <Link to="/carrinho">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingBag className="h-5 w-5" />
