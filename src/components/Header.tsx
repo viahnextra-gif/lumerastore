@@ -16,6 +16,15 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { totalItems } = useCart();
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   const navLinks = [
     { name: t('nav.home'), href: '/' },
