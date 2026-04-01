@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, Menu, X, User, Heart, Shield } from 'lucide-react';
+import { ShoppingBag, Search, Menu, X, User, Heart, Shield, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,6 +16,15 @@ export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { totalItems } = useCart();
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   const navLinks = [
     { name: t('nav.home'), href: '/' },
@@ -74,6 +84,11 @@ export default function Header() {
           <Link to={isLoggedIn ? "/conta" : "/auth"}>
             <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
           </Link>
+          {isLoggedIn && (
+            <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Logout">
+              <LogOut className="h-5 w-5" />
+            </Button>
+          )}
           <Link to="/carrinho">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingBag className="h-5 w-5" />
@@ -118,6 +133,12 @@ export default function Header() {
                     {isLoggedIn ? t('nav.account') : t('nav.login')}
                   </Button>
                 </Link>
+                {isLoggedIn && (
+                  <Button variant="outline" size="sm" className="w-full text-destructive" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                )}
               </div>
             </nav>
           </motion.div>
