@@ -133,6 +133,12 @@ export default function Header() {
                     {isLoggedIn ? t('nav.account') : t('nav.login')}
                   </Button>
                 </Link>
+                {isLoggedIn && (
+                  <Button variant="outline" size="sm" className="w-full text-destructive" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </Button>
+                )}
               </div>
             </nav>
           </motion.div>
