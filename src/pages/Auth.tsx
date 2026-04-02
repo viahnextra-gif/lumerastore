@@ -24,7 +24,7 @@ export default function Auth() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { signIn, signUp, user, isAdmin, isAdminOrModerator } = useAuth();
+  const { signIn, signUp, user, isAdmin, isAdminOrModerator, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -42,14 +42,14 @@ export default function Auth() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user && !isLoading) {
       if (isAdmin || isAdminOrModerator) {
         navigate('/admin');
       } else {
         navigate('/');
       }
     }
-  }, [user, isAdmin, isAdminOrModerator, navigate]);
+  }, [user, isAdmin, isAdminOrModerator, isLoading, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
