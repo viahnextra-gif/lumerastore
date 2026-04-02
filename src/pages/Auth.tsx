@@ -42,14 +42,14 @@ export default function Auth() {
   });
 
   useEffect(() => {
-    if (user) {
+    if (user && !isLoading) {
       if (isAdmin || isAdminOrModerator) {
         navigate('/admin');
       } else {
         navigate('/');
       }
     }
-  }, [user, isAdmin, isAdminOrModerator, navigate]);
+  }, [user, isAdmin, isAdminOrModerator, isLoading, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
