@@ -24,7 +24,7 @@ export default function Auth() {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { signIn, signUp, user, isAdmin, isAdminOrModerator } = useAuth();
+  const { signIn, signUp, user, isAdmin, isAdminOrModerator, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
