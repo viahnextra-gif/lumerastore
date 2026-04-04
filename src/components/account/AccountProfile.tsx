@@ -26,6 +26,8 @@ export default function AccountProfile() {
   const [profile, setProfile] = useState<Profile>({
     full_name: '',
     phone: '',
+    address: '',
+    city: '',
     company_name: '',
     tax_id: '',
   });
