@@ -42,7 +42,7 @@ export default function AccountProfile() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('full_name, phone, company_name, tax_id')
+        .select('full_name, phone, address, city, company_name, tax_id')
         .eq('user_id', user?.id)
         .maybeSingle();
 
@@ -52,6 +52,8 @@ export default function AccountProfile() {
         setProfile({
           full_name: data.full_name || '',
           phone: data.phone || '',
+          address: data.address || '',
+          city: data.city || '',
           company_name: data.company_name || '',
           tax_id: data.tax_id || '',
         });
