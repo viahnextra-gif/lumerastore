@@ -12,6 +12,8 @@ import { useToast } from '@/hooks/use-toast';
 interface Profile {
   full_name: string | null;
   phone: string | null;
+  address: string | null;
+  city: string | null;
   company_name: string | null;
   tax_id: string | null;
 }
