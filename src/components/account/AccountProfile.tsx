@@ -133,7 +133,28 @@ export default function AccountProfile() {
                 onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
                 placeholder="+595 XXX XXX XXX"
               />
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="address">Dirección</Label>
+              <Input
+                id="address"
+                value={profile.address || ''}
+                onChange={(e) => setProfile({ ...profile, address: e.target.value })}
+                placeholder="Tu dirección"
+              />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="city">Ciudad</Label>
+              <Input
+                id="city"
+                value={profile.city || ''}
+                onChange={(e) => setProfile({ ...profile, city: e.target.value })}
+                placeholder="Tu ciudad"
+              />
+            </div>
+          </div>
           </div>
 
           <div className="border-t pt-6">
