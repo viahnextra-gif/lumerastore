@@ -119,7 +119,13 @@ export default function AdminLayout() {
   useMarketplaceNotifications();
 
   useEffect(() => {
-    if (!isLoading && (!user || !isAdminOrModerator)) navigate('/auth');
+    if (!isLoading) {
+      if (!user) {
+        navigate('/auth');
+      } else if (!isAdminOrModerator) {
+        navigate('/');
+      }
+    }
   }, [user, isLoading, isAdminOrModerator, navigate]);
 
   if (isLoading) {
