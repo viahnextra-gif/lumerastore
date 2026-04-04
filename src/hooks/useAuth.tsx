@@ -52,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          setIsLoading(true);
           // Use setTimeout to avoid Supabase client deadlock
           setTimeout(async () => {
             const role = await fetchUserRole(session.user.id);
