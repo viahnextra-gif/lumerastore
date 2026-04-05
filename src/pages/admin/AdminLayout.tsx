@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useMarketplaceNotifications } from '@/hooks/useMarketplaceNotifications';
+import { useUnreadNotifications } from '@/hooks/useUnreadNotifications';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import CurrencySelector from '@/components/CurrencySelector';
