@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Bell, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -33,6 +33,13 @@ export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const markAllAsRead = useCallback(async () => {
+    await supabase
+      .from('order_notifications' as any)
+      .update({ sent: true } as any)
+      .eq('sent', false);
+  }, []);
+
   useEffect(() => {
     const load = async () => {
       const { data } = await supabase
@@ -42,9 +49,11 @@ export default function Notifications() {
         .limit(100);
       setNotifications((data as any) || []);
       setIsLoading(false);
+      // Mark all as read after loading
+      await markAllAsRead();
     };
     load();
-  }, []);
+  }, [markAllAsRead]);
 
   const formatDate = (date: string) =>
     new Date(date).toLocaleDateString('pt-BR', {
