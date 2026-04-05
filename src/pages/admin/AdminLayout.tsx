@@ -24,6 +24,7 @@ function Sidebar({ className }: { className?: string }) {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [mkOpen, setMkOpen] = useState(location.pathname.startsWith('/admin/marketplaces'));
+  const { count: unreadCount } = useUnreadNotifications();
 
   const navigation = [
     { name: t('admin.dashboard'), href: '/admin', icon: LayoutDashboard },
