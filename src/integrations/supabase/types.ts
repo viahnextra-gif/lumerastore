@@ -552,6 +552,53 @@ export type Database = {
           },
         ]
       }
+      order_notifications: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          id: string
+          new_status: string
+          notification_type: string
+          old_status: string | null
+          order_id: string
+          order_number: string
+          sent: boolean | null
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          id?: string
+          new_status: string
+          notification_type?: string
+          old_status?: string | null
+          order_id: string
+          order_number: string
+          sent?: boolean | null
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          id?: string
+          new_status?: string
+          notification_type?: string
+          old_status?: string | null
+          order_id?: string
+          order_number?: string
+          sent?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_notifications_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           created_at: string

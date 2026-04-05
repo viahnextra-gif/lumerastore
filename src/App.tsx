@@ -23,6 +23,7 @@ import Categories from "./pages/admin/Categories";
 import Subcategories from "./pages/admin/Subcategories";
 import Pages from "./pages/admin/Pages";
 import Orders from "./pages/admin/Orders";
+import Notifications from "./pages/admin/Notifications";
 import Customers from "./pages/admin/Customers";
 import Leads from "./pages/admin/Leads";
 import CrmKanban from "./pages/admin/CrmKanban";
@@ -99,6 +100,7 @@ const App = () => (
                   <Route path="subcategorias" element={<Subcategories />} />
                   <Route path="paginas" element={<Pages />} />
                   <Route path="pedidos" element={<Orders />} />
+                  <Route path="notificacoes" element={<Notifications />} />
                   <Route path="clientes" element={<Customers />} />
                   <Route path="leads" element={<Leads />} />
                   <Route path="crm" element={<CrmKanban />} />

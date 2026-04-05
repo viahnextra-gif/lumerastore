@@ -73,10 +73,24 @@ export default function Orders() {
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
+      const order = orders.find((o) => o.id === orderId);
+      if (!order) return;
+      const oldStatus = order.status;
       const { error } = await supabase.from('orders').update({ status: newStatus as any }).eq('id', orderId);
       if (error) throw error;
       setOrders(orders.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)));
       if (selectedOrder?.id === orderId) setSelectedOrder({ ...selectedOrder, status: newStatus });
+
+      // Log notification
+      await supabase.from('order_notifications' as any).insert({
+        order_id: orderId,
+        order_number: order.order_number,
+        customer_email: order.customer_email,
+        customer_name: order.customer_name,
+        old_status: oldStatus,
+        new_status: newStatus,
+      });
+
       toast({ title: t('admin.statusUpdated') });
     } catch (error) {
       toast({ title: 'Error', description: t('admin.couldNotUpdate'), variant: 'destructive' });

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings, BarChart3, MessageSquare,
   Tag, LogOut, ChevronLeft, ChevronDown, Menu, Layers, FileText, Kanban,
-  CalendarDays, Megaphone, Key, Store,
+  CalendarDays, Megaphone, Key, Store, Bell,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -31,6 +31,7 @@ function Sidebar({ className }: { className?: string }) {
     { name: t('admin.subcategories'), href: '/admin/subcategorias', icon: Layers },
     { name: t('admin.pages'), href: '/admin/paginas', icon: FileText },
     { name: t('admin.orders'), href: '/admin/pedidos', icon: ShoppingCart },
+    { name: t('admin.notifications') || 'Notificações', href: '/admin/notificacoes', icon: Bell },
     { name: t('admin.crmKanban'), href: '/admin/crm', icon: Kanban },
     { name: t('admin.customers'), href: '/admin/clientes', icon: Users },
     { name: t('admin.leads'), href: '/admin/leads', icon: MessageSquare },
