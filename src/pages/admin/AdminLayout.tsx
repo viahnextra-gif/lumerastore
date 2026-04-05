@@ -73,11 +73,17 @@ function Sidebar({ className }: { className?: string }) {
         <nav className="space-y-1">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href || (item.href !== '/admin' && location.pathname.startsWith(item.href));
+            const isNotif = item.href === '/admin/notificacoes';
             return (
               <Link key={item.href} to={item.href}
                 className={cn('flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors', isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted hover:text-foreground')}>
                 <item.icon className="h-5 w-5" />
                 {item.name}
+                {isNotif && unreadCount > 0 && (
+                  <span className="ml-auto inline-flex items-center justify-center rounded-full bg-destructive text-destructive-foreground text-xs font-bold min-w-[20px] h-5 px-1.5">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
               </Link>
             );
           })}
