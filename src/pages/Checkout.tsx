@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CreditCard, Truck, MapPin, Loader2, Check } from 'lucide-react';
@@ -93,6 +93,7 @@ export default function Checkout() {
         subtotal: totalPrice,
         shipping_cost: shippingCost,
         total: total,
+        user_id: user?.id || null,
       };
 
       const { data: order, error: orderError } = await supabase
@@ -151,8 +152,13 @@ export default function Checkout() {
     }
   };
 
+  useEffect(() => {
+    if (items.length === 0 && !orderCreated) {
+      navigate('/carrinho');
+    }
+  }, [items.length, orderCreated, navigate]);
+
   if (items.length === 0 && !orderCreated) {
-    navigate('/carrinho');
     return null;
   }
 
