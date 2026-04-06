@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useUnreadNotifications } from '@/hooks/useUnreadNotifications';
 
 interface Notification {
   id: string;
@@ -30,6 +31,7 @@ const statusColorMap: Record<string, string> = {
 
 export default function Notifications() {
   const { t } = useLanguage();
+  const { refresh: refreshBadge } = useUnreadNotifications();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,8 +51,9 @@ export default function Notifications() {
         .limit(100);
       setNotifications((data as any) || []);
       setIsLoading(false);
-      // Mark all as read after loading
+      // Mark all as read after loading, then refresh badge immediately
       await markAllAsRead();
+      refreshBadge();
     };
     load();
   }, [markAllAsRead]);

@@ -74,8 +74,9 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <CurrencySelector />
-          <Button variant="ghost" size="icon" className="hidden sm:flex"><Search className="h-5 w-5" /></Button>
-          <Button variant="ghost" size="icon" className="hidden sm:flex"><Heart className="h-5 w-5" /></Button>
+          <Link to="/catalogo">
+            <Button variant="ghost" size="icon" className="hidden sm:flex" title={t('nav.catalog')}><Search className="h-5 w-5" /></Button>
+          </Link>
           {isAdmin && (
             <Link to="/admin">
               <Button variant="ghost" size="icon" className="hidden sm:flex text-primary"><Shield className="h-5 w-5" /></Button>

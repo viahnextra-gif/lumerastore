@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Loader2, Bot, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -129,13 +130,13 @@ export default function InlineAIAssistant() {
                         {msg.products && msg.products.length > 0 && (
                           <div className="mt-3 space-y-2">
                             {msg.products.map((product) => (
-                              <a key={product.id} href={`/producto/${product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
+                              <Link key={product.id} to={`/producto/${product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
                                 <img src={product.image} alt={product.name} className="w-12 h-12 rounded object-cover" />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-xs font-medium line-clamp-1">{product.name}</p>
                                   <p className="text-xs text-primary font-semibold">{formatPrice(product.price)}</p>
                                 </div>
-                              </a>
+                              </Link>
                             ))}
                           </div>
                         )}

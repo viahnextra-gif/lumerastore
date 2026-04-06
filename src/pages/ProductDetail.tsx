@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ChevronLeft, Heart, Share2, Truck, Shield, RefreshCcw,
@@ -24,6 +24,7 @@ import { productSchema, breadcrumbSchema } from '@/components/seo/schemas';
 
 export default function ProductDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { addToCart } = useCart();
   const { t } = useLanguage();
@@ -230,7 +231,14 @@ export default function ProductDetail() {
                 <ShoppingBag className="h-5 w-5 mr-2" />
                 {t('product.addToCart')}
               </Button>
-              <Button size="lg" variant="outline">{t('product.buyNow')}</Button>
+              <Button size="lg" variant="outline" onClick={() => {
+                if (!selectedSize || !selectedColor) {
+                  handleAddToCart();
+                  return;
+                }
+                addToCart(product, selectedSize, selectedColor, quantity);
+                navigate('/checkout');
+              }}>{t('product.buyNow')}</Button>
             </div>
 
             {/* Features */}
