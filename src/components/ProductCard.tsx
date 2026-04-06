@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
+import { useFavorites } from '@/hooks/useFavorites';
 import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
@@ -17,10 +18,12 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const { addToCart } = useCart();
   const { t } = useLanguage();
   const { formatPrice } = useCurrency();
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  const fav = isFavorite(product.id);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,13 +52,13 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           </div>
 
           <button
-            onClick={(e) => { e.preventDefault(); setIsFavorite(!isFavorite); }}
+            onClick={(e) => { e.preventDefault(); toggleFavorite(product.id); }}
             className={cn(
               "absolute top-3 right-3 p-2 rounded-full transition-all duration-300",
-              isFavorite ? "bg-primary text-primary-foreground" : "bg-background/80 backdrop-blur-sm text-foreground hover:bg-primary hover:text-primary-foreground"
+              fav ? "bg-primary text-primary-foreground" : "bg-background/80 backdrop-blur-sm text-foreground hover:bg-primary hover:text-primary-foreground"
             )}
           >
-            <Heart className={cn("h-4 w-4", isFavorite && "fill-current")} />
+            <Heart className={cn("h-4 w-4", fav && "fill-current")} />
           </button>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }} className="absolute bottom-3 left-3 right-3 flex gap-2">

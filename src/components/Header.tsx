@@ -9,11 +9,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import CurrencySelector from '@/components/CurrencySelector';
+import SearchOverlay from '@/components/SearchOverlay';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { totalItems } = useCart();
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -55,96 +57,103 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-            Meca<span className="text-primary">Store</span>
-          </span>
-        </Link>
+    <>
+      <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="container flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="font-display text-2xl font-bold tracking-tight text-foreground">
+              Meca<span className="text-primary">Store</span>
+            </span>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link key={link.name} to={link.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-              {link.name}
-            </Link>
-          ))}
-        </nav>
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link key={link.name} to={link.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                {link.name}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="flex items-center gap-2">
-          <LanguageSwitcher />
-          <CurrencySelector />
-          <Link to="/catalogo">
-            <Button variant="ghost" size="icon" className="hidden sm:flex" title={t('nav.catalog')}><Search className="h-5 w-5" /></Button>
-          </Link>
-          {isAdmin && (
-            <Link to="/admin">
-              <Button variant="ghost" size="icon" className="hidden sm:flex text-primary"><Shield className="h-5 w-5" /></Button>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <CurrencySelector />
+            <Button variant="ghost" size="icon" className="hidden sm:flex" title="Buscar" onClick={() => setIsSearchOpen(true)}>
+              <Search className="h-5 w-5" />
+            </Button>
+            {isAdmin && (
+              <Link to="/admin">
+                <Button variant="ghost" size="icon" className="hidden sm:flex text-primary"><Shield className="h-5 w-5" /></Button>
+              </Link>
+            )}
+            <Link to={isLoggedIn ? "/conta" : "/auth"}>
+              <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
             </Link>
-          )}
-          <Link to={isLoggedIn ? "/conta" : "/auth"}>
-            <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
-          </Link>
-          {isLoggedIn && (
-            <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Logout">
-              <LogOut className="h-5 w-5" />
+            {isLoggedIn && (
+              <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Logout">
+                <LogOut className="h-5 w-5" />
+              </Button>
+            )}
+            <Link to="/carrinho">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingBag className="h-5 w-5" />
+                {totalItems > 0 && (
+                  <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
+                    {totalItems}
+                  </motion.span>
+                )}
+              </Button>
+            </Link>
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
-          )}
-          <Link to="/carrinho">
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingBag className="h-5 w-5" />
-              {totalItems > 0 && (
-                <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
-                  {totalItems}
-                </motion.span>
-              )}
-            </Button>
-          </Link>
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </div>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-border overflow-hidden">
-            <nav className="container py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link key={link.name} to={link.href} className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2" onClick={() => setIsMenuOpen(false)}>
-                  {link.name}
-                </Link>
-              ))}
-              <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                <div className="flex items-center gap-2">
-                  <LanguageSwitcher />
-                  <CurrencySelector />
-                </div>
-                {isAdmin && (
-                  <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full text-primary">
-                      <Shield className="h-4 w-4 mr-2" />
-                      {t('nav.admin')}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="md:hidden border-t border-border overflow-hidden">
+              <nav className="container py-4 flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <Link key={link.name} to={link.href} className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2" onClick={() => setIsMenuOpen(false)}>
+                    {link.name}
+                  </Link>
+                ))}
+                <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => { setIsMenuOpen(false); setIsSearchOpen(true); }}>
+                    <Search className="h-4 w-4 mr-2" />
+                    Buscar
+                  </Button>
+                  <div className="flex items-center gap-2">
+                    <LanguageSwitcher />
+                    <CurrencySelector />
+                  </div>
+                  {isAdmin && (
+                    <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full text-primary">
+                        <Shield className="h-4 w-4 mr-2" />
+                        {t('nav.admin')}
+                      </Button>
+                    </Link>
+                  )}
+                  <Link to={isLoggedIn ? "/conta" : "/auth"} onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full">
+                      <User className="h-4 w-4 mr-2" />
+                      {isLoggedIn ? t('nav.account') : t('nav.login')}
                     </Button>
                   </Link>
-                )}
-                <Link to={isLoggedIn ? "/conta" : "/auth"} onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <User className="h-4 w-4 mr-2" />
-                    {isLoggedIn ? t('nav.account') : t('nav.login')}
-                  </Button>
-                </Link>
-                {isLoggedIn && (
-                  <Button variant="outline" size="sm" className="w-full text-destructive" onClick={handleLogout}>
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
-                  </Button>
-                )}
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+                  {isLoggedIn && (
+                    <Button variant="outline" size="sm" className="w-full text-destructive" onClick={handleLogout}>
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  )}
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+      <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    </>
   );
 }
