@@ -24,10 +24,18 @@ const CURRENCY_CONFIG: Record<Currency, { locale: string; currency: string; deci
   USD: { locale: 'en-US', currency: 'USD', decimals: 2 },
 };
 
+const LANG_CURRENCY_MAP: Record<string, Currency> = {
+  es: 'PYG',
+  pt: 'BRL',
+  en: 'USD',
+};
+
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrency] = useState<Currency>(() => {
     const saved = localStorage.getItem('preferred-currency');
-    return (saved as Currency) || 'PYG';
+    if (saved) return saved as Currency;
+    const lang = localStorage.getItem('meca-lang') || 'es';
+    return LANG_CURRENCY_MAP[lang] || 'PYG';
   });
 
   const [rates, setRates] = useState<Record<Currency, number>>(FALLBACK_RATES);
