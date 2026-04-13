@@ -1,37 +1,27 @@
-const BASE_URL = 'https://mecastorepy.lovable.app';
+const BASE_URL = 'https://wakai.lovable.app';
 
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Meca Store',
+    name: 'Wakai',
     url: BASE_URL,
-    logo: `${BASE_URL}/favicon.ico`,
-    description: 'Moda femenina en Paraguay. Vestidos, conjuntos, blusas y más. Venta al por mayor y menor.',
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'PY',
-    },
+    logo: `${BASE_URL}/wakai-logo.png`,
+    description: 'Tu tienda de cosméticos online en Paraguay. Maquillaje, skincare, perfumes y más de las mejores marcas.',
+    address: { '@type': 'PostalAddress', addressCountry: 'PY' },
     sameAs: [],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      availableLanguage: ['es', 'pt'],
-    },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', availableLanguage: ['es', 'pt', 'en'] },
   };
 }
 
 export function localBusinessSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'ClothingStore',
-    name: 'Meca Store',
+    '@type': 'Store',
+    name: 'Wakai',
     url: BASE_URL,
-    description: 'Tu destino de moda femenina en Paraguay. Calidad, estilo y precios increíbles.',
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'PY',
-    },
+    description: 'Tu destino de cosméticos en Paraguay. Calidad, variedad y precios increíbles.',
+    address: { '@type': 'PostalAddress', addressCountry: 'PY' },
     priceRange: '₲₲',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
@@ -72,21 +62,13 @@ export function productSchema(product: {
     image: product.images,
     category: product.category,
     url: `${BASE_URL}${product.url}`,
-    brand: {
-      '@type': 'Brand',
-      name: 'Meca Store',
-    },
+    brand: { '@type': 'Brand', name: 'Wakai' },
     offers: {
       '@type': 'Offer',
       priceCurrency: 'PYG',
       price: product.price,
-      availability: product.inStock !== false
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      seller: {
-        '@type': 'Organization',
-        name: 'Meca Store',
-      },
+      availability: product.inStock !== false ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      seller: { '@type': 'Organization', name: 'Wakai' },
     },
   };
 }
@@ -98,10 +80,7 @@ export function faqSchema(faqs: { question: string; answer: string }[]) {
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
     })),
   };
 }
@@ -110,14 +89,11 @@ export function webSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Meca Store',
+    name: 'Wakai',
     url: BASE_URL,
     potentialAction: {
       '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${BASE_URL}/catalogo?search={search_term_string}`,
-      },
+      target: { '@type': 'EntryPoint', urlTemplate: `${BASE_URL}/catalogo?search={search_term_string}` },
       'query-input': 'required name=search_term_string',
     },
   };

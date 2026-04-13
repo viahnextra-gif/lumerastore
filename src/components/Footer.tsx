@@ -56,7 +56,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <span className="font-display text-2xl font-bold">Meca<span className="text-primary">Store</span></span>
+              <img src="/wakai-logo.png" alt="Wakai" className="h-10 brightness-0 invert" />
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-xs">{t('footer.brand.desc')}</p>
             <div className="flex gap-4">
