@@ -11,14 +11,14 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
 const benefits = [
-  { icon: Package, title: 'Mínimo 6 prendas', desc: 'Compra desde 6 unidades con precio de mayorista' },
-  { icon: TrendingUp, title: 'Hasta 40% descuento', desc: 'Margen excelente para reventa' },
-  { icon: Users, title: '+500 revendedoras', desc: 'Red de revendedoras en todo Paraguay' },
+  { icon: Package, title: 'Mínimo 6 unidades', desc: 'Compra desde 6 unidades con precio de mayorista' },
+  { icon: TrendingUp, title: 'Hasta 40% descuento', desc: 'Margen excelente para reventa de cosméticos' },
+  { icon: Users, title: '+500 revendedores', desc: 'Red de revendedores en todo Paraguay' },
 ];
 
 const testimonials = [
-  { name: 'Carolina M.', city: 'San Lorenzo', text: 'Revendo ropa de Meca Store y mis clientas aman la calidad. Excelente margen.', stars: 5 },
-  { name: 'Patricia V.', city: 'Luque', text: 'El mejor proveedor mayorista. Siempre tienen tendencias nuevas.', stars: 5 },
+  { name: 'Carolina M.', city: 'San Lorenzo', text: 'Revendo cosméticos de Wakai y mis clientes aman la calidad. Excelente margen.', stars: 5 },
+  { name: 'Patricia V.', city: 'Luque', text: 'El mejor proveedor mayorista de cosméticos. Siempre tienen novedades.', stars: 5 },
 ];
 
 export default function LandingAtacado() {
@@ -48,32 +48,31 @@ export default function LandingAtacado() {
 
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', { source: 'landing-atacado' });
-    window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas', '_blank');
+    window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas%20de%20cosméticos', '_blank');
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Venta Mayorista Moda Femenina | Meca Store"
-        description="Compra al por mayor ropa femenina en Paraguay. Vestidos, conjuntos y blusas desde 6 prendas con hasta 40% de descuento. ¡Solicita precios!"
-        keywords="ropa mayorista paraguay, venta al por mayor, atacado ropa femenina, revendedora moda"
-        canonical="https://mecastorepy.lovable.app/mayorista"
+        title="Venta Mayorista Cosméticos | Wakai"
+        description="Compra al por mayor cosméticos en Paraguay. Maquillaje, skincare y perfumería desde 6 unidades con hasta 40% de descuento. ¡Solicita precios!"
+        keywords="cosméticos mayorista paraguay, venta al por mayor, atacado cosméticos, revendedor belleza"
+        canonical="https://lojawakai.lovable.app/mayorista"
         noindex
       />
 
       <Header />
 
-      {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
         <div className="container text-center">
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 text-primary-foreground text-sm font-medium mb-6">
             PROGRAMA MAYORISTA
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="font-display text-4xl md:text-6xl font-bold text-primary-foreground mb-6">
-            Gana Dinero Revendiendo Moda
+            Gana Dinero Revendiendo Cosméticos
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-8">
-            Precios exclusivos desde 6 prendas. Margen de hasta 40% para tu negocio.
+            Precios exclusivos desde 6 unidades. Margen de hasta 40% para tu negocio de belleza.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -86,7 +85,6 @@ export default function LandingAtacado() {
         </div>
       </section>
 
-      {/* Benefits */}
       <section className="py-16">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -101,10 +99,9 @@ export default function LandingAtacado() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-16 bg-muted/50">
         <div className="container max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">Revendedoras Exitosas</h2>
+          <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">Revendedores Exitosos</h2>
           <div className="space-y-6">
             {testimonials.map((t, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card p-6 rounded-2xl shadow-sm border border-border">
@@ -117,12 +114,11 @@ export default function LandingAtacado() {
         </div>
       </section>
 
-      {/* Lead Form */}
       <section id="lead-form" className="py-20">
         <div className="container max-w-xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card p-8 md:p-10 rounded-3xl shadow-md border border-border">
             <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">Solicita Precios Mayoristas</h2>
-            <p className="text-muted-foreground text-center mb-8">Completa el formulario y recibe nuestra tabla de precios.</p>
+            <p className="text-muted-foreground text-center mb-8">Completa el formulario y recibe nuestra tabla de precios de cosméticos.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input placeholder="Tu nombre *" value={name} onChange={e => setName(e.target.value)} required />
               <Input placeholder="WhatsApp / Teléfono *" value={phone} onChange={e => setPhone(e.target.value)} required />
@@ -135,7 +131,6 @@ export default function LandingAtacado() {
         </div>
       </section>
 
-      {/* Final CTA */}
       <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">¡Empieza a revender hoy!</h2>

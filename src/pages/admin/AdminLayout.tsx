@@ -66,7 +66,7 @@ function Sidebar({ className }: { className?: string }) {
           <ChevronLeft className="h-4 w-4" />
           <span className="text-sm">{t('admin.backToStore')}</span>
         </Link>
-        <h1 className="mt-4 font-display text-2xl font-bold text-primary">MECA Admin</h1>
+        <h1 className="mt-4 font-display text-2xl font-bold text-primary">Wakai Admin</h1>
       </div>
       
       <ScrollArea className="flex-1 px-3">
@@ -150,7 +150,7 @@ export default function AdminLayout() {
           <SheetTrigger asChild><Button variant="ghost" size="icon"><Menu className="h-5 w-5" /></Button></SheetTrigger>
           <SheetContent side="left" className="p-0 w-72"><Sidebar /></SheetContent>
         </Sheet>
-        <h1 className="font-display text-xl font-bold text-primary">MECA Admin</h1>
+        <h1 className="font-display text-xl font-bold text-primary">Wakai Admin</h1>
         <CurrencySelector />
       </header>
 
