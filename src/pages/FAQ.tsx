@@ -31,10 +31,10 @@ export default function FAQ() {
   return (
     <>
       <SEOHead
-        title={`${t('faq.title')} | Meca Store`}
+        title={`${t('faq.title')} | Wakai`}
         description={t('faq.subtitle')}
-        canonical="https://mecastorepy.lovable.app/faq"
-        keywords="FAQ meca store, envíos paraguay, política de cambios"
+        canonical="https://lojawakai.lovable.app/faq"
+        keywords="FAQ wakai, envíos paraguay, política de cambios, cosméticos"
         jsonLd={[
           faqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer }))),
           organizationSchema(),
