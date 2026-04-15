@@ -57,10 +57,10 @@ export default function LandingModa() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Moda Femenina en Paraguay | Meca Store"
-        description="Descubre vestidos, conjuntos y blusas de alta calidad. Envíos a todo Paraguay."
-        keywords="moda femenina paraguay, ropa mujer asunción, vestidos paraguay"
-        canonical="https://mecastorepy.lovable.app/moda-femenina"
+        title="Cosméticos y Belleza en Paraguay | Wakai"
+        description="Descubre maquillaje, skincare y perfumería de alta calidad. Envíos a todo Paraguay."
+        keywords="cosméticos paraguay, maquillaje, skincare, belleza, wakai"
+        canonical="https://lojawakai.lovable.app/moda"
         noindex
       />
 

@@ -16,10 +16,10 @@ export default function Footer() {
 
   const footerLinks = {
     shop: [
-      { name: t('nav.dresses'), href: '/catalogo?category=vestidos' },
-      { name: t('nav.sets'), href: '/catalogo?category=conjuntos' },
-      { name: t('footer.blouses'), href: '/catalogo?category=blusas' },
-      { name: t('footer.pants'), href: '/catalogo?category=calcas' },
+      { name: t('nav.dresses'), href: '/catalogo?category=maquillaje' },
+      { name: t('nav.sets'), href: '/catalogo?category=cuidado-facial' },
+      { name: t('footer.blouses'), href: '/catalogo?category=perfumeria' },
+      { name: t('footer.pants'), href: '/catalogo?category=cuidado-corporal' },
     ],
     company: [
       { name: t('footer.about'), href: '/sobre' },
