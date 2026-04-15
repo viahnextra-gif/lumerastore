@@ -85,12 +85,12 @@ export default function CityLanding() {
   };
 
   const pageUrl = `/moda-femenina/${city.slug}`;
-  const canonicalUrl = `https://mecastorepy.lovable.app${pageUrl}`;
+  const canonicalUrl = `https://lojawakai.lovable.app${pageUrl}`;
 
   const citySchema = {
     '@context': 'https://schema.org',
-    '@type': 'ClothingStore',
-    name: `Meca Store – Moda Femenina en ${city.name}`,
+    '@type': 'Store',
+    name: `Wakai – Cosméticos y Belleza en ${city.name}`,
     url: canonicalUrl,
     description: city.metaDescription,
     address: {
@@ -227,7 +227,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">
-            ¿Por qué comprar en Meca Store desde {city.name}?
+            ¿Por qué comprar en Wakai desde {city.name}?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((b, i) => (

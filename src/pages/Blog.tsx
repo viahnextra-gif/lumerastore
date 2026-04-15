@@ -11,22 +11,22 @@ export default function Blog() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Blog Meca Store',
-    description: 'Guías, tendencias y consejos de moda femenina en Paraguay.',
-    url: 'https://mecastorepy.lovable.app/blog',
+    name: 'Blog Wakai',
+    description: 'Guías, tendencias y consejos de belleza y cosméticos en Paraguay.',
+    url: 'https://lojawakai.lovable.app/blog',
     publisher: {
       '@type': 'Organization',
-      name: 'Meca Store',
+      name: 'Wakai',
     },
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Blog de Moda Femenina | Guías y Tendencias | Meca Store"
-        description="Descubre guías de estilo, tendencias de moda femenina, tips de reventa y más. Blog de Meca Store Paraguay."
-        keywords="blog moda femenina, tendencias moda paraguay, guía estilo mujer, tips revendedora"
-        canonical="https://mecastorepy.lovable.app/blog"
+        title="Blog de Belleza y Cosméticos | Guías y Tendencias | Wakai"
+        description="Descubre guías de belleza, tendencias de cosméticos, tips de skincare y más. Blog de Wakai Paraguay."
+        keywords="blog belleza, tendencias cosméticos paraguay, guía skincare, tips maquillaje"
+        canonical="https://lojawakai.lovable.app/blog"
         jsonLd={jsonLd}
       />
       <Header />

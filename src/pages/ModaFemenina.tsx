@@ -9,7 +9,7 @@ import { organizationSchema, breadcrumbSchema } from '@/components/seo/schemas';
 import { getCitiesByCountry } from '@/data/cities';
 import { Input } from '@/components/ui/input';
 
-const BASE_URL = 'https://mecastorepy.lovable.app';
+const BASE_URL = 'https://lojawakai.lovable.app';
 
 export default function ModaFemenina() {
   const [search, setSearch] = useState('');
@@ -33,13 +33,13 @@ export default function ModaFemenina() {
     organizationSchema(),
     breadcrumbSchema([
       { name: 'Inicio', url: '/' },
-      { name: 'Moda Femenina', url: '/moda-femenina' },
+      { name: 'Cosméticos y Belleza', url: '/moda-femenina' },
     ]),
     {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
-      name: 'Moda Femenina — Todas las Ciudades',
-      description: 'Encuentra moda femenina en tu ciudad. Vestidos, conjuntos, blusas y más con envío a Paraguay y Brasil.',
+      name: 'Cosméticos y Belleza — Todas las Ciudades',
+      description: 'Encuentra cosméticos y productos de belleza en tu ciudad. Maquillaje, skincare, perfumería y más con envío a Paraguay y Brasil.',
       url: `${BASE_URL}/moda-femenina`,
     },
   ];
@@ -47,10 +47,10 @@ export default function ModaFemenina() {
   return (
     <>
       <SEOHead
-        title="Moda Femenina en Paraguay y Brasil | Vestidos y Conjuntos | Meca Store"
-        description="Encuentra moda femenina en tu ciudad. Vestidos, conjuntos, blusas y más con envío a Paraguay y Brasil. Precios desde ₲ 89.000."
+        title="Cosméticos y Belleza en Paraguay y Brasil | Maquillaje y Skincare | Wakai"
+        description="Encuentra cosméticos y productos de belleza en tu ciudad. Maquillaje, skincare, perfumería y más con envío a Paraguay y Brasil."
         canonical={`${BASE_URL}/moda-femenina`}
-        keywords="moda femenina, vestidos paraguay, ropa mujer, moda feminina brasil, conjuntos, blusas"
+        keywords="cosméticos paraguay, maquillaje, skincare, perfumería, belleza brasil"
         jsonLd={jsonLd}
       />
       <Header />
