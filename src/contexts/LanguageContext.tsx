@@ -2677,19 +2677,15 @@ const translations: Record<Language, Record<string, string>> = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('wakai-lang');
-    return (saved as Language) || 'es';
-  });
-
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem('wakai-lang', lang);
+  // Site fixado em português brasileiro - multilíngue removido
+  const language: Language = 'pt';
+  const setLanguage = useCallback((_lang: Language) => {
+    // no-op: multilíngue removido
   }, []);
 
   const t = useCallback(
-    (key: string) => translations[language][key] || translations['pt'][key] || key,
-    [language]
+    (key: string) => translations['pt'][key] || key,
+    []
   );
 
   return (

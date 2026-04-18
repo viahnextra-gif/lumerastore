@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/contexts/LanguageContext';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
-import CurrencySelector from '@/components/CurrencySelector';
 import SearchOverlay from '@/components/SearchOverlay';
 
 export default function Header() {
@@ -73,8 +71,6 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-            <CurrencySelector />
             <Button variant="ghost" size="icon" className="hidden sm:flex" title="Buscar" onClick={() => setIsSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </Button>
@@ -121,10 +117,6 @@ export default function Header() {
                     <Search className="h-4 w-4 mr-2" />
                     Buscar
                   </Button>
-                  <div className="flex items-center gap-2">
-                    <LanguageSwitcher />
-                    <CurrencySelector />
-                  </div>
                   {isAdmin && (
                     <Link to="/admin" onClick={() => setIsMenuOpen(false)}>
                       <Button variant="outline" size="sm" className="w-full text-primary">
