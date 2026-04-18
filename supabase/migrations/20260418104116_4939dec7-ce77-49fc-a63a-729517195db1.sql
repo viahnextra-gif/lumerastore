@@ -1,0 +1,1 @@
+UPDATE public.products SET price = ROUND((price / 1450)::numeric, 2), wholesale_price = CASE WHEN wholesale_price IS NOT NULL THEN ROUND((wholesale_price / 1450)::numeric, 2) ELSE NULL END;
