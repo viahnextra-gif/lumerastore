@@ -42,7 +42,7 @@ serve(async (req) => {
       )
       .join("\n");
 
-    const systemPrompt = `Você é uma assistente de vendas amigável e especialista da Wakai, uma loja online de cosméticos no Brasil.
+    const systemPrompt = `Você é uma assistente de vendas amigável e especialista da Lumera, uma loja online de cosméticos no Brasil.
 
 PRODUTOS DISPONÍVEIS:
 ${productContext}

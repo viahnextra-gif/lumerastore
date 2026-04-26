@@ -17,7 +17,7 @@ const benefits = [
 ];
 
 const testimonials = [
-  { name: 'Carolina M.', city: 'San Lorenzo', text: 'Revendo cosméticos de Wakai y mis clientes aman la calidad. Excelente margen.', stars: 5 },
+  { name: 'Carolina M.', city: 'San Lorenzo', text: 'Revendo cosméticos de Lumera y mis clientes aman la calidad. Excelente margen.', stars: 5 },
   { name: 'Patricia V.', city: 'Luque', text: 'El mejor proveedor mayorista de cosméticos. Siempre tienen novedades.', stars: 5 },
 ];
 
@@ -54,10 +54,10 @@ export default function LandingAtacado() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Venta Mayorista Cosméticos | Wakai"
+        title="Venta Mayorista Cosméticos | Lumera"
         description="Compra al por mayor cosméticos en Paraguay. Maquillaje, skincare y perfumería desde 6 unidades con hasta 40% de descuento. ¡Solicita precios!"
         keywords="cosméticos mayorista paraguay, venta al por mayor, atacado cosméticos, revendedor belleza"
-        canonical="https://lojawakai.lovable.app/mayorista"
+        canonical="https://lojalumera.lovable.app/mayorista"
         noindex
       />
 

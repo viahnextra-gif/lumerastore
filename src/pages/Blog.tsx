@@ -11,22 +11,22 @@ export default function Blog() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Blog Wakai',
+    name: 'Blog Lumera',
     description: 'Guías, tendencias y consejos de belleza y cosméticos en Paraguay.',
-    url: 'https://lojawakai.lovable.app/blog',
+    url: 'https://lojalumera.lovable.app/blog',
     publisher: {
       '@type': 'Organization',
-      name: 'Wakai',
+      name: 'Lumera',
     },
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Blog de Belleza y Cosméticos | Guías y Tendencias | Wakai"
-        description="Descubre guías de belleza, tendencias de cosméticos, tips de skincare y más. Blog de Wakai Paraguay."
+        title="Blog de Belleza y Cosméticos | Guías y Tendencias | Lumera"
+        description="Descubre guías de belleza, tendencias de cosméticos, tips de skincare y más. Blog de Lumera Paraguay."
         keywords="blog belleza, tendencias cosméticos paraguay, guía skincare, tips maquillaje"
-        canonical="https://lojawakai.lovable.app/blog"
+        canonical="https://lojalumera.lovable.app/blog"
         jsonLd={jsonLd}
       />
       <Header />

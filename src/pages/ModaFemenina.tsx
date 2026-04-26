@@ -9,7 +9,7 @@ import { organizationSchema, breadcrumbSchema } from '@/components/seo/schemas';
 import { getCitiesByCountry } from '@/data/cities';
 import { Input } from '@/components/ui/input';
 
-const BASE_URL = 'https://lojawakai.lovable.app';
+const BASE_URL = 'https://lojalumera.lovable.app';
 
 export default function ModaFemenina() {
   const [search, setSearch] = useState('');
@@ -47,7 +47,7 @@ export default function ModaFemenina() {
   return (
     <>
       <SEOHead
-        title="Cosméticos y Belleza en Paraguay y Brasil | Maquillaje y Skincare | Wakai"
+        title="Cosméticos y Belleza en Paraguay y Brasil | Maquillaje y Skincare | Lumera"
         description="Encuentra cosméticos y productos de belleza en tu ciudad. Maquillaje, skincare, perfumería y más con envío a Paraguay y Brasil."
         canonical={`${BASE_URL}/moda-femenina`}
         keywords="cosméticos paraguay, maquillaje, skincare, perfumería, belleza brasil"

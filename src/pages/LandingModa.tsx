@@ -57,10 +57,10 @@ export default function LandingModa() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cosméticos y Belleza en Paraguay | Wakai"
+        title="Cosméticos y Belleza en Paraguay | Lumera"
         description="Descubre maquillaje, skincare y perfumería de alta calidad. Envíos a todo Paraguay."
-        keywords="cosméticos paraguay, maquillaje, skincare, belleza, wakai"
-        canonical="https://lojawakai.lovable.app/moda"
+        keywords="cosméticos paraguay, maquillaje, skincare, belleza, lumera"
+        canonical="https://lojalumera.lovable.app/moda"
         noindex
       />
 

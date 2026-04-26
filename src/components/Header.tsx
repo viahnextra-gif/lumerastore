@@ -59,7 +59,7 @@ export default function Header() {
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src="/wakai-logo.png" alt="Wakai" className="h-10" />
+            <img src="/lumera-logo.png" alt="Lumera" className="h-10" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">

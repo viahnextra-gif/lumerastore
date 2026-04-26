@@ -105,11 +105,11 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={`${product.name} - Wakai`}
+        title={`${product.name} - Lumera`}
         description={`${product.description?.slice(0, 150) || product.name}`}
         ogImage={product.images?.[0]}
         ogType="product"
-        keywords={`${product.name}, ${product.category}, cosméticos, belleza, wakai`}
+        keywords={`${product.name}, ${product.category}, cosméticos, belleza, lumera`}
         jsonLd={jsonLd}
       />
       <Header />

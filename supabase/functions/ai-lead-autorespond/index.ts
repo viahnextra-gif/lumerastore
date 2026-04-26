@@ -36,7 +36,7 @@ serve(async (req) => {
 
     const productList = products?.map(p => `- ${p.name}: R$ ${p.price}`).join("\n") || "Sem produtos disponíveis";
 
-    const prompt = `Você é uma assistente de vendas da Wakai (loja de cosméticos no Brasil).
+    const prompt = `Você é uma assistente de vendas da Lumera (loja de cosméticos no Brasil).
 Um lead "${lead.status}" te contatou:
 - Nome: ${lead.name || "Desconhecido"}
 - Email: ${lead.email || "Não fornecido"}
