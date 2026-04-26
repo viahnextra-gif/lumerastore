@@ -13,7 +13,7 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const prompt = `Analise estes leads de uma loja de cosméticos (Lumera) e classifique-os. Para cada lead, retorne um score (0-100) e uma sugestão de ação concisa em português brasileiro.
+    const prompt = `Analise estes leads de uma loja de cosméticos (Lumera Store) e classifique-os. Para cada lead, retorne um score (0-100) e uma sugestão de ação concisa em português brasileiro.
 
 Leads: ${JSON.stringify(leads)}
 

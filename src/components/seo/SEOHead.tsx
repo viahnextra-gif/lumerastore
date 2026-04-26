@@ -11,8 +11,8 @@ interface SEOHeadProps {
   jsonLd?: object | object[];
 }
 
-const BASE_URL = 'https://mecastorepy.lovable.app';
-const DEFAULT_OG_IMAGE = `${BASE_URL}/og-image.jpg`;
+const BASE_URL = 'https://lojawakai.lovable.app';
+const DEFAULT_OG_IMAGE = `${BASE_URL}/lumera-logo.png`;
 
 export default function SEOHead({
   title,
@@ -51,15 +51,15 @@ export default function SEOHead({
     setMeta('property', 'og:type', ogType);
     setMeta('property', 'og:image', ogImage || DEFAULT_OG_IMAGE);
     setMeta('property', 'og:url', canonical || window.location.href);
-    setMeta('property', 'og:site_name', 'Meca Store');
-    setMeta('property', 'og:locale', 'es_PY');
+    setMeta('property', 'og:site_name', 'Lumera Store');
+    setMeta('property', 'og:locale', 'pt_BR');
 
     // Twitter Card
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', title);
     setMeta('name', 'twitter:description', description);
     setMeta('name', 'twitter:image', ogImage || DEFAULT_OG_IMAGE);
-    setMeta('name', 'twitter:site', '@meca_store');
+    setMeta('name', 'twitter:site', '@lumera_store');
 
     // Canonical
     let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;

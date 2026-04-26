@@ -1,160 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mecastorepy.lovable.app/</loc>
+    <loc>https://lojawakai.lovable.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/moda-femenina</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://lojawakai.lovable.app/sobre</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo</loc>
+    <loc>https://lojawakai.lovable.app/catalogo</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=vestidos</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=maquillaje</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=conjuntos</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=cuidado-facial</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=blusas</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=perfumeria</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=calcas</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=cuidado-corporal</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=saias</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=cuidado-capilar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=shorts</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=infantil</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/catalogo?category=macacoes</loc>
+    <loc>https://lojawakai.lovable.app/catalogo?category=masculino</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/atacado</loc>
+    <loc>https://lojawakai.lovable.app/atacado</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/blog</loc>
+    <loc>https://lojawakai.lovable.app/promocoes</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://lojawakai.lovable.app/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/blog/moda</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mecastorepy.lovable.app/blog/tendencias</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mecastorepy.lovable.app/blog/guia</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://mecastorepy.lovable.app/faq</loc>
+    <loc>https://lojawakai.lovable.app/faq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mecastorepy.lovable.app/auth</loc>
+    <loc>https://lojawakai.lovable.app/auth</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
-  <!-- Paraguay Cities -->
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/asuncion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/ciudad-del-este</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/encarnacion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/san-lorenzo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/luque</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/caaguazu</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/pedro-juan-caballero</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/coronel-oviedo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/villarrica</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/concepcion</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/pilar</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/salto-del-guaira</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <!-- Brazil Capitals -->
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sao-paulo</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/rio-de-janeiro</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/belo-horizonte</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/salvador</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/brasilia</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/fortaleza</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/manaus</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/curitiba</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/recife</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/goiania</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/belem</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/porto-alegre</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sao-luis</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/maceio</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/natal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/teresina</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/joao-pessoa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/aracaju</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/cuiaba</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/campo-grande</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/porto-velho</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/macapa</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/boa-vista</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/rio-branco</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/palmas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/vitoria</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/florianopolis</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <!-- SP Major Cities -->
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/guarulhos</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/campinas</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sao-bernardo-do-campo</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/santo-andre</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sao-jose-dos-campos</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/osasco</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/ribeirao-preto</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sorocaba</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/santos</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/sao-jose-do-rio-preto</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/piracicaba</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/jundiai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/bauru</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/franca</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/presidente-prudente</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/araraquara</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <!-- SC Major Cities -->
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/joinville</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/blumenau</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/chapeco</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/criciuma</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/itajai</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/balneario-camboriu</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/lages</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/jaragua-do-sul</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <!-- MS Major Cities -->
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/dourados</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/tres-lagoas</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/corumba</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mecastorepy.lovable.app/moda-femenina/ponta-pora</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
 </urlset>

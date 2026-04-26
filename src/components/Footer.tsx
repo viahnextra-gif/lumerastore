@@ -60,8 +60,8 @@ export default function Footer() {
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-xs">{t('footer.brand.desc')}</p>
             <div className="flex gap-4">
-              <a href="https://instagram.com/meca_store.py" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="https://facebook.com/mecastore" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-5 w-5" /></a>
+              <a href="https://instagram.com/lumera.store" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-5 w-5" /></a>
+              <a href="https://facebook.com/lumerastore" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-5 w-5" /></a>
               <a href="https://wa.me/595xxx" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><MessageCircle className="h-5 w-5" /></a>
             </div>
           </div>

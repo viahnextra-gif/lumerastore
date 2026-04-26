@@ -195,7 +195,7 @@ export default function Catalog() {
       <SEOHead
         title={seoTitle}
         description={seoDesc}
-        keywords={`moda femenina, ${currentCategoryName.toLowerCase()}, ropa mujer, paraguay, meca store`}
+        keywords={`cosméticos, ${currentCategoryName.toLowerCase()}, maquiagem, skincare, perfumaria, brasil, lumera store`}
         jsonLd={[breadcrumbSchema(breadcrumbItems), itemListSchema(productListItems)]}
       />
       <Header />

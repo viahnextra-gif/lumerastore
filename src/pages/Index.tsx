@@ -59,10 +59,10 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Meca Store - Moda Femenina | Paraguay"
+        title="Lumera Store - Moda Femenina | Paraguay"
         description="Descubre la última tendencia en moda femenina. Vestidos, conjuntos, blusas y más. Venta al por mayor y menor. Envíos a todo Paraguay."
         keywords="moda femenina, ropa mujer, vestidos, conjuntos, blusas, paraguay, atacado, mayorista, meca store"
-        canonical="https://mecastorepy.lovable.app/"
+        canonical="https://lojawakai.lovable.app/"
         jsonLd={[organizationSchema(), localBusinessSchema(), webSiteSchema(), faqSchema(faqItems)]}
       />
       <Header />
@@ -140,7 +140,7 @@ export default function Index() {
                 <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 to-gold/20 rounded-3xl blur-2xl" />
                 <img
                   src={currentHeroProduct?.images?.[0] || heroImage}
-                  alt={currentHeroProduct?.name || 'Meca Store'}
+                  alt={currentHeroProduct?.name || 'Lumera Store'}
                   className="relative rounded-3xl object-cover w-full h-full shadow-lg transition-all duration-700"
                   key={heroIndex}
                 />

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { CartItem, Product } from '@/types/product';
 
-const CART_STORAGE_KEY = 'mecastore_cart';
+const CART_STORAGE_KEY = 'lumera_cart';
 
 interface CartContextType {
   items: CartItem[];

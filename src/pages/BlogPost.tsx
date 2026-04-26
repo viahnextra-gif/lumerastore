@@ -55,13 +55,13 @@ export default function BlogPost() {
     image: post.image,
     datePublished: post.dateISO,
     dateModified: post.dateISO,
-    author: { '@type': 'Organization', name: 'Meca Store' },
+    author: { '@type': 'Organization', name: 'Lumera Store' },
     publisher: {
       '@type': 'Organization',
-      name: 'Meca Store',
-      logo: { '@type': 'ImageObject', url: 'https://mecastorepy.lovable.app/favicon.ico' },
+      name: 'Lumera Store',
+      logo: { '@type': 'ImageObject', url: 'https://lojawakai.lovable.app/favicon.ico' },
     },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://mecastorepy.lovable.app/blog/${post.slug}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://lojawakai.lovable.app/blog/${post.slug}` },
     wordCount: post.content.split(' ').length,
     articleSection: post.category,
     keywords: post.keywords.join(', '),
@@ -72,10 +72,10 @@ export default function BlogPost() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={`${post.title} | Blog Meca Store`}
+        title={`${post.title} | Blog Lumera Store`}
         description={post.excerpt}
         keywords={post.keywords.join(', ')}
-        canonical={`https://mecastorepy.lovable.app/blog/${post.slug}`}
+        canonical={`https://lojawakai.lovable.app/blog/${post.slug}`}
         ogImage={post.image}
         ogType="article"
         jsonLd={blogPostingSchema}
