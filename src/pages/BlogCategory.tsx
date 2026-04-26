@@ -9,21 +9,21 @@ import { blogPosts } from '@/data/blogPosts';
 
 const categoryMeta: Record<string, { title: string; description: string; keywords: string; heading: string; intro: string }> = {
   moda: {
-    title: 'Blog de Moda Femenina | Estilos, Outfits y Tendencias | Meca Store',
-    description: 'Artículos sobre moda femenina en Paraguay: guías de estilo, outfits para cada ocasión, capsule wardrobe y más. Blog Meca Store.',
+    title: 'Blog de Moda Femenina | Estilos, Outfits y Tendencias | Lumera Store',
+    description: 'Artículos sobre moda femenina en Paraguay: guías de estilo, outfits para cada ocasión, capsule wardrobe y más. Blog Lumera Store.',
     keywords: 'moda femenina, estilo mujer, outfits, guardarropa cápsula, moda paraguay',
     heading: 'Moda Femenina',
     intro: 'Guías de estilo, outfits para cada ocasión y todo lo que necesitas saber sobre moda femenina en Paraguay.',
   },
   tendencias: {
-    title: 'Tendencias de Moda 2026 | Colores, Accesorios y Estilos | Meca Store',
+    title: 'Tendencias de Moda 2026 | Colores, Accesorios y Estilos | Lumera Store',
     description: 'Las últimas tendencias de moda femenina: colores de temporada, accesorios imprescindibles y estilos que marcan la pauta en Paraguay.',
     keywords: 'tendencias moda 2026, colores temporada, accesorios moda, moda sustentable',
     heading: 'Tendencias',
     intro: 'Las últimas tendencias de moda: colores de temporada, accesorios imprescindibles y estilos que marcan la pauta.',
   },
   guia: {
-    title: 'Guías de Moda y Negocio | Tallas, Reventa y Tips | Meca Store',
+    title: 'Guías de Moda y Negocio | Tallas, Reventa y Tips | Lumera Store',
     description: 'Guías prácticas: cómo encontrar tu talla, revender ropa femenina, elegir telas para el clima paraguayo y más.',
     keywords: 'guía tallas ropa, revender ropa, telas clima cálido, negocio moda femenina',
     heading: 'Guías Prácticas',
@@ -63,9 +63,9 @@ export default function BlogCategory() {
     '@type': 'CollectionPage',
     name: meta.heading,
     description: meta.description,
-    url: `https://mecastorepy.lovable.app/blog/${category}`,
-    isPartOf: { '@type': 'Blog', name: 'Blog Meca Store', url: 'https://mecastorepy.lovable.app/blog' },
-    publisher: { '@type': 'Organization', name: 'Meca Store' },
+    url: `https://lojawakai.lovable.app/blog/${category}`,
+    isPartOf: { '@type': 'Blog', name: 'Blog Lumera Store', url: 'https://lojawakai.lovable.app/blog' },
+    publisher: { '@type': 'Organization', name: 'Lumera Store' },
   };
 
   return (
@@ -74,7 +74,7 @@ export default function BlogCategory() {
         title={meta.title}
         description={meta.description}
         keywords={meta.keywords}
-        canonical={`https://mecastorepy.lovable.app/blog/${category}`}
+        canonical={`https://lojawakai.lovable.app/blog/${category}`}
         jsonLd={jsonLd}
       />
       <Header />
