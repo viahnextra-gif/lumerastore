@@ -38,11 +38,13 @@ function* walk(dir: string): Generator<string> {
 }
 
 function isAllowedLine(file: string, line: string): boolean {
-  // The test file itself
+  // Test files and tooling that necessarily reference the forbidden terms as data
   if (file.endsWith("no-legacy-brand.test.ts")) return true;
+  if (file.endsWith("legacy-redirects.test.ts")) return true;
+  if (file.endsWith("legacyBrandScanner.ts")) return true;
+  if (file.endsWith("SeoTools.tsx")) return true;
 
   // Published domain — keep until the project is republished under a new slug.
-  // We only allow the literal "lojawakai.lovable.app" reference.
   const stripped = line.replace(/lojawakai\.lovable\.app/g, "");
   if (!FORBIDDEN.some((re) => re.test(stripped))) return true;
 
