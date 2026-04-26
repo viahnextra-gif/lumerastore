@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings, BarChart3, MessageSquare,
   Tag, LogOut, ChevronLeft, ChevronDown, Menu, Layers, FileText, Kanban,
-  CalendarDays, Megaphone, Key, Store, Bell,
+  CalendarDays, Megaphone, Key, Store, Bell, Search,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -42,6 +42,7 @@ function Sidebar({ className }: { className?: string }) {
     { name: t('admin.credentials'), href: '/admin/credenciales', icon: Key },
     { name: t('admin.reports'), href: '/admin/reportes', icon: BarChart3 },
     { name: t('admin.settings'), href: '/admin/configuracion', icon: Settings },
+    { name: 'SEO & Sitemap', href: '/admin/seo', icon: Search },
   ];
 
   const marketplaceNav = [
