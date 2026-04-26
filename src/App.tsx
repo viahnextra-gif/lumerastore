@@ -53,6 +53,7 @@ import FAQ from "./pages/FAQ";
 import CityLanding from "./pages/CityLanding";
 import ModaFemenina from "./pages/ModaFemenina";
 import Promocoes from "./pages/Promocoes";
+import Sobre from "./pages/Sobre";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 
@@ -92,6 +93,7 @@ const App = () => (
                 <Route path="/mayorista" element={<Navigate to="/atacado" replace />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/promocoes" element={<Promocoes />} />
+                <Route path="/sobre" element={<Sobre />} />
                 {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
