@@ -1,16 +1,16 @@
-const BASE_URL = 'https://lumera.lovable.app';
+const BASE_URL = 'https://lojawakai.lovable.app';
 
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Lumera',
+    name: 'Lumera Store',
     url: BASE_URL,
     logo: `${BASE_URL}/lumera-logo.png`,
-    description: 'Tu tienda de cosméticos online en Paraguay. Maquillaje, skincare, perfumes y más de las mejores marcas.',
-    address: { '@type': 'PostalAddress', addressCountry: 'PY' },
+    description: 'Sua loja de cosméticos online no Brasil. Maquiagem, skincare, perfumaria e mais das melhores marcas.',
+    address: { '@type': 'PostalAddress', addressCountry: 'BR' },
     sameAs: [],
-    contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', availableLanguage: ['es', 'pt', 'en'] },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'customer service', availableLanguage: ['pt-BR'] },
   };
 }
 
@@ -18,11 +18,11 @@ export function localBusinessSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Store',
-    name: 'Lumera',
+    name: 'Lumera Store',
     url: BASE_URL,
-    description: 'Tu destino de cosméticos en Paraguay. Calidad, variedad y precios increíbles.',
-    address: { '@type': 'PostalAddress', addressCountry: 'PY' },
-    priceRange: '₲₲',
+    description: 'Seu destino de cosméticos no Brasil. Qualidade, variedade e os melhores preços.',
+    address: { '@type': 'PostalAddress', addressCountry: 'BR' },
+    priceRange: 'R$R$',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -62,13 +62,13 @@ export function productSchema(product: {
     image: product.images,
     category: product.category,
     url: `${BASE_URL}${product.url}`,
-    brand: { '@type': 'Brand', name: 'Lumera' },
+    brand: { '@type': 'Brand', name: 'Lumera Store' },
     offers: {
       '@type': 'Offer',
-      priceCurrency: 'PYG',
+      priceCurrency: 'BRL',
       price: product.price,
       availability: product.inStock !== false ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      seller: { '@type': 'Organization', name: 'Lumera' },
+      seller: { '@type': 'Organization', name: 'Lumera Store' },
     },
   };
 }
@@ -89,7 +89,7 @@ export function webSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Lumera',
+    name: 'Lumera Store',
     url: BASE_URL,
     potentialAction: {
       '@type': 'SearchAction',
