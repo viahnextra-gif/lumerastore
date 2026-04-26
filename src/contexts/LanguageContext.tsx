@@ -61,7 +61,7 @@ const translations: Record<Language, Record<string, string>> = {
     'ai.title': 'Assistente de Beleza com IA',
     'ai.subtitle': 'Monte listas de compras, tire dúvidas sobre produtos, envios, trocas e muito mais',
     'ai.placeholder': 'Pergunte sobre belleza, produtos, envios, políticas...',
-    'ai.welcome': 'Olá! 👋 Sou sua assistente de beleza da Wakai. Posso te ajudar a montar looks, criar listas de compras, tirar dúvidas sobre produtos, envios, políticas de troca e muito mais. Como posso ajudar?',
+    'ai.welcome': 'Olá! 👋 Sou sua assistente de beleza da Lumera. Posso te ajudar a montar looks, criar listas de compras, tirar dúvidas sobre produtos, envios, políticas de troca e muito mais. Como posso ajudar?',
     'ai.error': 'Desculpe, houve um erro. Tente novamente ou fale conosco pelo WhatsApp.',
     'ai.suggestions.1': '📋 Armar rutina de skincare',
     'ai.suggestions.2': '💄 Sugerir rutina de belleza',
@@ -231,7 +231,7 @@ const translations: Record<Language, Record<string, string>> = {
     'auth.signIn': 'Entrar',
     'auth.createAccount': 'Criar Conta',
     'auth.signInSubtitle': 'Insira seus dados para acessar sua conta',
-    'auth.createAccountSubtitle': 'Junte-se à Wakai e descubra nossa coleção',
+    'auth.createAccountSubtitle': 'Junte-se à Lumera e descubra nossa coleção',
     'auth.fullName': 'Nome completo',
     'auth.namePlaceholder': 'Seu nome',
     'auth.email': 'Email',
@@ -274,7 +274,7 @@ const translations: Record<Language, Record<string, string>> = {
     'account.addresses': 'Endereços',
 
     // Promocoes
-    'promo.seoTitle': 'Promoções de Beleza | Wakai',
+    'promo.seoTitle': 'Promoções de Beleza | Lumera',
     'promo.seoDesc': 'Aproveite as melhores promoções de cosméticos e beleza. Descontos imperdíveis em maquiagens, cremes, perfumes e muito mais.',
     'promo.title': 'Promoção de Beleza 💄',
     'promo.subtitle': 'Até 40% de desconto em produtos selecionados',
@@ -296,7 +296,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Wholesale
     'wholesale.badge': '🏪 Programa Atacadista',
-    'wholesale.title': 'Faça seu negócio crescer com a Wakai',
+    'wholesale.title': 'Faça seu negócio crescer com a Lumera',
     'wholesale.subtitle': 'Junte-se à nossa rede de revendedores e acesse preços exclusivos, packs flexíveis e todo o apoio que precisa para ter sucesso.',
     'wholesale.requestAccess': 'Solicitar Acesso',
     'wholesale.viewCatalog': 'Ver Catálogo B2B',
@@ -344,7 +344,7 @@ const translations: Record<Language, Record<string, string>> = {
     'landing.heroTitle': 'Sua Beleza, Seu Poder ✨',
     'landing.heroSubtitle': 'A cosméticos e beleza que te faz brilhar. Vestidos, conjuntos e blusas com qualidade premium e preços acessíveis.',
     'landing.wantToKnow': 'Quero Saber Mais',
-    'landing.whyChoose': 'Por que escolher a Wakai?',
+    'landing.whyChoose': 'Por que escolher a Lumera?',
     'landing.benefit1': 'Envios para todo o Paraguai',
     'landing.benefit2': 'Preços de atacado a partir de 6 unidades',
     'landing.benefit3': 'Qualidade garantida',
@@ -389,7 +389,7 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.shipping': 'Envios',
     'footer.returns': 'Devoluções',
     'footer.sizeGuide': 'Guia de Uso',
-    'footer.rights': '© 2025 Wakai. Todos os direitos reservados.',
+    'footer.rights': '© 2025 Lumera. Todos os direitos reservados.',
     'footer.privacy': 'Privacidade',
     'footer.terms': 'Termos',
     'footer.blouses': 'Perfumería',

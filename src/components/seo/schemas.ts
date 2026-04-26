@@ -1,12 +1,12 @@
-const BASE_URL = 'https://wakai.lovable.app';
+const BASE_URL = 'https://lumera.lovable.app';
 
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Wakai',
+    name: 'Lumera',
     url: BASE_URL,
-    logo: `${BASE_URL}/wakai-logo.png`,
+    logo: `${BASE_URL}/lumera-logo.png`,
     description: 'Tu tienda de cosméticos online en Paraguay. Maquillaje, skincare, perfumes y más de las mejores marcas.',
     address: { '@type': 'PostalAddress', addressCountry: 'PY' },
     sameAs: [],
@@ -18,7 +18,7 @@ export function localBusinessSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Store',
-    name: 'Wakai',
+    name: 'Lumera',
     url: BASE_URL,
     description: 'Tu destino de cosméticos en Paraguay. Calidad, variedad y precios increíbles.',
     address: { '@type': 'PostalAddress', addressCountry: 'PY' },
@@ -62,13 +62,13 @@ export function productSchema(product: {
     image: product.images,
     category: product.category,
     url: `${BASE_URL}${product.url}`,
-    brand: { '@type': 'Brand', name: 'Wakai' },
+    brand: { '@type': 'Brand', name: 'Lumera' },
     offers: {
       '@type': 'Offer',
       priceCurrency: 'PYG',
       price: product.price,
       availability: product.inStock !== false ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      seller: { '@type': 'Organization', name: 'Wakai' },
+      seller: { '@type': 'Organization', name: 'Lumera' },
     },
   };
 }
@@ -89,7 +89,7 @@ export function webSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Wakai',
+    name: 'Lumera',
     url: BASE_URL,
     potentialAction: {
       '@type': 'SearchAction',

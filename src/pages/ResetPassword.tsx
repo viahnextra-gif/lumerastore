@@ -77,7 +77,7 @@ export default function ResetPassword() {
         </Link>
 
         <div className="text-center mb-8">
-          <Link to="/" className="font-display text-3xl font-bold text-primary">Wakai</Link>
+          <Link to="/" className="font-display text-3xl font-bold text-primary">Lumera</Link>
           <h1 className="mt-4 font-display text-2xl font-bold text-foreground">Nova Senha</h1>
           <p className="mt-2 text-muted-foreground">Digite sua nova senha abaixo</p>
         </div>

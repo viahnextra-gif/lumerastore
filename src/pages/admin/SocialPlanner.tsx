@@ -123,7 +123,7 @@ export default function SocialPlanner() {
                 )}
               </div>
               <div className="space-y-2"><Label>{t('admin.dateTimeLabel')}</Label><Input type="datetime-local" value={formData.scheduled_at} onChange={(e) => setFormData({ ...formData, scheduled_at: e.target.value })} /></div>
-              <div className="space-y-2"><Label>{t('admin.hashtagsLabel')}</Label><Input value={formData.hashtags} onChange={(e) => setFormData({ ...formData, hashtags: e.target.value })} placeholder="#cosmeticos, #belleza, #wakai" /></div>
+              <div className="space-y-2"><Label>{t('admin.hashtagsLabel')}</Label><Input value={formData.hashtags} onChange={(e) => setFormData({ ...formData, hashtags: e.target.value })} placeholder="#cosmeticos, #belleza, #lumera" /></div>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setIsDialogOpen(false)}>{t('admin.cancel')}</Button>
