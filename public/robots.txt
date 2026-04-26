@@ -17,4 +17,4 @@ Disallow: /auth
 Disallow: /reset-password
 Disallow: /checkout
 
-Sitemap: https://mecastorepy.lovable.app/sitemap.xml
+Sitemap: https://lojawakai.lovable.app/sitemap.xml

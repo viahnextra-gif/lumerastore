@@ -61,7 +61,7 @@ export default function Index() {
       <SEOHead
         title="Lumera Store - Moda Femenina | Paraguay"
         description="Descubre la última tendencia en moda femenina. Vestidos, conjuntos, blusas y más. Venta al por mayor y menor. Envíos a todo Paraguay."
-        keywords="moda femenina, ropa mujer, vestidos, conjuntos, blusas, paraguay, atacado, mayorista, meca store"
+        keywords="moda femenina, ropa mujer, vestidos, conjuntos, blusas, paraguay, atacado, mayorista, Lumera Store"
         canonical="https://lojawakai.lovable.app/"
         jsonLd={[organizationSchema(), localBusinessSchema(), webSiteSchema(), faqSchema(faqItems)]}
       />

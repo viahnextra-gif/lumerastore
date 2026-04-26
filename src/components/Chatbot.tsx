@@ -29,7 +29,7 @@ export default function Chatbot() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: '¡Hola! 👋 Soy tu asistente de Meca Store. Puedo ayudarte a encontrar el look perfecto, responder tus preguntas sobre productos, tallas y envíos. ¿En qué puedo ayudarte hoy?',
+      content: 'Olá! 👋 Sou sua assistente da Lumera Store. Posso te ajudar a encontrar os melhores cosméticos, tirar dúvidas sobre produtos, variantes e envios. Como posso te ajudar hoje?',
     },
   ]);
   const [input, setInput] = useState('');

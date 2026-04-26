@@ -36,7 +36,7 @@ export default function Blog() {
           <Breadcrumbs items={[{ label: 'Blog' }]} />
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">Blog Meca Store</h1>
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">Blog Lumera Store</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Guías de estilo, tendencias, tips de negocio y todo sobre moda femenina en Paraguay.
             </p>

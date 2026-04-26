@@ -32,6 +32,7 @@ import Campaigns from "./pages/admin/Campaigns";
 import ApiCredentials from "./pages/admin/ApiCredentials";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+import SeoTools from "./pages/admin/SeoTools";
 import MarketplaceDashboard from "./pages/admin/marketplaces/MarketplaceDashboard";
 import MarketplaceConnections from "./pages/admin/marketplaces/MarketplaceConnections";
 import MarketplaceCatalog from "./pages/admin/marketplaces/MarketplaceCatalog";
@@ -111,6 +112,7 @@ const App = () => (
                   <Route path="credenciales" element={<ApiCredentials />} />
                   <Route path="reportes" element={<Reports />} />
                   <Route path="configuracion" element={<Settings />} />
+                  <Route path="seo" element={<SeoTools />} />
                   <Route path="marketplaces" element={<MarketplaceDashboard />} />
                   <Route path="marketplaces/conexoes" element={<MarketplaceConnections />} />
                   <Route path="marketplaces/catalogo" element={<MarketplaceCatalog />} />

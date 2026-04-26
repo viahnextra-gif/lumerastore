@@ -177,10 +177,10 @@ export default function Catalog() {
     : 'Catálogo Completo';
 
   const seoTitle = categoryParam
-    ? `${currentCategoryName} - Moda Femenina | Meca Store`
-    : 'Catálogo Moda Femenina | Meca Store Paraguay';
+    ? `${currentCategoryName} - Moda Femenina | Lumera Store`
+    : 'Catálogo Moda Femenina | Lumera Store Paraguay';
   const seoDesc = categoryParam
-    ? `Compra ${currentCategoryName.toLowerCase()} de moda femenina en Meca Store. Envíos a todo Paraguay.`
+    ? `Compra ${currentCategoryName.toLowerCase()} de moda femenina en Lumera Store. Envíos a todo Paraguay.`
     : 'Explora nuestra colección completa de moda femenina. Vestidos, conjuntos, blusas y más. Envíos a todo Paraguay.';
   const breadcrumbItems = categoryParam
     ? [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }, { name: currentCategoryName, url: `/catalogo?category=${categoryParam}` }]

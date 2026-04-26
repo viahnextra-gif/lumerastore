@@ -32,11 +32,11 @@ export const blogPosts: BlogPost[] = [
       <h3>3. Blusas de Cetim</h3>
       <p>Las blusas de tela satinada aportan elegancia instantánea. Perfectas para combinar con jeans para un look casual-chic o con pantalones de vestir para la oficina.</p>
       <h2>Cómo Elegir la Talla Correcta</h2>
-      <p>En Meca Store ofrecemos una <a href="/blog/guia-tallas-ropa-femenina">guía de tallas detallada</a>. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
+      <p>En Lumera Store ofrecemos una <a href="/blog/guia-tallas-ropa-femenina">guía de tallas detallada</a>. Mide tu busto, cintura y cadera y compara con nuestra tabla para encontrar tu talla perfecta.</p>
       <h2>Elige las Telas Correctas</h2>
       <p>Para el clima paraguayo, la elección de telas es fundamental. Consulta nuestra <a href="/blog/ropa-para-clima-calido-paraguay">guía de telas y estilos para clima cálido</a>.</p>
       <h2>Dónde Comprar Moda Femenina en Paraguay</h2>
-      <p>Meca Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Si quieres emprender, lee nuestra guía sobre <a href="/blog/como-revender-ropa-femenina-paraguay">cómo revender ropa femenina</a>.</p>
+      <p>Lumera Store ofrece la mayor variedad de moda femenina con envíos a todo Paraguay. Si quieres emprender, lee nuestra guía sobre <a href="/blog/como-revender-ropa-femenina-paraguay">cómo revender ropa femenina</a>.</p>
     `,
   },
   {
@@ -53,13 +53,13 @@ export const blogPosts: BlogPost[] = [
       <h2>¿Por qué revender moda femenina?</h2>
       <p>El mercado de <a href="/blog/guia-completa-moda-femenina-paraguay">moda femenina en Paraguay</a> es uno de los más dinámicos de Sudamérica. Con un margen promedio del 40%, es un negocio rentable y escalable.</p>
       <h3>Paso 1: Elige tu proveedor</h3>
-      <p>Busca proveedores confiables que ofrezcan precios mayoristas competitivos, variedad de productos y facilidades de pago. En Meca Store, ofrecemos precios especiales desde 6 prendas.</p>
+      <p>Busca proveedores confiables que ofrezcan precios mayoristas competitivos, variedad de productos y facilidades de pago. En Lumera Store, ofrecemos precios especiales desde 6 prendas.</p>
       <h3>Paso 2: Define tu público</h3>
       <p>¿Venderás a jóvenes universitarias? ¿Mujeres profesionales? ¿Madres? Conoce las <a href="/blog/tendencias-vestidos-2026">tendencias de vestidos</a> y los <a href="/blog/colores-tendencia-otono-invierno-2026">colores de temporada</a> para elegir bien.</p>
       <h3>Paso 3: Crea tu presencia digital</h3>
       <p>Instagram y WhatsApp son tus mejores aliados. Publica fotos atractivas de las prendas, crea historias mostrando combinaciones y responde rápido a las consultas.</p>
       <h2>Márgenes y Precios</h2>
-      <p>Comprando al por mayor en Meca Store, puedes obtener márgenes del 30% al 50% dependiendo de la categoría de producto.</p>
+      <p>Comprando al por mayor en Lumera Store, puedes obtener márgenes del 30% al 50% dependiendo de la categoría de producto.</p>
       <h2>Tips para el Éxito</h2>
       <p>Ofrece servicio personalizado, acepta múltiples medios de pago, y mantén tu inventario actualizado con las <a href="/blog/accesorios-imprescindibles-2026">últimas tendencias en accesorios</a>.</p>
     `,
@@ -107,7 +107,7 @@ export const blogPosts: BlogPost[] = [
       <h3>Cadera</h3>
       <p>Mide la parte más ancha de tus caderas, aproximadamente 20 cm debajo de la cintura.</p>
       <h2>Tabla de Conversión</h2>
-      <p>En Meca Store trabajamos con tallas S, M, L y XL. Si buscas tallas extendidas, consulta nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size en Paraguay</a>.</p>
+      <p>En Lumera Store trabajamos con tallas S, M, L y XL. Si buscas tallas extendidas, consulta nuestra guía de <a href="/blog/moda-plus-size-paraguay">moda plus size en Paraguay</a>.</p>
     `,
   },
   {
@@ -236,7 +236,7 @@ export const blogPosts: BlogPost[] = [
       <p><a href="/blog/tendencias-vestidos-2026">Vestidos</a> wrap, pantalones palazzo, blusas con mangas statement y conjuntos coordinados son las tendencias favoritas.</p>
       <h3>Tips de Estilo</h3>
       <p>Elige prendas que marquen tu cintura, experimenta con estampados y no tengas miedo de usar <a href="/blog/colores-tendencia-otono-invierno-2026">colores vibrantes de temporada</a>. Consulta nuestra <a href="/blog/guia-tallas-ropa-femenina">guía de tallas</a> para encontrar tu medida perfecta.</p>
-      <h2>En Meca Store</h2>
+      <h2>En Lumera Store</h2>
       <p>Ofrecemos una amplia selección de prendas en tallas S hasta XXL. Arma tu <a href="/blog/outfit-perfecto-cada-ocasion">outfit perfecto para cada ocasión</a>, porque creemos que toda mujer merece vestir con estilo.</p>
     `,
   },
@@ -260,7 +260,7 @@ export const blogPosts: BlogPost[] = [
       <h3>3. Cinturón Ancho</h3>
       <p>Perfecto para definir la cintura sobre <a href="/blog/tendencias-vestidos-2026">vestidos</a>, blazers y camisas largas. Un accesorio que estiliza la figura.</p>
       <h2>Dónde Encontrarlos</h2>
-      <p>En Meca Store complementamos nuestra colección con accesorios seleccionados. Incluye estos accesorios en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a> para máxima versatilidad.</p>
+      <p>En Lumera Store complementamos nuestra colección con accesorios seleccionados. Incluye estos accesorios en tu <a href="/blog/como-armar-capsule-wardrobe">guardarropa cápsula</a> para máxima versatilidad.</p>
     `,
   },
 ];

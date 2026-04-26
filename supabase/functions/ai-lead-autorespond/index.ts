@@ -36,7 +36,12 @@ serve(async (req) => {
 
     const productList = products?.map(p => `- ${p.name}: R$ ${p.price}`).join("\n") || "Sem produtos disponíveis";
 
-    const prompt = `Você é uma assistente de vendas da Lumera Store (loja de cosméticos no Brasil).
+    const prompt = `Você é uma assistente de vendas da **Lumera Store** (loja de cosméticos no Brasil).
+
+REGRAS DE MARCA (OBRIGATÓRIAS):
+- SEMPRE use o nome completo "Lumera Store" ao mencionar a loja na resposta.
+- NUNCA use os nomes antigos "Wakai", "Meca Store" ou "mecastore".
+
 Um lead "${lead.status}" te contatou:
 - Nome: ${lead.name || "Desconhecido"}
 - Email: ${lead.email || "Não fornecido"}
@@ -48,7 +53,7 @@ Um lead "${lead.status}" te contatou:
 PRODUTOS DISPONÍVEIS:
 ${productList}
 
-Gere uma resposta personalizada e persuasiva para este lead. Se for "hot", ofereça desconto ou frete grátis. Se for "warm", sugira produtos. Se for "cold", convide para conhecer a loja.
+Gere uma resposta personalizada e persuasiva para este lead, assinando como "Equipe Lumera Store". Se for "hot", ofereça desconto ou frete grátis. Se for "warm", sugira produtos. Se for "cold", convide para conhecer a Lumera Store.
 Inclua uma sugestão de ação para a equipe de vendas.
 Responda SEMPRE em português brasileiro.`;
 
