@@ -118,12 +118,13 @@ serve(async (req) => {
 
         results.push({ flow_id: flow.id, status: "success" });
       } catch (err) {
+        const errMsg = err instanceof Error ? err.message : String(err);
         await supabase
           .from("automation_executions")
           .update({
             status: "failed",
             completed_at: new Date().toISOString(),
-            error_message: err.message,
+            error_message: errMsg,
           })
           .eq("id", execution?.id);
 
@@ -132,7 +133,7 @@ serve(async (req) => {
           .update({ status: "error" })
           .eq("id", flow.id);
 
-        results.push({ flow_id: flow.id, status: "failed", error: err.message });
+        results.push({ flow_id: flow.id, status: "failed", error: errMsg });
       }
     }
 
@@ -141,7 +142,8 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Automation webhook error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
