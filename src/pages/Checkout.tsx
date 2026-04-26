@@ -190,7 +190,7 @@ export default function Checkout() {
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <p><strong>{t('checkout.bank')}:</strong> Banco Continental</p>
-                  <p><strong>{t('checkout.holder')}:</strong> Meca Store S.A.</p>
+                  <p><strong>{t('checkout.holder')}:</strong> Lumera Store S.A.</p>
                   <p><strong>{t('checkout.accountNumber')}:</strong> 1234567890</p>
                   <p><strong>{t('checkout.amount')}:</strong> {formatPrice(total)}</p>
                   <p className="text-muted-foreground mt-4">

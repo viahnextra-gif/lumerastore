@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    /* Meca Store Design System - Vibrant Latin Fashion */
+    /* Lumera Store Design System - Vibrant Latin Fashion */
     --background: 30 30% 98%;
     --foreground: 340 30% 15%;
 
@@ -41,7 +41,7 @@
 
     --radius: 0.75rem;
 
-    /* Custom Meca Store Tokens */
+    /* Custom Lumera Store Tokens */
     --gold: 38 80% 55%;
     --gold-light: 38 65% 75%;
     --rose-dark: 340 80% 40%;

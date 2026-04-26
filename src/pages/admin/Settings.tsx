@@ -61,7 +61,7 @@ export default function Settings() {
               <CardHeader><CardTitle>{t('admin.storeInfo')}</CardTitle><CardDescription>{t('admin.storeInfoDesc')}</CardDescription></CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2"><Label>{t('admin.storeName')}</Label><Input value={getSetting('store_name')?.value || ''} onChange={(e) => handleSettingChange('store_name', e.target.value)} placeholder="Meca Store" /></div>
+                  <div className="space-y-2"><Label>{t('admin.storeName')}</Label><Input value={getSetting('store_name')?.value || ''} onChange={(e) => handleSettingChange('store_name', e.target.value)} placeholder="Lumera Store" /></div>
                   <div className="space-y-2"><Label>{t('admin.contactEmail')}</Label><Input type="email" value={getSetting('store_email')?.value || ''} onChange={(e) => handleSettingChange('store_email', e.target.value)} /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
