@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -80,7 +80,7 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/conta" element={<Account />} />
-                <Route path="/cuenta" element={<Account />} />
+                <Route path="/cuenta" element={<Navigate to="/conta" replace />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/moda" element={<BlogCategory />} />
                 <Route path="/blog/tendencias" element={<BlogCategory />} />
@@ -89,7 +89,7 @@ const App = () => (
                 <Route path="/moda" element={<LandingModa />} />
                 <Route path="/moda-femenina" element={<ModaFemenina />} />
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
-                <Route path="/mayorista" element={<LandingAtacado />} />
+                <Route path="/mayorista" element={<Navigate to="/atacado" replace />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/promocoes" element={<Promocoes />} />
                 {/* Admin Routes */}
