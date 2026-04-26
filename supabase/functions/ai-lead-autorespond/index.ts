@@ -34,23 +34,23 @@ serve(async (req) => {
       .eq("is_active", true)
       .limit(10);
 
-    const productList = products?.map(p => `- ${p.name}: ${p.price} PYG`).join("\n") || "No hay productos disponibles";
+    const productList = products?.map(p => `- ${p.name}: R$ ${p.price}`).join("\n") || "Sem produtos disponíveis";
 
-    const prompt = `Eres un asistente de ventas de Meca Store (moda femenina en Paraguay).
-Un lead "${lead.status}" te contactó:
-- Nombre: ${lead.name || "Desconocido"}
-- Email: ${lead.email || "No proporcionado"}
-- Teléfono: ${lead.phone || "No proporcionado"}
-- Mensaje: ${lead.message || "Sin mensaje"}
+    const prompt = `Você é uma assistente de vendas da Wakai (loja de cosméticos no Brasil).
+Um lead "${lead.status}" te contatou:
+- Nome: ${lead.name || "Desconhecido"}
+- Email: ${lead.email || "Não fornecido"}
+- Telefone: ${lead.phone || "Não fornecido"}
+- Mensagem: ${lead.message || "Sem mensagem"}
 - Score: ${lead.score}/100
-- Fuente: ${lead.source}
+- Origem: ${lead.source}
 
-PRODUCTOS DISPONIBLES:
+PRODUTOS DISPONÍVEIS:
 ${productList}
 
-Genera una respuesta personalizada y persuasiva para este lead. Si es "hot", ofrece descuento o envío gratis. Si es "warm", sugiere productos. Si es "cold", invita a conocer la tienda.
-Incluye una sugerencia de acción para el equipo de ventas.
-Responde en español.`;
+Gere uma resposta personalizada e persuasiva para este lead. Se for "hot", ofereça desconto ou frete grátis. Se for "warm", sugira produtos. Se for "cold", convide para conhecer a loja.
+Inclua uma sugestão de ação para a equipe de vendas.
+Responda SEMPRE em português brasileiro.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

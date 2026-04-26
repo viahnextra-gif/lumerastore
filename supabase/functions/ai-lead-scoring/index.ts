@@ -13,14 +13,14 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const prompt = `Analiza estos leads de una tienda de moda femenina y clasifícalos. Para cada lead, devuelve un score (0-100) y una sugerencia de acción concisa en español.
+    const prompt = `Analise estes leads de uma loja de cosméticos (Wakai) e classifique-os. Para cada lead, retorne um score (0-100) e uma sugestão de ação concisa em português brasileiro.
 
 Leads: ${JSON.stringify(leads)}
 
-Criterios:
-- Leads con email Y teléfono = mayor score
-- Leads con mensajes que indican intención de compra = hot
-- Leads de chatbot sin datos de contacto = cold
+Critérios:
+- Leads com email E telefone = maior score
+- Leads com mensagens que indicam intenção de compra = hot
+- Leads de chatbot sem dados de contato = cold
 - Score 0-25 = cold, 26-50 = warm, 51-75 = hot, 76-100 = converted`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -32,7 +32,7 @@ Criterios:
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: "Eres un asistente de CRM que clasifica leads. Responde SOLO con el JSON solicitado." },
+          { role: "system", content: "Você é um assistente de CRM que classifica leads. Responda SEMPRE em português brasileiro e SOMENTE com o JSON solicitado." },
           { role: "user", content: prompt },
         ],
         tools: [{
