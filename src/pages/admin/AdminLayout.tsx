@@ -17,6 +17,7 @@ import { useUnreadNotifications } from '@/hooks/useUnreadNotifications';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import CurrencySelector from '@/components/CurrencySelector';
+import SeoAlertBanner from '@/components/admin/SeoAlertBanner';
 
 function Sidebar({ className }: { className?: string }) {
   const location = useLocation();
@@ -158,6 +159,7 @@ export default function AdminLayout() {
       <div className="flex">
         <aside className="hidden lg:block w-64 h-screen sticky top-0 bg-background border-r"><Sidebar /></aside>
         <main className="flex-1 p-6 lg:p-8">
+          <SeoAlertBanner />
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
             <Outlet />
           </motion.div>

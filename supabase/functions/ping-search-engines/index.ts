@@ -180,8 +180,8 @@ serve(async (req) => {
   });
 
   // Best-effort audit log to settings table
+  const supabase = createClient(supabaseUrl, serviceKey);
   try {
-    const supabase = createClient(supabaseUrl, serviceKey);
     await supabase.from("settings").upsert(
       {
         key: "last_sitemap_ping",
@@ -204,6 +204,24 @@ serve(async (req) => {
       requestId,
       error: e instanceof Error ? e.message : String(e),
     });
+  }
+
+  // Emit a SEO alert when ping fails so the admin gets notified
+  if (!allOk) {
+    try {
+      const failed = results.filter((r) => !r.ok);
+      await supabase.from("seo_alerts").insert({
+        alert_type: "sitemap_ping_failed",
+        severity: failed.length === results.length ? "critical" : "warning",
+        message: `Falha ao notificar ${failed.map((f) => f.engine).join(", ")} sobre o sitemap`,
+        details: { trigger, sitemap: sitemapUrl, requestId, results },
+      });
+    } catch (e) {
+      log("warn", "could not insert seo_alert", {
+        requestId,
+        error: e instanceof Error ? e.message : String(e),
+      });
+    }
   }
 
   return new Response(
