@@ -909,6 +909,39 @@ export type Database = {
           },
         ]
       }
+      seo_alerts: {
+        Row: {
+          acknowledged_at: string | null
+          acknowledged_by: string | null
+          alert_type: string
+          created_at: string
+          details: Json
+          id: string
+          message: string
+          severity: string
+        }
+        Insert: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_type: string
+          created_at?: string
+          details?: Json
+          id?: string
+          message: string
+          severity?: string
+        }
+        Update: {
+          acknowledged_at?: string | null
+          acknowledged_by?: string | null
+          alert_type?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          message?: string
+          severity?: string
+        }
+        Relationships: []
+      }
       settings: {
         Row: {
           created_at: string
