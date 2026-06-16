@@ -120,7 +120,7 @@ export default function Index() {
                   </Button>
                 </Link>
                 {currentHeroProduct && (
-                  <Link to={`/producto/${currentHeroProduct.id}`}>
+                  <Link to={`/produto/${currentHeroProduct.slug || currentHeroProduct.id}`}>
                     <Button size="lg" variant="outline" className="border-2">
                       {t('hero.cta.viewProduct')}
                     </Button>

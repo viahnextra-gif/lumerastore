@@ -2,7 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -17,32 +18,6 @@ import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Account from "./pages/Account";
 import AdminLayout from "./pages/admin/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
-import Products from "./pages/admin/Products";
-import Categories from "./pages/admin/Categories";
-import Subcategories from "./pages/admin/Subcategories";
-import Pages from "./pages/admin/Pages";
-import Orders from "./pages/admin/Orders";
-import Notifications from "./pages/admin/Notifications";
-import Customers from "./pages/admin/Customers";
-import Leads from "./pages/admin/Leads";
-import CrmKanban from "./pages/admin/CrmKanban";
-import SocialPlanner from "./pages/admin/SocialPlanner";
-import Campaigns from "./pages/admin/Campaigns";
-import ApiCredentials from "./pages/admin/ApiCredentials";
-import Reports from "./pages/admin/Reports";
-import Settings from "./pages/admin/Settings";
-import SeoTools from "./pages/admin/SeoTools";
-import MarketplaceDashboard from "./pages/admin/marketplaces/MarketplaceDashboard";
-import MarketplaceConnections from "./pages/admin/marketplaces/MarketplaceConnections";
-import MarketplaceCatalog from "./pages/admin/marketplaces/MarketplaceCatalog";
-import MarketplaceOrders from "./pages/admin/marketplaces/MarketplaceOrders";
-import MarketplaceStock from "./pages/admin/marketplaces/MarketplaceStock";
-import MarketplaceLogs from "./pages/admin/marketplaces/MarketplaceLogs";
-import MarketplaceMessages from "./pages/admin/marketplaces/MarketplaceMessages";
-import PostSaleAutomation from "./pages/admin/marketplaces/PostSaleAutomation";
-import MarketplaceAnalytics from "./pages/admin/marketplaces/MarketplaceAnalytics";
-import MarketplaceAutomations from "./pages/admin/marketplaces/MarketplaceAutomations";
 import Chatbot from "./components/Chatbot";
 import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog";
@@ -58,7 +33,48 @@ import Sobre from "./pages/Sobre";
 import ScrollToTop from "./components/ScrollToTop";
 import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 
+// Code-split admin routes for performance
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const Products = lazy(() => import("./pages/admin/Products"));
+const Categories = lazy(() => import("./pages/admin/Categories"));
+const Subcategories = lazy(() => import("./pages/admin/Subcategories"));
+const Pages = lazy(() => import("./pages/admin/Pages"));
+const Orders = lazy(() => import("./pages/admin/Orders"));
+const Notifications = lazy(() => import("./pages/admin/Notifications"));
+const Customers = lazy(() => import("./pages/admin/Customers"));
+const Leads = lazy(() => import("./pages/admin/Leads"));
+const CrmKanban = lazy(() => import("./pages/admin/CrmKanban"));
+const SocialPlanner = lazy(() => import("./pages/admin/SocialPlanner"));
+const Campaigns = lazy(() => import("./pages/admin/Campaigns"));
+const ApiCredentials = lazy(() => import("./pages/admin/ApiCredentials"));
+const Reports = lazy(() => import("./pages/admin/Reports"));
+const Settings = lazy(() => import("./pages/admin/Settings"));
+const SeoTools = lazy(() => import("./pages/admin/SeoTools"));
+const Cupons = lazy(() => import("./pages/admin/Cupons"));
+const MarketplaceDashboard = lazy(() => import("./pages/admin/marketplaces/MarketplaceDashboard"));
+const MarketplaceConnections = lazy(() => import("./pages/admin/marketplaces/MarketplaceConnections"));
+const MarketplaceCatalog = lazy(() => import("./pages/admin/marketplaces/MarketplaceCatalog"));
+const MarketplaceOrders = lazy(() => import("./pages/admin/marketplaces/MarketplaceOrders"));
+const MarketplaceStock = lazy(() => import("./pages/admin/marketplaces/MarketplaceStock"));
+const MarketplaceLogs = lazy(() => import("./pages/admin/marketplaces/MarketplaceLogs"));
+const MarketplaceMessages = lazy(() => import("./pages/admin/marketplaces/MarketplaceMessages"));
+const PostSaleAutomation = lazy(() => import("./pages/admin/marketplaces/PostSaleAutomation"));
+const MarketplaceAnalytics = lazy(() => import("./pages/admin/marketplaces/MarketplaceAnalytics"));
+const MarketplaceAutomations = lazy(() => import("./pages/admin/marketplaces/MarketplaceAutomations"));
+
 const queryClient = new QueryClient();
+
+// Legacy /producto/:id → /produto/:slug-or-id (301-style client redirect)
+function LegacyProductRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/produto/${id}`} replace />;
+}
+
+const AdminFallback = () => (
+  <div className="flex items-center justify-center py-20">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+  </div>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -75,7 +91,10 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/catalogo" element={<Catalog />} />
-                <Route path="/producto/:id" element={<ProductDetail />} />
+                {/* Canonical product route (slug-based, falls back to id) */}
+                <Route path="/produto/:slug" element={<ProductDetail />} />
+                {/* Legacy redirects (ES → pt-BR) */}
+                <Route path="/producto/:id" element={<LegacyProductRedirect />} />
                 <Route path="/carrinho" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/atacado" element={<Wholesale />} />
@@ -83,6 +102,7 @@ const App = () => (
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/conta" element={<Account />} />
                 <Route path="/cuenta" element={<Navigate to="/conta" replace />} />
+                <Route path="/mayorista" element={<Navigate to="/atacado" replace />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/moda" element={<BlogCategory />} />
                 <Route path="/blog/tendencias" element={<BlogCategory />} />
@@ -91,38 +111,38 @@ const App = () => (
                 <Route path="/moda" element={<LandingModa />} />
                 <Route path="/moda-femenina" element={<ModaFemenina />} />
                 <Route path="/moda-femenina/:citySlug" element={<CityLanding />} />
-                <Route path="/mayorista" element={<Navigate to="/atacado" replace />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/promocoes" element={<Promocoes />} />
                 <Route path="/sobre" element={<Sobre />} />
-                {/* Admin Routes */}
+                {/* Admin Routes (lazy) */}
                 <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path="produtos" element={<Products />} />
-                  <Route path="categorias" element={<Categories />} />
-                  <Route path="subcategorias" element={<Subcategories />} />
-                  <Route path="paginas" element={<Pages />} />
-                  <Route path="pedidos" element={<Orders />} />
-                  <Route path="notificacoes" element={<Notifications />} />
-                  <Route path="clientes" element={<Customers />} />
-                  <Route path="leads" element={<Leads />} />
-                  <Route path="crm" element={<CrmKanban />} />
-                  <Route path="planner" element={<SocialPlanner />} />
-                  <Route path="campanias" element={<Campaigns />} />
-                  <Route path="credenciales" element={<ApiCredentials />} />
-                  <Route path="reportes" element={<Reports />} />
-                  <Route path="configuracion" element={<Settings />} />
-                  <Route path="seo" element={<SeoTools />} />
-                  <Route path="marketplaces" element={<MarketplaceDashboard />} />
-                  <Route path="marketplaces/conexoes" element={<MarketplaceConnections />} />
-                  <Route path="marketplaces/catalogo" element={<MarketplaceCatalog />} />
-                  <Route path="marketplaces/pedidos" element={<MarketplaceOrders />} />
-                  <Route path="marketplaces/estoque" element={<MarketplaceStock />} />
-                  <Route path="marketplaces/logs" element={<MarketplaceLogs />} />
-                  <Route path="marketplaces/mensagens" element={<MarketplaceMessages />} />
-                  <Route path="marketplaces/automacao" element={<PostSaleAutomation />} />
-                  <Route path="marketplaces/analytics" element={<MarketplaceAnalytics />} />
-                  <Route path="marketplaces/automacoes" element={<MarketplaceAutomations />} />
+                  <Route index element={<Suspense fallback={<AdminFallback />}><Dashboard /></Suspense>} />
+                  <Route path="produtos" element={<Suspense fallback={<AdminFallback />}><Products /></Suspense>} />
+                  <Route path="categorias" element={<Suspense fallback={<AdminFallback />}><Categories /></Suspense>} />
+                  <Route path="subcategorias" element={<Suspense fallback={<AdminFallback />}><Subcategories /></Suspense>} />
+                  <Route path="paginas" element={<Suspense fallback={<AdminFallback />}><Pages /></Suspense>} />
+                  <Route path="pedidos" element={<Suspense fallback={<AdminFallback />}><Orders /></Suspense>} />
+                  <Route path="notificacoes" element={<Suspense fallback={<AdminFallback />}><Notifications /></Suspense>} />
+                  <Route path="clientes" element={<Suspense fallback={<AdminFallback />}><Customers /></Suspense>} />
+                  <Route path="cupons" element={<Suspense fallback={<AdminFallback />}><Cupons /></Suspense>} />
+                  <Route path="seo" element={<Suspense fallback={<AdminFallback />}><SeoTools /></Suspense>} />
+                  <Route path="leads" element={<Suspense fallback={<AdminFallback />}><Leads /></Suspense>} />
+                  <Route path="crm" element={<Suspense fallback={<AdminFallback />}><CrmKanban /></Suspense>} />
+                  <Route path="planner" element={<Suspense fallback={<AdminFallback />}><SocialPlanner /></Suspense>} />
+                  <Route path="campanias" element={<Suspense fallback={<AdminFallback />}><Campaigns /></Suspense>} />
+                  <Route path="credenciales" element={<Suspense fallback={<AdminFallback />}><ApiCredentials /></Suspense>} />
+                  <Route path="reportes" element={<Suspense fallback={<AdminFallback />}><Reports /></Suspense>} />
+                  <Route path="configuracion" element={<Suspense fallback={<AdminFallback />}><Settings /></Suspense>} />
+                  <Route path="marketplaces" element={<Suspense fallback={<AdminFallback />}><MarketplaceDashboard /></Suspense>} />
+                  <Route path="marketplaces/conexoes" element={<Suspense fallback={<AdminFallback />}><MarketplaceConnections /></Suspense>} />
+                  <Route path="marketplaces/catalogo" element={<Suspense fallback={<AdminFallback />}><MarketplaceCatalog /></Suspense>} />
+                  <Route path="marketplaces/pedidos" element={<Suspense fallback={<AdminFallback />}><MarketplaceOrders /></Suspense>} />
+                  <Route path="marketplaces/estoque" element={<Suspense fallback={<AdminFallback />}><MarketplaceStock /></Suspense>} />
+                  <Route path="marketplaces/logs" element={<Suspense fallback={<AdminFallback />}><MarketplaceLogs /></Suspense>} />
+                  <Route path="marketplaces/mensagens" element={<Suspense fallback={<AdminFallback />}><MarketplaceMessages /></Suspense>} />
+                  <Route path="marketplaces/automacao" element={<Suspense fallback={<AdminFallback />}><PostSaleAutomation /></Suspense>} />
+                  <Route path="marketplaces/analytics" element={<Suspense fallback={<AdminFallback />}><MarketplaceAnalytics /></Suspense>} />
+                  <Route path="marketplaces/automacoes" element={<Suspense fallback={<AdminFallback />}><MarketplaceAutomations /></Suspense>} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />

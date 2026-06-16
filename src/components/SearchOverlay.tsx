@@ -100,7 +100,7 @@ export default function SearchOverlay({ open, onClose }: { open: boolean; onClos
                     results.map((product) => (
                       <Link
                         key={product.id}
-                        to={`/producto/${product.id}`}
+                        to={`/produto/${(product as any).slug || product.id}`}
                         onClick={onClose}
                         className="flex items-center gap-4 p-3 rounded-lg hover:bg-accent transition-colors"
                       >

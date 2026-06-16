@@ -11,7 +11,7 @@ interface SEOHeadProps {
   jsonLd?: object | object[];
 }
 
-const BASE_URL = 'https://lojawakai.lovable.app';
+const BASE_URL = 'https://lumerastore.lovable.app';
 const DEFAULT_OG_IMAGE = `${BASE_URL}/lumera-logo.png`;
 
 export default function SEOHead({

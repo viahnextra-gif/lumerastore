@@ -187,7 +187,7 @@ export default function Catalog() {
     : [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }];
 
   const productListItems = filteredProducts.slice(0, 12).map(p => ({
-    name: p.name, url: `/producto/${p.id}`, image: p.images?.[0] || '', price: p.price,
+    name: p.name, url: `/produto/${p.slug || p.id}`, image: p.images?.[0] || '', price: p.price,
   }));
 
   return (
