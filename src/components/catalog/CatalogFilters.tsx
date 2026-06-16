@@ -68,7 +68,7 @@ export default function CatalogFilters({
 
       {/* Categories */}
       <div>
-        <h3 className="font-semibold text-foreground mb-4">Categorías</h3>
+        <h3 className="font-semibold text-foreground mb-4">Categorias</h3>
         <div className="space-y-3">
           {categories.map((category) => (
             <div key={category.id} className="flex items-center gap-3">

@@ -19,7 +19,7 @@ export function useMarketplaceNotifications() {
         (payload) => {
           const order = payload.new as any;
           toast.info(`🛒 Novo pedido ${order.marketplace}: ${order.external_order_id || 'N/A'}`, {
-            description: `Cliente: ${order.customer_name || 'Desconhecido'} • ₲ ${Number(order.total || 0).toLocaleString()}`,
+            description: `Cliente: ${order.customer_name || 'Desconhecido'} • R$ ${Number(order.total || 0).toLocaleString()}`,
             duration: 8000,
           });
         }

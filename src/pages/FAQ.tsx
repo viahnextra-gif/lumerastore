@@ -34,7 +34,7 @@ export default function FAQ() {
         title={`${t('faq.title')} | Lumera`}
         description={t('faq.subtitle')}
         canonical="https://lojalumera.lovable.app/faq"
-        keywords="FAQ lumera, envíos paraguay, política de cambios, cosméticos"
+        keywords="FAQ lumera, envios brasil, política de trocas, cosméticos"
         jsonLd={[
           faqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer }))),
           organizationSchema(),

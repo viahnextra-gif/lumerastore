@@ -124,7 +124,7 @@ export default function AccountAddresses() {
                     id="city"
                     value={addressData.city || ''}
                     onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
-                    placeholder="Ej: Asunción, Ciudad del Este..."
+                    placeholder="Ex: São Paulo, Rio de Janeiro..."
                   />
                 </div>
               </div>

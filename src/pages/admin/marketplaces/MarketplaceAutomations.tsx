@@ -94,7 +94,7 @@ const NODE_TEMPLATES: NodeTemplate[] = [
         { value: 'all', label: 'Todos' }, { value: 'mercadolivre', label: 'Mercado Livre' },
         { value: 'shopee', label: 'Shopee' }, { value: 'amazon', label: 'Amazon' }, { value: 'magalu', label: 'Magalu' },
       ], defaultValue: 'all' },
-      { key: 'min_value', label: 'Valor mínimo (₲)', type: 'number', placeholder: '0' },
+      { key: 'min_value', label: 'Valor mínimo (R$)', type: 'number', placeholder: '0' },
     ],
   },
   {

@@ -13,7 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 const benefits = [
   { icon: Package, title: 'Mínimo 6 unidades', desc: 'Compra desde 6 unidades con precio de mayorista' },
   { icon: TrendingUp, title: 'Hasta 40% descuento', desc: 'Margen excelente para reventa de cosméticos' },
-  { icon: Users, title: '+500 revendedores', desc: 'Red de revendedores en todo Paraguay' },
+  { icon: Users, title: '+500 revendedores', desc: 'Rede de revendedores em todo o Brasil' },
 ];
 
 const testimonials = [
@@ -55,8 +55,8 @@ export default function LandingAtacado() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Venta Mayorista Cosméticos | Lumera"
-        description="Compra al por mayor cosméticos en Paraguay. Maquillaje, skincare y perfumería desde 6 unidades con hasta 40% de descuento. ¡Solicita precios!"
-        keywords="cosméticos mayorista paraguay, venta al por mayor, atacado cosméticos, revendedor belleza"
+        description="Compre cosméticos no atacado no Brasil. Maquiagem, skincare e perfumaria a partir de 3 unidades com até 40% de desconto. Solicite preços!"
+        keywords="cosméticos atacado brasil, venda por atacado, atacado cosméticos, revendedor beleza"
         canonical="https://lojalumera.lovable.app/mayorista"
         noindex
       />
@@ -72,7 +72,7 @@ export default function LandingAtacado() {
             Gana Dinero Revendiendo Cosméticos
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-8">
-            Precios exclusivos desde 6 unidades. Margen de hasta 40% para tu negocio de belleza.
+            Preços exclusivos a partir de 3 unidades. Margem de até 40% para o seu negócio de beleza.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>

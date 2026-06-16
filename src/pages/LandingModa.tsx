@@ -20,8 +20,8 @@ export default function LandingModa() {
   const [loading, setLoading] = useState(false);
 
   const testimonials = [
-    { name: 'María G.', city: 'Asunción', text: t('landing.testimonial1'), stars: 5 },
-    { name: 'Ana P.', city: 'Ciudad del Este', text: t('landing.testimonial2'), stars: 5 },
+    { name: 'Maria G.', city: 'São Paulo', text: t('landing.testimonial1'), stars: 5 },
+    { name: 'Ana P.', city: 'Rio de Janeiro', text: t('landing.testimonial2'), stars: 5 },
     { name: 'Lucía R.', city: 'Encarnación', text: t('landing.testimonial3'), stars: 5 },
   ];
 
@@ -57,9 +57,9 @@ export default function LandingModa() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Cosméticos y Belleza en Paraguay | Lumera"
-        description="Descubre maquillaje, skincare y perfumería de alta calidad. Envíos a todo Paraguay."
-        keywords="cosméticos paraguay, maquillaje, skincare, belleza, lumera"
+        title="Cosméticos e Beleza no Brasil | Lumera Store"
+        description="Descubra maquiagem, skincare e perfumaria de alta qualidade. Envios para todo o Brasil."
+        keywords="cosméticos brasil, maquiagem, skincare, beleza, lumera"
         canonical="https://lojalumera.lovable.app/moda"
         noindex
       />
