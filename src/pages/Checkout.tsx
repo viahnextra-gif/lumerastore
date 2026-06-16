@@ -104,13 +104,22 @@ export default function Checkout() {
     setIsSubmitting(true);
 
     try {
+      const fullAddress = [
+        `${formData.shippingStreet}, ${formData.shippingNumber}`,
+        formData.shippingComplement,
+        formData.shippingNeighborhood,
+        `CEP ${formData.shippingCep}`,
+        `${formData.shippingCity}/${formData.shippingState}`,
+        `CPF: ${formData.customerCpf}`,
+      ].filter(Boolean).join(' · ');
+
       const orderData = {
-        order_number: `MEC-${Date.now()}`,
+        order_number: `LUM-${Date.now()}`,
         customer_name: formData.customerName,
         customer_email: formData.customerEmail,
         customer_phone: formData.customerPhone,
-        shipping_address: formData.shippingAddress,
-        shipping_city: formData.shippingCity,
+        shipping_address: fullAddress,
+        shipping_city: `${formData.shippingCity}/${formData.shippingState}`,
         notes: formData.notes || null,
         payment_method: paymentMethod,
         subtotal: totalPrice,
@@ -281,15 +290,26 @@ export default function Checkout() {
                         {errors.customerName && <p className="text-sm text-destructive">{errors.customerName}</p>}
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="customerPhone">{t('checkout.phone')}</Label>
-                        <Input id="customerPhone" name="customerPhone" value={formData.customerPhone} onChange={handleChange} placeholder="+595 XXX XXX XXX" />
+                        <Label htmlFor="customerPhone">Telefone *</Label>
+                        <Input id="customerPhone" name="customerPhone" value={formData.customerPhone}
+                          onChange={(e) => setFormData({ ...formData, customerPhone: maskPhone(e.target.value) })}
+                          placeholder="(11) 91234-5678" inputMode="tel" />
                         {errors.customerPhone && <p className="text-sm text-destructive">{errors.customerPhone}</p>}
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="customerEmail">{t('checkout.email')}</Label>
-                      <Input id="customerEmail" name="customerEmail" type="email" value={formData.customerEmail} onChange={handleChange} placeholder="tu@email.com" />
-                      {errors.customerEmail && <p className="text-sm text-destructive">{errors.customerEmail}</p>}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="customerEmail">Email *</Label>
+                        <Input id="customerEmail" name="customerEmail" type="email" value={formData.customerEmail} onChange={handleChange} placeholder="voce@email.com" />
+                        {errors.customerEmail && <p className="text-sm text-destructive">{errors.customerEmail}</p>}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="customerCpf">CPF *</Label>
+                        <Input id="customerCpf" name="customerCpf" value={formData.customerCpf}
+                          onChange={(e) => setFormData({ ...formData, customerCpf: maskCpf(e.target.value) })}
+                          placeholder="000.000.000-00" inputMode="numeric" />
+                        {errors.customerCpf && <p className="text-sm text-destructive">{errors.customerCpf}</p>}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -301,23 +321,105 @@ export default function Checkout() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Truck className="h-5 w-5 text-primary" />
-                      {t('checkout.shippingTitle')}
+                      Endereço de Entrega
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="shippingAddress">{t('checkout.fullAddress')}</Label>
-                      <Input id="shippingAddress" name="shippingAddress" value={formData.shippingAddress} onChange={handleChange} placeholder={t('checkout.addressPlaceholder')} />
-                      {errors.shippingAddress && <p className="text-sm text-destructive">{errors.shippingAddress}</p>}
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="shippingCep">CEP *</Label>
+                        <div className="relative">
+                          <Input id="shippingCep" name="shippingCep" value={formData.shippingCep}
+                            onChange={async (e) => {
+                              const v = maskCep(e.target.value);
+                              setFormData((prev) => ({ ...prev, shippingCep: v }));
+                              if (isValidCep(v)) {
+                                setLoadingCep(true);
+                                const addr = await lookupCep(v);
+                                if (addr) {
+                                  setFormData((prev) => ({
+                                    ...prev,
+                                    shippingStreet: prev.shippingStreet || addr.logradouro,
+                                    shippingNeighborhood: prev.shippingNeighborhood || addr.bairro,
+                                    shippingCity: addr.localidade,
+                                    shippingState: addr.uf,
+                                  }));
+                                  const quotes = await quoteShipping({
+                                    from_postal_code: '01001-000',
+                                    to_postal_code: v,
+                                    packages: [{ weight: 0.5, height: 10, width: 15, length: 20 }],
+                                  });
+                                  setShippingOptions(quotes);
+                                  setSelectedShipping(quotes[0] ?? null);
+                                }
+                                setLoadingCep(false);
+                              }
+                            }}
+                            placeholder="00000-000" inputMode="numeric" />
+                          {loadingCep && <Loader2 className="absolute right-3 top-2.5 h-4 w-4 animate-spin text-muted-foreground" />}
+                        </div>
+                        {errors.shippingCep && <p className="text-sm text-destructive">{errors.shippingCep}</p>}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="shippingNumber">Número *</Label>
+                        <Input id="shippingNumber" name="shippingNumber" value={formData.shippingNumber} onChange={handleChange} placeholder="123" />
+                        {errors.shippingNumber && <p className="text-sm text-destructive">{errors.shippingNumber}</p>}
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="shippingCity">{t('checkout.city')}</Label>
-                      <Input id="shippingCity" name="shippingCity" value={formData.shippingCity} onChange={handleChange} placeholder={t('checkout.cityPlaceholder')} />
-                      {errors.shippingCity && <p className="text-sm text-destructive">{errors.shippingCity}</p>}
+                      <Label htmlFor="shippingStreet">Rua / Logradouro *</Label>
+                      <Input id="shippingStreet" name="shippingStreet" value={formData.shippingStreet} onChange={handleChange} placeholder="Av. Paulista" />
+                      {errors.shippingStreet && <p className="text-sm text-destructive">{errors.shippingStreet}</p>}
                     </div>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="shippingComplement">Complemento</Label>
+                        <Input id="shippingComplement" name="shippingComplement" value={formData.shippingComplement} onChange={handleChange} placeholder="Apto 42, bloco B" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="shippingNeighborhood">Bairro *</Label>
+                        <Input id="shippingNeighborhood" name="shippingNeighborhood" value={formData.shippingNeighborhood} onChange={handleChange} />
+                        {errors.shippingNeighborhood && <p className="text-sm text-destructive">{errors.shippingNeighborhood}</p>}
+                      </div>
+                    </div>
+                    <div className="grid sm:grid-cols-3 gap-4">
+                      <div className="space-y-2 sm:col-span-2">
+                        <Label htmlFor="shippingCity">Cidade *</Label>
+                        <Input id="shippingCity" name="shippingCity" value={formData.shippingCity} onChange={handleChange} />
+                        {errors.shippingCity && <p className="text-sm text-destructive">{errors.shippingCity}</p>}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="shippingState">UF *</Label>
+                        <Input id="shippingState" name="shippingState" value={formData.shippingState} maxLength={2}
+                          onChange={(e) => setFormData({ ...formData, shippingState: e.target.value.toUpperCase().replace(/[^A-Z]/g, '') })}
+                          placeholder="SP" />
+                        {errors.shippingState && <p className="text-sm text-destructive">{errors.shippingState}</p>}
+                      </div>
+                    </div>
+
+                    {shippingOptions.length > 0 && (
+                      <div className="space-y-2">
+                        <Label>Modalidade de envio</Label>
+                        <div className="grid gap-2">
+                          {shippingOptions.map((opt) => (
+                            <label key={opt.carrier} className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${selectedShipping?.carrier === opt.carrier ? 'border-primary bg-primary/5' : 'border-border hover:bg-muted/50'}`}>
+                              <div className="flex items-center gap-3">
+                                <input type="radio" name="ship" checked={selectedShipping?.carrier === opt.carrier} onChange={() => setSelectedShipping(opt)} />
+                                <div>
+                                  <p className="text-sm font-medium">{opt.service_name}</p>
+                                  <p className="text-xs text-muted-foreground">Entrega em até {opt.delivery_days} dias úteis</p>
+                                </div>
+                              </div>
+                              <span className="text-sm font-semibold">{totalPrice >= FREE_SHIPPING_THRESHOLD_BRL ? 'Grátis' : formatPrice(opt.price)}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="space-y-2">
-                      <Label htmlFor="notes">{t('checkout.notes')}</Label>
-                      <Textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} placeholder={t('checkout.notesPlaceholder')} rows={2} />
+                      <Label htmlFor="notes">Observações (opcional)</Label>
+                      <Textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} placeholder="Instruções de entrega..." rows={2} />
                     </div>
                   </CardContent>
                 </Card>
@@ -329,30 +431,39 @@ export default function Checkout() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <CreditCard className="h-5 w-5 text-primary" />
-                      {t('checkout.paymentMethod')}
+                      Forma de pagamento
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                    <RadioGroup value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as typeof paymentMethod)}>
                       <div className="flex items-center space-x-3 p-4 rounded-lg border border-border hover:bg-muted/50 cursor-pointer">
-                        <RadioGroupItem value="transfer" id="transfer" />
-                        <Label htmlFor="transfer" className="flex-1 cursor-pointer">
-                          <p className="font-medium">{t('checkout.bankTransfer')}</p>
-                          <p className="text-sm text-muted-foreground">{t('checkout.bankTransferDesc')}</p>
+                        <RadioGroupItem value="pix" id="pix" />
+                        <Label htmlFor="pix" className="flex-1 cursor-pointer flex items-center gap-3">
+                          <QrCode className="h-5 w-5 text-primary" />
+                          <div>
+                            <p className="font-medium">PIX</p>
+                            <p className="text-sm text-muted-foreground">Aprovação imediata via Mercado Pago</p>
+                          </div>
                         </Label>
                       </div>
                       <div className="flex items-center space-x-3 p-4 rounded-lg border border-border hover:bg-muted/50 cursor-pointer">
-                        <RadioGroupItem value="cash" id="cash" />
-                        <Label htmlFor="cash" className="flex-1 cursor-pointer">
-                          <p className="font-medium">{t('checkout.cashOnDelivery')}</p>
-                          <p className="text-sm text-muted-foreground">{t('checkout.cashOnDeliveryDesc')}</p>
+                        <RadioGroupItem value="card" id="card" />
+                        <Label htmlFor="card" className="flex-1 cursor-pointer flex items-center gap-3">
+                          <CreditCard className="h-5 w-5 text-primary" />
+                          <div>
+                            <p className="font-medium">Cartão de crédito</p>
+                            <p className="text-sm text-muted-foreground">Até 12x via Mercado Pago</p>
+                          </div>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-3 p-4 rounded-lg border border-border bg-muted/30 opacity-60">
-                        <RadioGroupItem value="card" id="card" disabled />
-                        <Label htmlFor="card" className="flex-1">
-                          <p className="font-medium">{t('checkout.cardPayment')}</p>
-                          <p className="text-sm text-muted-foreground">{t('checkout.cardComingSoon')}</p>
+                      <div className="flex items-center space-x-3 p-4 rounded-lg border border-border hover:bg-muted/50 cursor-pointer">
+                        <RadioGroupItem value="boleto" id="boleto" />
+                        <Label htmlFor="boleto" className="flex-1 cursor-pointer flex items-center gap-3">
+                          <Barcode className="h-5 w-5 text-primary" />
+                          <div>
+                            <p className="font-medium">Boleto bancário</p>
+                            <p className="text-sm text-muted-foreground">Compensação em 1-2 dias úteis</p>
+                          </div>
                         </Label>
                       </div>
                     </RadioGroup>
