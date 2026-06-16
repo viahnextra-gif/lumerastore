@@ -17,27 +17,6 @@ export interface CityData {
 }
 
 // ── Helper factories ──────────────────────────────────────────────
-function pyCity(
-  slug: string, name: string, dept: string, pop: string,
-  shipping: string, info: string, landmarks: string,
-  testimonial: { name: string; text: string },
-  nearby: string[],
-  extraKw: string[] = [],
-): CityData {
-  return {
-    slug, name, department: dept, country: 'PY', population: pop,
-    heroTitle: `Cosméticos y Belleza en ${name}`,
-    heroSubtitle: `La mejor selección de maquillaje, skincare y perfumería con entrega en ${name} y todo ${dept}.`,
-    metaTitle: `Cosméticos y Belleza en ${name} | Maquillaje y Skincare | Lumera`,
-    metaDescription: `Compra cosméticos y belleza en ${name}, ${dept}. Maquillaje, cremas, perfumes y más con envío. Precios desde ₲ 89.000. ¡Compra ahora!`,
-    keywords: [`cosméticos y belleza ${name.toLowerCase()}`, `cosméticos ${name.toLowerCase()}`, `cosméticos ${name.toLowerCase()} paraguay`, `tienda cosméticos ${dept.toLowerCase()}`, ...extraKw],
-    localInfo: info,
-    shippingNote: shipping,
-    testimonial: { ...testimonial, stars: 5 },
-    nearbyAreas: nearby,
-    localLandmarks: landmarks,
-  };
-}
 
 function brCity(
   slug: string, name: string, state: string, pop: string,
