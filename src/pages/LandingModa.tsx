@@ -51,7 +51,7 @@ export default function LandingModa() {
 
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', { source: 'landing-moda' });
-    window.open('https://wa.me/595981000000?text=Hola!%20Vi%20su%20tienda%20y%20quiero%20más%20información', '_blank');
+    window.open('https://wa.me/5511999999999?text=Ol%C3%A1!%20Vi%20sua%20loja%20e%20quero%20mais%20informa%C3%A7%C3%B5es', '_blank');
   };
 
   return (

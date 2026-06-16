@@ -43,7 +43,7 @@ export default function Wholesale() {
                   Ver Catálogo B2B <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851]" onClick={() => window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas', '_blank')}>
+              <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851]" onClick={() => window.open('https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20informa%C3%A7%C3%B5es%20de%20pre%C3%A7os%20no%20atacado', '_blank')}>
                 <MessageCircle className="mr-2 h-4 w-4" /> WhatsApp Directo
               </Button>
             </div>

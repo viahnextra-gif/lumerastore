@@ -108,7 +108,7 @@ export const products: Product[] = [
   {
     id: '6',
     name: 'Shampoo L\'Oréal Elvive',
-    description: 'Shampoo reparador para cabello dañado con aceite de coco y ceramidas.',
+    description: 'Shampoo reparador para cabelos danificados com óleo de coco e ceramidas.',
     price: 79000,
     images: ['/placeholder.svg'],
     category: 'cuidado-capilar',

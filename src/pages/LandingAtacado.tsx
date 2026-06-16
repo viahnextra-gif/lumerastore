@@ -48,7 +48,7 @@ export default function LandingAtacado() {
 
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', { source: 'landing-atacado' });
-    window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas%20de%20cosméticos', '_blank');
+    window.open('https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20informa%C3%A7%C3%B5es%20de%20pre%C3%A7os%20no%20atacado%20de%20cosm%C3%A9ticos', '_blank');
   };
 
   return (
@@ -118,7 +118,7 @@ export default function LandingAtacado() {
         <div className="container max-w-xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card p-8 md:p-10 rounded-3xl shadow-md border border-border">
             <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">Solicita Precios Mayoristas</h2>
-            <p className="text-muted-foreground text-center mb-8">Completa el formulario y recibe nuestra tabla de precios de cosméticos.</p>
+            <p className="text-muted-foreground text-center mb-8">Preencha o formulário e receba nossa tabela de preços de cosméticos.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input placeholder="Tu nombre *" value={name} onChange={e => setName(e.target.value)} required />
               <Input placeholder="WhatsApp / Teléfono *" value={phone} onChange={e => setPhone(e.target.value)} required />

@@ -99,7 +99,7 @@ export default function AccountAddresses() {
         <CardHeader>
           <CardTitle>Dirección de Envío</CardTitle>
           <CardDescription>
-            Esta será tu dirección predeterminada para envíos
+            Este será seu endereço padrão para envios
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
