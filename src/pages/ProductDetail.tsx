@@ -23,14 +23,16 @@ import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { productSchema, breadcrumbSchema } from '@/components/seo/schemas';
 
 export default function ProductDetail() {
-  const { id } = useParams();
+  // Accepts either /produto/:slug (canonical) or legacy /producto/:id.
+  const params = useParams();
+  const productKey = params.slug || params.id || '';
   const navigate = useNavigate();
   const { toast } = useToast();
   const { addToCart } = useCart();
   const { t } = useLanguage();
   const { formatPrice } = useCurrency();
   
-  const { product, isLoading, error } = useProduct(id || '');
+  const { product, isLoading, error } = useProduct(productKey);
   const { products: relatedProductsData } = useProducts({ categorySlug: product?.category });
   
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -90,26 +92,28 @@ export default function ProductDetail() {
 
   const relatedProducts = relatedProductsData.filter((p) => p.id !== product.id).slice(0, 4);
 
+  const productUrl = `/produto/${product.slug || product.id}`;
   const breadcrumbItems = [
     { name: t('nav.home'), url: '/' },
     { name: t('nav.catalog'), url: '/catalogo' },
     { name: product.category, url: `/catalogo?category=${product.category}` },
-    { name: product.name, url: `/producto/${product.id}` },
+    { name: product.name, url: productUrl },
   ];
 
   const jsonLd = [
-    productSchema({ name: product.name, description: product.description, price: product.price, images: product.images, category: product.category, url: `/producto/${product.id}` }),
+    productSchema({ name: product.name, description: product.description, price: product.price, images: product.images, category: product.category, url: productUrl }),
     breadcrumbSchema(breadcrumbItems),
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={`${product.name} - Lumera`}
-        description={`${product.description?.slice(0, 150) || product.name}`}
+        title={product.metaTitle || `${product.name} - Lumera Store`}
+        description={product.metaDescription || (product.description?.slice(0, 155) || product.name)}
+        canonical={`https://lumerastore.lovable.app${productUrl}`}
         ogImage={product.images?.[0]}
         ogType="product"
-        keywords={`${product.name}, ${product.category}, cosméticos, belleza, lumera`}
+        keywords={`${product.name}, ${product.category}, cosméticos, beleza, lumera store`}
         jsonLd={jsonLd}
       />
       <Header />

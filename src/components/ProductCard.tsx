@@ -41,7 +41,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`/producto/${product.id}`} className="block">
+      <Link to={`/produto/${product.slug || product.id}`} className="block">
         <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-muted">
           <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
           

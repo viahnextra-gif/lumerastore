@@ -1,4 +1,4 @@
-const BASE_URL = 'https://lojawakai.lovable.app';
+const BASE_URL = 'https://lumerastore.lovable.app';
 
 export function organizationSchema() {
   return {

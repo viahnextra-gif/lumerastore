@@ -70,7 +70,7 @@ export default function Cart() {
                 transition={{ delay: index * 0.1 }}
                 className="flex gap-4 p-4 rounded-xl bg-card border border-border"
               >
-                <Link to={`/producto/${item.product.id}`} className="shrink-0">
+                <Link to={`/produto/${item.product.slug || item.product.id}`} className="shrink-0">
                   <img
                     src={item.product.images[0]}
                     alt={item.product.name}
@@ -82,7 +82,7 @@ export default function Cart() {
                   <div className="flex justify-between gap-4">
                     <div>
                       <Link
-                        to={`/producto/${item.product.id}`}
+                        to={`/produto/${item.product.slug || item.product.id}`}
                         className="font-display text-lg font-medium text-foreground hover:text-primary transition-colors line-clamp-1"
                       >
                         {item.product.name}

@@ -253,6 +253,51 @@ export type Database = {
         }
         Relationships: []
       }
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          id: string
+          is_active: boolean
+          min_purchase: number | null
+          updated_at: string
+          usage_count: number
+          usage_limit: number | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount_type: string
+          discount_value: number
+          id?: string
+          is_active?: boolean
+          min_purchase?: number | null
+          updated_at?: string
+          usage_count?: number
+          usage_limit?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          id?: string
+          is_active?: boolean
+          min_purchase?: number | null
+          updated_at?: string
+          usage_count?: number
+          usage_limit?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string
@@ -740,6 +785,8 @@ export type Database = {
           images: string[] | null
           is_active: boolean | null
           is_featured: boolean | null
+          meta_description: string | null
+          meta_title: string | null
           min_wholesale_qty: number | null
           name: string
           price: number
@@ -759,6 +806,8 @@ export type Database = {
           images?: string[] | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          meta_description?: string | null
+          meta_title?: string | null
           min_wholesale_qty?: number | null
           name: string
           price: number
@@ -778,6 +827,8 @@ export type Database = {
           images?: string[] | null
           is_active?: boolean | null
           is_featured?: boolean | null
+          meta_description?: string | null
+          meta_title?: string | null
           min_wholesale_qty?: number | null
           name?: string
           price?: number

@@ -184,7 +184,7 @@ export default function Chatbot() {
                       {message.products && message.products.length > 0 && (
                         <div className="mt-3 space-y-2">
                           {message.products.map((product) => (
-                            <a key={product.id} href={`/producto/${product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
+                            <a key={product.id} href={`/produto/${(product as any).slug || product.id}`} className="flex gap-2 p-2 rounded-lg bg-background/50 hover:bg-background transition-colors">
                               <img src={product.image} alt={product.name} className="w-12 h-12 rounded object-cover" />
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs font-medium line-clamp-1">{product.name}</p>

@@ -45,6 +45,7 @@ const generateColorHex = (colorName: string): string => {
 
 const transformProduct = (dbProduct: DBProduct): Product & { video_url?: string | null } => ({
   id: dbProduct.id,
+  slug: dbProduct.slug,
   name: dbProduct.name,
   description: dbProduct.description || '',
   price: dbProduct.price,
@@ -56,6 +57,8 @@ const transformProduct = (dbProduct: DBProduct): Product & { video_url?: string 
   isBestSeller: dbProduct.is_featured || false,
   wholesalePrice: dbProduct.wholesale_price || undefined,
   minWholesaleQty: dbProduct.min_wholesale_qty || undefined,
+  metaTitle: (dbProduct as any).meta_title || undefined,
+  metaDescription: (dbProduct as any).meta_description || undefined,
   video_url: dbProduct.video_url || null,
 });
 
@@ -199,7 +202,10 @@ export function useCategories() {
   return { categories, isLoading };
 }
 
-export function useProduct(productId: string) {
+// UUID v4 detector — used to decide whether a route param is an id or a slug.
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export function useProduct(productIdOrSlug: string) {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -210,10 +216,11 @@ export function useProduct(productId: string) {
     const fetchProduct = async () => {
       try {
         setIsLoading(true);
+        const lookupColumn = UUID_REGEX.test(productIdOrSlug) ? 'id' : 'slug';
         const { data, error: qErr } = await supabase
           .from('products')
           .select('*, categories(slug, name)')
-          .eq('id', productId)
+          .eq(lookupColumn, productIdOrSlug)
           .maybeSingle();
 
         if (cancelled) return;
@@ -229,9 +236,9 @@ export function useProduct(productId: string) {
       }
     };
 
-    if (productId) fetchProduct();
+    if (productIdOrSlug) fetchProduct();
     return () => { cancelled = true; };
-  }, [productId]);
+  }, [productIdOrSlug]);
 
   return { product, isLoading, error };
 }
