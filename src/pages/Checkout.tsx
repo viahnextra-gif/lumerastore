@@ -215,30 +215,34 @@ export default function Checkout() {
             </p>
             <p className="font-mono text-2xl font-bold text-primary mb-6">{orderNumber}</p>
             
-            {paymentMethod === 'transfer' && (
+            {paymentMethod === 'pix' && (
               <Card className="mb-6 text-left">
-                <CardHeader>
-                  <CardTitle className="text-lg">{t('checkout.transferDetails')}</CardTitle>
-                </CardHeader>
+                <CardHeader><CardTitle className="text-lg">Pagamento PIX</CardTitle></CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  <p><strong>{t('checkout.bank')}:</strong> Banco Continental</p>
-                  <p><strong>{t('checkout.holder')}:</strong> Lumera Store S.A.</p>
-                  <p><strong>{t('checkout.accountNumber')}:</strong> 1234567890</p>
-                  <p><strong>{t('checkout.amount')}:</strong> {formatPrice(total)}</p>
-                  <p className="text-muted-foreground mt-4">
-                    {t('checkout.sendReceipt')}
-                  </p>
+                  <p>Geraremos seu QR Code PIX após a confirmação do pedido.</p>
+                  <p><strong>Valor:</strong> {formatPrice(total)}</p>
+                  <p className="text-muted-foreground mt-4">Você receberá o QR Code por email em instantes.</p>
                 </CardContent>
               </Card>
             )}
-            
+            {paymentMethod === 'boleto' && (
+              <Card className="mb-6 text-left">
+                <CardHeader><CardTitle className="text-lg">Boleto bancário</CardTitle></CardHeader>
+                <CardContent className="space-y-2 text-sm">
+                  <p>O boleto será enviado para <strong>{formData.customerEmail}</strong>.</p>
+                  <p><strong>Valor:</strong> {formatPrice(total)}</p>
+                  <p className="text-muted-foreground mt-4">Compensação em até 2 dias úteis após o pagamento.</p>
+                </CardContent>
+              </Card>
+            )}
+
             <div className="flex gap-4 justify-center">
               <Link to="/catalogo">
-                <Button variant="outline">{t('checkout.continueShopping')}</Button>
+                <Button variant="outline">Continuar comprando</Button>
               </Link>
               {user && (
-                <Link to="/cuenta">
-                  <Button>{t('checkout.viewOrders')}</Button>
+                <Link to="/conta">
+                  <Button>Ver meus pedidos</Button>
                 </Link>
               )}
             </div>
