@@ -1,18 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, MessageCircle, MapPin } from 'lucide-react';
+import { Instagram, Facebook, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getCitiesByCountry } from '@/data/cities';
-
-const topPyCities = ['asuncion', 'ciudad-del-este', 'encarnacion', 'luque', 'san-lorenzo', 'capiata'];
-const topBrCities = ['sao-paulo', 'rio-de-janeiro', 'brasilia', 'curitiba', 'florianopolis', 'campo-grande'];
+import lumeraLogo from '@/assets/lumera-logo-light.png';
 
 export default function Footer() {
   const { t } = useLanguage();
-
-  const pyCities = getCitiesByCountry('PY').filter(c => topPyCities.includes(c.slug));
-  const brCities = getCitiesByCountry('BR').filter(c => topBrCities.includes(c.slug));
 
   const footerLinks = {
     shop: [
@@ -56,13 +50,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2">
             <Link to="/" className="inline-block mb-4">
-              <img src="/lumera-logo.png" alt="Lumera" className="h-10 brightness-0 invert" />
+              <img src={lumeraLogo} alt="Lumera" loading="lazy" className="h-12 w-auto object-contain" />
             </Link>
             <p className="text-primary-foreground/70 mb-6 max-w-xs">{t('footer.brand.desc')}</p>
             <div className="flex gap-4">
-              <a href="https://instagram.com/lumera.store" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="https://facebook.com/lumerastore" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-5 w-5" /></a>
-              <a href="https://wa.me/595xxx" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><MessageCircle className="h-5 w-5" /></a>
+              <a href="https://instagram.com/lumera.store" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Instagram className="h-5 w-5" /></a>
+              <a href="https://facebook.com/lumerastore" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><Facebook className="h-5 w-5" /></a>
+              <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="p-2 rounded-full bg-primary-foreground/10 hover:bg-primary hover:text-primary-foreground transition-colors"><MessageCircle className="h-5 w-5" /></a>
             </div>
           </div>
 
@@ -96,34 +90,17 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-primary-foreground/10">
-        <div className="container py-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h4 className="font-semibold mb-4 flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" />{t('footer.fashionPY')}</h4>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {pyCities.map(city => (
-                  <li key={city.slug}><Link to={`/moda-femenina/${city.slug}`} className="text-sm text-primary-foreground/60 hover:text-primary transition-colors">{t('footer.fashionIn')} {city.name}</Link></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" />{t('footer.fashionBR')}</h4>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {brCities.map(city => (
-                  <li key={city.slug}><Link to={`/moda-femenina/${city.slug}`} className="text-sm text-primary-foreground/60 hover:text-primary transition-colors">{t('footer.fashionIn')} {city.name}</Link></li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-primary-foreground/10">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/60">
-          <p>{t('footer.rights')}</p>
-          <div className="flex gap-6">
+          <p>© 2026 Lumera Store. Todos os direitos reservados.</p>
+          <div className="flex items-center gap-6">
             <Link to="/privacidad" className="hover:text-primary-foreground">{t('footer.privacy')}</Link>
             <Link to="/terminos" className="hover:text-primary-foreground">{t('footer.terms')}</Link>
+            <span>
+              Desenvolvido por{' '}
+              <a href="https://nsg.lat" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">
+                nsg.lat
+              </a>
+            </span>
           </div>
         </div>
       </div>
