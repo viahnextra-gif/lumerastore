@@ -282,41 +282,6 @@ export default function Index() {
       {/* Video Reels Gallery */}
       <VideoReelsGallery />
 
-      {/* B2B CTA */}
-      <section className="py-20">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative overflow-hidden rounded-3xl bg-gradient-hero p-8 md:p-16"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-foreground/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-gold/20 rounded-full blur-3xl" />
-            
-            <div className="relative z-10 max-w-2xl">
-              <span className="inline-block px-4 py-1 rounded-full bg-primary-foreground/20 text-primary-foreground text-sm font-medium mb-4">
-                {t('b2b.badge')}
-              </span>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
-                {t('b2b.title')}
-              </h2>
-              <p className="text-primary-foreground/80 text-lg mb-8">{t('b2b.subtitle')}</p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/atacado">
-                  <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90">
-                    {t('b2b.cta')}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10">
-                  {t('b2b.catalog')}
-                </Button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* All Products Grid */}
       <section className="py-20">
