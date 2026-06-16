@@ -82,9 +82,9 @@ export function trackEvent(eventName: string, params?: Record<string, any>) {
 export const trackLead = (source: string) => trackEvent('generate_lead', { source });
 export const trackSignUp = (method: string) => trackEvent('sign_up', { method });
 export const trackWhatsAppClick = (source: string) => trackEvent('whatsapp_click', { source, outbound: true });
-export const trackAddToCart = (productId: string, price: number) => trackEvent('add_to_cart', { product_id: productId, value: price, currency: 'PYG' });
-export const trackCheckout = (value: number) => trackEvent('begin_checkout', { value, currency: 'PYG' });
-export const trackPurchase = (orderId: string, value: number) => trackEvent('purchase', { transaction_id: orderId, value, currency: 'PYG' });
+export const trackAddToCart = (productId: string, price: number) => trackEvent('add_to_cart', { product_id: productId, value: price, currency: 'BRL' });
+export const trackCheckout = (value: number) => trackEvent('begin_checkout', { value, currency: 'BRL' });
+export const trackPurchase = (orderId: string, value: number) => trackEvent('purchase', { transaction_id: orderId, value, currency: 'BRL' });
 
 // Pageview tracker component
 export default function AnalyticsTracker() {

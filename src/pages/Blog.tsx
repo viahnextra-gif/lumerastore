@@ -11,8 +11,8 @@ export default function Blog() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    name: 'Blog Lumera',
-    description: 'Guías, tendencias y consejos de belleza y cosméticos en Paraguay.',
+    name: 'Blog Lumera Store',
+    description: 'Guias, tendências e dicas de beleza e cosméticos no Brasil.',
     url: 'https://lojalumera.lovable.app/blog',
     publisher: {
       '@type': 'Organization',
@@ -23,9 +23,9 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Blog de Belleza y Cosméticos | Guías y Tendencias | Lumera"
-        description="Descubre guías de belleza, tendencias de cosméticos, tips de skincare y más. Blog de Lumera Paraguay."
-        keywords="blog belleza, tendencias cosméticos paraguay, guía skincare, tips maquillaje"
+        title="Blog de Beleza e Cosméticos | Guias e Tendências | Lumera Store"
+        description="Descubra guias de beleza, tendências de cosméticos, dicas de skincare e mais. Blog Lumera Store Brasil."
+        keywords="blog beleza, tendências cosméticos brasil, guia skincare, dicas maquiagem"
         canonical="https://lojalumera.lovable.app/blog"
         jsonLd={jsonLd}
       />
@@ -38,14 +38,14 @@ export default function Blog() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">Blog Lumera Store</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Guías de estilo, tendencias, tips de negocio y todo sobre moda femenina en Paraguay.
+              Guias de beleza, tendências, dicas de skincare e tudo sobre cosméticos no Brasil.
             </p>
           </motion.div>
           {/* Category navigation */}
           <div className="flex justify-center gap-3 mb-10 flex-wrap">
-            <Link to="/blog/moda" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Moda</Link>
-            <Link to="/blog/tendencias" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Tendencias</Link>
-            <Link to="/blog/guia" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Guías</Link>
+            <Link to="/blog/beleza" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Beleza</Link>
+            <Link to="/blog/tendencias" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Tendências</Link>
+            <Link to="/blog/guia" className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors">Guias</Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

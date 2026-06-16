@@ -43,7 +43,7 @@ Critérios:
           type: "function",
           function: {
             name: "classify_leads",
-            description: "Clasifica los leads con score y sugerencia",
+            description: "Classifica os leads com score e sugestão",
             parameters: {
               type: "object",
               properties: {

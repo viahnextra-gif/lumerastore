@@ -59,9 +59,9 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Lumera Store - Moda Femenina | Paraguay"
-        description="Descubre la última tendencia en moda femenina. Vestidos, conjuntos, blusas y más. Venta al por mayor y menor. Envíos a todo Paraguay."
-        keywords="moda femenina, ropa mujer, vestidos, conjuntos, blusas, paraguay, atacado, mayorista, Lumera Store"
+        title="Lumera Store - Cosméticos e Beleza | Brasil"
+        description="Descubra as últimas tendências em cosméticos e beleza. Maquiagem, skincare, perfumaria e mais. Atacado e varejo. Envios para todo o Brasil."
+        keywords="cosméticos, maquiagem, skincare, perfumaria, beleza, brasil, atacado, varejo, Lumera Store"
         canonical="https://lojawakai.lovable.app/"
         jsonLd={[organizationSchema(), localBusinessSchema(), webSiteSchema(), faqSchema(faqItems)]}
       />

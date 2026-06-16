@@ -2,7 +2,7 @@ import { Product, Category } from '@/types/product';
 
 // Fallback static data - the app primarily loads from the database
 export const categories: Category[] = [
-  { id: '1', name: 'Maquillaje', slug: 'maquillaje', image: '/placeholder.svg', productCount: 50 },
+  { id: '1', name: 'Maquiagem', slug: 'maquiagem', image: '/placeholder.svg', productCount: 50 },
   { id: '2', name: 'Cuidado Facial', slug: 'cuidado-facial', image: '/placeholder.svg', productCount: 40 },
   { id: '3', name: 'Cuidado Capilar', slug: 'cuidado-capilar', image: '/placeholder.svg', productCount: 35 },
   { id: '4', name: 'Perfumería', slug: 'perfumeria', image: '/placeholder.svg', productCount: 30 },
@@ -108,7 +108,7 @@ export const products: Product[] = [
   {
     id: '6',
     name: 'Shampoo L\'Oréal Elvive',
-    description: 'Shampoo reparador para cabello dañado con aceite de coco y ceramidas.',
+    description: 'Shampoo reparador para cabelos danificados com óleo de coco e ceramidas.',
     price: 79000,
     images: ['/placeholder.svg'],
     category: 'cuidado-capilar',

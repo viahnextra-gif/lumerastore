@@ -8,33 +8,33 @@ import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { blogPosts } from '@/data/blogPosts';
 
 const categoryMeta: Record<string, { title: string; description: string; keywords: string; heading: string; intro: string }> = {
-  moda: {
-    title: 'Blog de Moda Femenina | Estilos, Outfits y Tendencias | Lumera Store',
-    description: 'Artículos sobre moda femenina en Paraguay: guías de estilo, outfits para cada ocasión, capsule wardrobe y más. Blog Lumera Store.',
-    keywords: 'moda femenina, estilo mujer, outfits, guardarropa cápsula, moda paraguay',
-    heading: 'Moda Femenina',
-    intro: 'Guías de estilo, outfits para cada ocasión y todo lo que necesitas saber sobre moda femenina en Paraguay.',
+  beleza: {
+    title: 'Blog de Beleza | Skincare, Maquiagem e Cuidados | Lumera Store',
+    description: 'Artigos sobre beleza no Brasil: guias de skincare, tendências de maquiagem, rotinas de cuidado e muito mais. Blog Lumera Store.',
+    keywords: 'beleza, skincare, maquiagem, cuidados, blog beleza brasil',
+    heading: 'Beleza',
+    intro: 'Guias de skincare, tendências de maquiagem e tudo sobre cuidados de beleza no Brasil.',
   },
   tendencias: {
-    title: 'Tendencias de Moda 2026 | Colores, Accesorios y Estilos | Lumera Store',
-    description: 'Las últimas tendencias de moda femenina: colores de temporada, accesorios imprescindibles y estilos que marcan la pauta en Paraguay.',
-    keywords: 'tendencias moda 2026, colores temporada, accesorios moda, moda sustentable',
-    heading: 'Tendencias',
-    intro: 'Las últimas tendencias de moda: colores de temporada, accesorios imprescindibles y estilos que marcan la pauta.',
+    title: 'Tendências de Beleza 2026 | Maquiagem, Cores e Cuidados | Lumera Store',
+    description: 'As últimas tendências de beleza: cores da temporada, lançamentos de maquiagem e cuidados de skincare que dominam o Brasil.',
+    keywords: 'tendências beleza 2026, cores temporada, maquiagem 2026, skincare',
+    heading: 'Tendências',
+    intro: 'As últimas tendências de beleza: cores da temporada, lançamentos e estilos em alta.',
   },
   guia: {
-    title: 'Guías de Moda y Negocio | Tallas, Reventa y Tips | Lumera Store',
-    description: 'Guías prácticas: cómo encontrar tu talla, revender ropa femenina, elegir telas para el clima paraguayo y más.',
-    keywords: 'guía tallas ropa, revender ropa, telas clima cálido, negocio moda femenina',
-    heading: 'Guías Prácticas',
-    intro: 'Guías paso a paso para encontrar tu talla perfecta, elegir las mejores telas y emprender en el mundo de la moda.',
+    title: 'Guias de Beleza e Negócio | Skincare, Revenda e Dicas | Lumera Store',
+    description: 'Guias práticos: como montar sua rotina de skincare, revender cosméticos no Brasil, escolher perfume ideal e mais.',
+    keywords: 'guia skincare, revender cosméticos, perfume ideal, negócio beleza brasil',
+    heading: 'Guias Práticos',
+    intro: 'Guias passo a passo para montar sua rotina ideal, escolher os melhores produtos e empreender no mundo da beleza.',
   },
 };
 
 const categoryFilterMap: Record<string, string[]> = {
-  moda: ['Moda'],
-  tendencias: ['Tendencias'],
-  guia: ['Guía', 'Negocio'],
+  beleza: ['Beleza', 'Guia'],
+  tendencias: ['Tendências'],
+  guia: ['Guia', 'Negócio'],
 };
 
 export default function BlogCategory() {
@@ -48,8 +48,8 @@ export default function BlogCategory() {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="container py-20 text-center">
-          <h1 className="font-display text-3xl font-bold text-foreground mb-4">Categoría no encontrada</h1>
-          <Link to="/blog" className="text-primary hover:underline">Volver al blog</Link>
+          <h1 className="font-display text-3xl font-bold text-foreground mb-4">Categoria não encontrada</h1>
+          <Link to="/blog" className="text-primary hover:underline">Voltar ao blog</Link>
         </div>
         <Footer />
       </div>
@@ -63,8 +63,8 @@ export default function BlogCategory() {
     '@type': 'CollectionPage',
     name: meta.heading,
     description: meta.description,
-    url: `https://lojawakai.lovable.app/blog/${category}`,
-    isPartOf: { '@type': 'Blog', name: 'Blog Lumera Store', url: 'https://lojawakai.lovable.app/blog' },
+    url: `https://lojalumera.lovable.app/blog/${category}`,
+    isPartOf: { '@type': 'Blog', name: 'Blog Lumera Store', url: 'https://lojalumera.lovable.app/blog' },
     publisher: { '@type': 'Organization', name: 'Lumera Store' },
   };
 
@@ -74,7 +74,7 @@ export default function BlogCategory() {
         title={meta.title}
         description={meta.description}
         keywords={meta.keywords}
-        canonical={`https://lojawakai.lovable.app/blog/${category}`}
+        canonical={`https://lojalumera.lovable.app/blog/${category}`}
         jsonLd={jsonLd}
       />
       <Header />
@@ -109,7 +109,7 @@ export default function BlogCategory() {
           </div>
 
           {posts.length === 0 ? (
-            <p className="text-center text-muted-foreground py-12">No hay artículos en esta categoría todavía.</p>
+            <p className="text-center text-muted-foreground py-12">Nenhum artigo nesta categoria ainda.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post, i) => (

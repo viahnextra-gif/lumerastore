@@ -21,6 +21,6 @@ export const mercadoLivreConnector: MarketplaceConnector = {
     return { imported: 0 };
   },
   mapAttributes(product) {
-    return { title: product.name, price: product.price, currency_id: 'PYG', condition: 'new' };
+    return { title: product.name, price: product.price, currency_id: 'BRL', condition: 'new' };
   },
 };

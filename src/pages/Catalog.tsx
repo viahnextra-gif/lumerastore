@@ -177,11 +177,11 @@ export default function Catalog() {
     : 'Catálogo Completo';
 
   const seoTitle = categoryParam
-    ? `${currentCategoryName} - Moda Femenina | Lumera Store`
-    : 'Catálogo Moda Femenina | Lumera Store Paraguay';
+    ? `${currentCategoryName} - Cosméticos e Beleza | Lumera Store`
+    : 'Catálogo de Cosméticos e Beleza | Lumera Store Brasil';
   const seoDesc = categoryParam
-    ? `Compra ${currentCategoryName.toLowerCase()} de moda femenina en Lumera Store. Envíos a todo Paraguay.`
-    : 'Explora nuestra colección completa de moda femenina. Vestidos, conjuntos, blusas y más. Envíos a todo Paraguay.';
+    ? `Compre ${currentCategoryName.toLowerCase()} de cosméticos e beleza na Lumera Store. Envios para todo o Brasil.`
+    : 'Explore nossa coleção completa de cosméticos e beleza. Maquiagem, skincare, perfumaria e mais. Envios para todo o Brasil.';
   const breadcrumbItems = categoryParam
     ? [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }, { name: currentCategoryName, url: `/catalogo?category=${categoryParam}` }]
     : [{ name: 'Inicio', url: '/' }, { name: 'Catálogo', url: '/catalogo' }];

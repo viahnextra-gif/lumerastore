@@ -40,7 +40,7 @@ export default function BlogPost() {
         <Header />
         <div className="container py-20 text-center">
           <h1 className="font-display text-3xl font-bold text-foreground mb-4">Artículo no encontrado</h1>
-          <Link to="/blog"><Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" /> Volver al blog</Button></Link>
+          <Link to="/blog"><Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" /> Voltar ao blog</Button></Link>
         </div>
         <Footer />
       </div>

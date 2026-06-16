@@ -15,21 +15,21 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
 const benefits = [
-  { icon: Truck, text: 'Envío directo a tu ciudad' },
-  { icon: Package, text: 'Precios de mayorista desde 6 prendas' },
-  { icon: Shield, text: 'Calidad garantizada' },
-  { icon: CheckCircle, text: '+5,000 clientas satisfechas' },
-  { icon: Clock, text: 'Devolución gratis en 7 días' },
-  { icon: MessageCircle, text: 'Atención vía WhatsApp' },
+  { icon: Truck, text: 'Envio direto para sua cidade' },
+  { icon: Package, text: 'Preços de atacado a partir de 3 unidades' },
+  { icon: Shield, text: 'Qualidade garantida' },
+  { icon: CheckCircle, text: '+5.000 clientes satisfeitas' },
+  { icon: Clock, text: 'Devolução grátis em 7 dias' },
+  { icon: MessageCircle, text: 'Atendimento via WhatsApp' },
 ];
 
 const categories = [
-  { name: 'Vestidos', slug: 'vestidos', emoji: '👗' },
-  { name: 'Conjuntos', slug: 'conjuntos', emoji: '✨' },
-  { name: 'Blusas', slug: 'blusas', emoji: '👚' },
-  { name: 'Pantalones', slug: 'calcas', emoji: '👖' },
-  { name: 'Faldas', slug: 'saias', emoji: '💃' },
-  { name: 'Shorts', slug: 'shorts', emoji: '🩳' },
+  { name: 'Maquiagem', slug: 'maquiagem', emoji: '💄' },
+  { name: 'Skincare', slug: 'cuidado-facial', emoji: '🧴' },
+  { name: 'Perfumaria', slug: 'perfumaria', emoji: '🌸' },
+  { name: 'Corpo', slug: 'cuidado-corporal', emoji: '🧖' },
+  { name: 'Cabelos', slug: 'cabelos', emoji: '💇' },
+  { name: 'Unhas', slug: 'unhas', emoji: '💅' },
 ];
 
 export default function CityLanding() {
@@ -46,8 +46,8 @@ export default function CityLanding() {
       <div className="min-h-screen bg-background">
         <Header />
         <div className="container py-20 text-center">
-          <h1 className="font-display text-3xl font-bold text-foreground mb-4">Ciudad no encontrada</h1>
-          <Link to="/"><Button variant="outline">Volver al inicio</Button></Link>
+          <h1 className="font-display text-3xl font-bold text-foreground mb-4">Cidade não encontrada</h1>
+          <Link to="/"><Button variant="outline">Voltar ao início</Button></Link>
         </div>
         <Footer />
       </div>
@@ -57,7 +57,7 @@ export default function CityLanding() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) {
-      toast.error('Por favor, completa tu nombre y teléfono.');
+      toast.error('Por favor, preencha seu nome e telefone.');
       return;
     }
     setLoading(true);
@@ -70,10 +70,10 @@ export default function CityLanding() {
         status: 'cold',
       });
       trackEvent('generate_lead', { source: `city-${city.slug}`, city: city.name });
-      toast.success('¡Gracias! Te contactaremos pronto.');
+      toast.success('Obrigada! Entraremos em contato em breve.');
       setName(''); setPhone(''); setEmail('');
     } catch {
-      toast.error('Error al enviar. Intenta de nuevo.');
+      toast.error('Erro ao enviar. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -81,7 +81,7 @@ export default function CityLanding() {
 
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', { source: `city-${city.slug}`, city: city.name });
-    window.open(`https://wa.me/595981000000?text=Hola!%20Soy%20de%20${encodeURIComponent(city.name)}%20y%20quiero%20más%20información`, '_blank');
+    window.open(`https://wa.me/5511999999999?text=Ol%C3%A1!%20Sou%20de%20${encodeURIComponent(city.name)}%20e%20quero%20mais%20informa%C3%A7%C3%B5es`, '_blank');
   };
 
   const pageUrl = `/moda-femenina/${city.slug}`;
@@ -90,7 +90,7 @@ export default function CityLanding() {
   const citySchema = {
     '@context': 'https://schema.org',
     '@type': 'Store',
-    name: `Lumera – Cosméticos y Belleza en ${city.name}`,
+    name: `Lumera – Cosméticos e Beleza em ${city.name}`,
     url: canonicalUrl,
     description: city.metaDescription,
     address: {
@@ -103,7 +103,7 @@ export default function CityLanding() {
       '@type': 'City',
       name: city.name,
     },
-    priceRange: city.country === 'PY' ? '₲₲' : 'R$R$',
+    priceRange: 'R$R$',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -113,7 +113,7 @@ export default function CityLanding() {
   };
 
   const breadcrumbItems = [
-    { name: 'Inicio', url: '/' },
+    { name: 'Início', url: '/' },
     { name: 'Moda Femenina', url: '/moda-femenina' },
     { name: city.name, url: pageUrl },
   ];
@@ -187,7 +187,7 @@ export default function CityLanding() {
         <div className="container max-w-3xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center">
             <h2 className="font-display text-3xl font-bold text-foreground mb-4">
-              Moda Femenina con Envío a {city.name}
+              Cosméticos e Beleza com Envio para {city.name}
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">{city.localInfo}</p>
             <p className="text-muted-foreground italic">{city.localLandmarks}</p>
@@ -199,7 +199,7 @@ export default function CityLanding() {
       <section className="py-16 bg-muted/30">
         <div className="container">
           <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">
-            Categorías Populares en {city.name}
+            Categorias Populares em {city.name}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {categories.map((cat, i) => (
@@ -227,7 +227,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">
-            ¿Por qué comprar en Lumera desde {city.name}?
+            Por que comprar na Lumera desde {city.name}?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((b, i) => (
@@ -271,7 +271,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container max-w-3xl text-center">
           <h2 className="font-display text-2xl font-bold text-foreground mb-4">
-            También enviamos a zonas cercanas
+            Também enviamos para regiões próximas
           </h2>
           <div className="flex flex-wrap justify-center gap-3">
             {city.nearbyAreas.map(area => (
@@ -288,20 +288,20 @@ export default function CityLanding() {
         <div className="container max-w-xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card p-8 md:p-10 rounded-3xl shadow-md border border-border">
             <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">
-              ¡Ofertas exclusivas para {city.name}!
+              Ofertas exclusivas para {city.name}!
             </h2>
             <p className="text-muted-foreground text-center mb-8">
-              Déjanos tus datos y te contactaremos con los mejores precios y promociones.
+              Deixe seus dados e entraremos em contato com os melhores preços e promoções.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input placeholder="Tu nombre *" value={name} onChange={e => setName(e.target.value)} required />
-              <Input placeholder="Tu teléfono / WhatsApp *" value={phone} onChange={e => setPhone(e.target.value)} required />
-              <Input placeholder="Tu email (opcional)" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+              <Input placeholder="Seu nome *" value={name} onChange={e => setName(e.target.value)} required />
+              <Input placeholder="Seu telefone / WhatsApp *" value={phone} onChange={e => setPhone(e.target.value)} required />
+              <Input placeholder="Seu email (opcional)" type="email" value={email} onChange={e => setEmail(e.target.value)} />
               <Button type="submit" size="lg" className="w-full text-lg" disabled={loading}>
-                {loading ? 'Enviando...' : 'Quiero Recibir Ofertas' }
+                {loading ? 'Enviando...' : 'Quero Receber Ofertas' }
               </Button>
             </form>
-            <p className="text-xs text-muted-foreground text-center mt-4">No compartimos tus datos. Política de privacidad.</p>
+            <p className="text-xs text-muted-foreground text-center mt-4">Não compartilhamos seus dados. Política de privacidade.</p>
           </motion.div>
         </div>
       </section>
@@ -310,7 +310,7 @@ export default function CityLanding() {
       <section className="py-16">
         <div className="container">
           <h2 className="font-display text-2xl font-bold text-foreground text-center mb-8">
-            {city.country === 'PY' ? 'Moda Femenina en otras ciudades de Paraguay' : 'Moda Feminina em outras cidades do Brasil'}
+            {'Beleza em outras cidades do Brasil'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {otherCities.map(c => (
@@ -321,7 +321,7 @@ export default function CityLanding() {
               >
                 <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
                 <span className="text-foreground group-hover:text-primary transition-colors font-medium text-sm">
-                  {city.country === 'PY' ? `Moda en ${c.name}` : `Moda em ${c.name}`}
+                  {`Beleza em ${c.name}`}
                 </span>
               </Link>
             ))}
@@ -333,14 +333,14 @@ export default function CityLanding() {
       <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
-            ¿Lista para renovar tu estilo en {city.name}?
+            Pronta para renovar seu visual em {city.name}?
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-lg px-8" asChild>
               <Link to="/catalogo">Ver Catálogo <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
             <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg" onClick={handleWhatsAppClick}>
-              <MessageCircle className="mr-2 h-5 w-5" /> Hablar por WhatsApp
+              <MessageCircle className="mr-2 h-5 w-5" /> Falar pelo WhatsApp
             </Button>
           </div>
         </div>

@@ -99,7 +99,7 @@ export default function AccountAddresses() {
         <CardHeader>
           <CardTitle>Dirección de Envío</CardTitle>
           <CardDescription>
-            Esta será tu dirección predeterminada para envíos
+            Este será seu endereço padrão para envios
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -124,7 +124,7 @@ export default function AccountAddresses() {
                     id="city"
                     value={addressData.city || ''}
                     onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
-                    placeholder="Ej: Asunción, Ciudad del Este..."
+                    placeholder="Ex: São Paulo, Rio de Janeiro..."
                   />
                 </div>
               </div>

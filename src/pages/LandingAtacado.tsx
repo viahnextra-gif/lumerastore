@@ -13,7 +13,7 @@ import { supabase } from '@/integrations/supabase/client';
 const benefits = [
   { icon: Package, title: 'Mínimo 6 unidades', desc: 'Compra desde 6 unidades con precio de mayorista' },
   { icon: TrendingUp, title: 'Hasta 40% descuento', desc: 'Margen excelente para reventa de cosméticos' },
-  { icon: Users, title: '+500 revendedores', desc: 'Red de revendedores en todo Paraguay' },
+  { icon: Users, title: '+500 revendedores', desc: 'Rede de revendedores em todo o Brasil' },
 ];
 
 const testimonials = [
@@ -48,15 +48,15 @@ export default function LandingAtacado() {
 
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', { source: 'landing-atacado' });
-    window.open('https://wa.me/595981000000?text=Hola!%20Quiero%20información%20de%20precios%20mayoristas%20de%20cosméticos', '_blank');
+    window.open('https://wa.me/5511999999999?text=Ol%C3%A1!%20Quero%20informa%C3%A7%C3%B5es%20de%20pre%C3%A7os%20no%20atacado%20de%20cosm%C3%A9ticos', '_blank');
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Venta Mayorista Cosméticos | Lumera"
-        description="Compra al por mayor cosméticos en Paraguay. Maquillaje, skincare y perfumería desde 6 unidades con hasta 40% de descuento. ¡Solicita precios!"
-        keywords="cosméticos mayorista paraguay, venta al por mayor, atacado cosméticos, revendedor belleza"
+        description="Compre cosméticos no atacado no Brasil. Maquiagem, skincare e perfumaria a partir de 3 unidades com até 40% de desconto. Solicite preços!"
+        keywords="cosméticos atacado brasil, venda por atacado, atacado cosméticos, revendedor beleza"
         canonical="https://lojalumera.lovable.app/mayorista"
         noindex
       />
@@ -72,7 +72,7 @@ export default function LandingAtacado() {
             Gana Dinero Revendiendo Cosméticos
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-8">
-            Precios exclusivos desde 6 unidades. Margen de hasta 40% para tu negocio de belleza.
+            Preços exclusivos a partir de 3 unidades. Margem de até 40% para o seu negócio de beleza.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 text-lg px-8" onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -118,7 +118,7 @@ export default function LandingAtacado() {
         <div className="container max-w-xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card p-8 md:p-10 rounded-3xl shadow-md border border-border">
             <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">Solicita Precios Mayoristas</h2>
-            <p className="text-muted-foreground text-center mb-8">Completa el formulario y recibe nuestra tabla de precios de cosméticos.</p>
+            <p className="text-muted-foreground text-center mb-8">Preencha o formulário e receba nossa tabela de preços de cosméticos.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input placeholder="Tu nombre *" value={name} onChange={e => setName(e.target.value)} required />
               <Input placeholder="WhatsApp / Teléfono *" value={phone} onChange={e => setPhone(e.target.value)} required />
