@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CreditCard, Truck, MapPin, Loader2, Check } from 'lucide-react';
+import { ArrowLeft, CreditCard, Truck, MapPin, Loader2, Check, QrCode, Barcode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,6 +18,11 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
+import { maskCpf, maskCep, maskPhone, isValidCpf, isValidCep } from '@/lib/br/validators';
+import { lookupCep, quoteShipping, type ShippingOption } from '@/lib/shipping/melhorEnvio';
+
+const FREE_SHIPPING_THRESHOLD_BRL = 299;
+const DEFAULT_SHIPPING_BRL = 24.9;
 
 export default function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
@@ -28,30 +33,48 @@ export default function Checkout() {
   const { toast } = useToast();
 
   const checkoutSchema = z.object({
-    customerName: z.string().min(2, t('checkout.nameRequired')),
-    customerEmail: z.string().email(t('checkout.invalidEmail')),
-    customerPhone: z.string().min(8, t('checkout.phoneRequired')),
-    shippingAddress: z.string().min(5, t('checkout.addressRequired')),
-    shippingCity: z.string().min(2, t('checkout.cityRequired')),
-    notes: z.string().optional(),
+    customerName: z.string().trim().min(2, 'Nome obrigatório').max(120),
+    customerEmail: z.string().trim().email('Email inválido').max(255),
+    customerPhone: z.string().trim().min(10, 'Telefone obrigatório').max(20),
+    customerCpf: z.string().trim().refine(isValidCpf, 'CPF inválido'),
+    shippingCep: z.string().trim().refine(isValidCep, 'CEP inválido (00000-000)'),
+    shippingStreet: z.string().trim().min(2, 'Rua obrigatória').max(160),
+    shippingNumber: z.string().trim().min(1, 'Número obrigatório').max(10),
+    shippingComplement: z.string().trim().max(80).optional(),
+    shippingNeighborhood: z.string().trim().min(2, 'Bairro obrigatório').max(80),
+    shippingCity: z.string().trim().min(2, 'Cidade obrigatória').max(80),
+    shippingState: z.string().trim().length(2, 'UF deve ter 2 letras'),
+    notes: z.string().max(500).optional(),
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderCreated, setOrderCreated] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('transfer');
+  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'card' | 'boleto' | 'transfer'>('pix');
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [selectedShipping, setSelectedShipping] = useState<ShippingOption | null>(null);
+  const [loadingCep, setLoadingCep] = useState(false);
   const [formData, setFormData] = useState({
     customerName: '',
     customerEmail: user?.email || '',
     customerPhone: '',
-    shippingAddress: '',
+    customerCpf: '',
+    shippingCep: '',
+    shippingStreet: '',
+    shippingNumber: '',
+    shippingComplement: '',
+    shippingNeighborhood: '',
     shippingCity: '',
+    shippingState: '',
     notes: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const shippingCost = totalPrice >= 500000 ? 0 : 25000;
+  const shippingCost = totalPrice >= FREE_SHIPPING_THRESHOLD_BRL
+    ? 0
+    : (selectedShipping?.price ?? DEFAULT_SHIPPING_BRL);
   const total = totalPrice + shippingCost;
+
 
 
 
