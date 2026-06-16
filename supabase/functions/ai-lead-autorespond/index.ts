@@ -111,7 +111,7 @@ Responda SEMPRE em português brasileiro.`;
     await supabase
       .from("leads")
       .update({
-        notes: `🤖 IA: ${result.action_suggestion}\n📧 Canal: ${result.recommended_channel}\n\n💬 Respuesta sugerida:\n${result.response_message}`,
+        notes: `🤖 IA: ${result.action_suggestion}\n📧 Canal: ${result.recommended_channel}\n\n💬 Resposta sugerida:\n${result.response_message}`,
       })
       .eq("id", leadId);
 
