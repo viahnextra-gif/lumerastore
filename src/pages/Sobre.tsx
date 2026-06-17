@@ -7,7 +7,7 @@ import SEOHead from '@/components/seo/SEOHead';
 import { Button } from '@/components/ui/button';
 import { organizationSchema, breadcrumbSchema } from '@/components/seo/schemas';
 
-const BASE_URL = 'https://lojawakai.lovable.app';
+const BASE_URL = 'https://lumerastore.lovable.app';
 
 const differentials = [
   {

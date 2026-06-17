@@ -71,24 +71,24 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden sm:flex" title="Buscar" onClick={() => setIsSearchOpen(true)}>
+            <Button variant="ghost" size="icon" className="hidden sm:flex" title="Buscar" aria-label="Buscar produtos" onClick={() => setIsSearchOpen(true)}>
               <Search className="h-5 w-5" />
             </Button>
             {isAdmin && (
-              <Link to="/admin">
-                <Button variant="ghost" size="icon" className="hidden sm:flex text-primary"><Shield className="h-5 w-5" /></Button>
+              <Link to="/admin" aria-label="Painel administrativo">
+                <Button variant="ghost" size="icon" className="hidden sm:flex text-primary" aria-label="Painel administrativo"><Shield className="h-5 w-5" /></Button>
               </Link>
             )}
-            <Link to={isLoggedIn ? "/conta" : "/auth"}>
-              <Button variant="ghost" size="icon" className="hidden sm:flex"><User className="h-5 w-5" /></Button>
+            <Link to={isLoggedIn ? "/conta" : "/auth"} aria-label={isLoggedIn ? "Minha conta" : "Entrar"}>
+              <Button variant="ghost" size="icon" className="hidden sm:flex" aria-label={isLoggedIn ? "Minha conta" : "Entrar"}><User className="h-5 w-5" /></Button>
             </Link>
             {isLoggedIn && (
-              <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Logout">
+              <Button variant="ghost" size="icon" className="hidden sm:flex text-destructive" onClick={handleLogout} title="Sair" aria-label="Sair da conta">
                 <LogOut className="h-5 w-5" />
               </Button>
             )}
-            <Link to="/carrinho">
-              <Button variant="ghost" size="icon" className="relative">
+            <Link to="/carrinho" aria-label={`Carrinho de compras${totalItems > 0 ? ` (${totalItems} itens)` : ''}`}>
+              <Button variant="ghost" size="icon" className="relative" aria-label={`Carrinho de compras${totalItems > 0 ? ` (${totalItems} itens)` : ''}`}>
                 <ShoppingBag className="h-5 w-5" />
                 {totalItems > 0 && (
                   <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
@@ -97,7 +97,7 @@ export default function Header() {
                 )}
               </Button>
             </Link>
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={isMenuOpen}>
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>

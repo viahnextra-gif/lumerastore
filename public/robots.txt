@@ -16,5 +16,7 @@ Disallow: /admin/
 Disallow: /auth
 Disallow: /reset-password
 Disallow: /checkout
+Disallow: /carrinho
+Disallow: /conta
 
-Sitemap: https://lojawakai.lovable.app/sitemap.xml
+Sitemap: https://lumerastore.lovable.app/sitemap.xml

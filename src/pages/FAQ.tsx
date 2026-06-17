@@ -33,7 +33,7 @@ export default function FAQ() {
       <SEOHead
         title={`${t('faq.title')} | Lumera`}
         description={t('faq.subtitle')}
-        canonical="https://lojalumera.lovable.app/faq"
+        canonical="https://lumerastore.lovable.app/faq"
         keywords="FAQ lumera, envios brasil, política de trocas, cosméticos"
         jsonLd={[
           faqSchema(faqs.map((f) => ({ question: f.question, answer: f.answer }))),
