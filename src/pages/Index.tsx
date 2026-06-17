@@ -62,7 +62,7 @@ export default function Index() {
         title="Lumera Store - Cosméticos e Beleza | Brasil"
         description="Descubra as últimas tendências em cosméticos e beleza. Maquiagem, skincare, perfumaria e mais. Atacado e varejo. Envios para todo o Brasil."
         keywords="cosméticos, maquiagem, skincare, perfumaria, beleza, brasil, atacado, varejo, Lumera Store"
-        canonical="https://lojawakai.lovable.app/"
+        canonical="https://lumerastore.lovable.app/"
         jsonLd={[organizationSchema(), localBusinessSchema(), webSiteSchema(), faqSchema(faqItems)]}
       />
       <Header />
@@ -93,8 +93,9 @@ export default function Index() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6"
+                aria-label="Lumera Store — Cosméticos e Beleza para cada momento"
               >
-                {t('hero.title1')}
+                <span>{t('hero.title1')}</span>
                 <span className="text-gradient-primary block">{t('hero.title2')}</span>
               </motion.h1>
               

@@ -1,0 +1,21 @@
+# Lumera Store
+
+> Loja brasileira de cosméticos, maquiagem, skincare e perfumaria, com varejo e atacado e envio para todo o Brasil.
+
+A Lumera Store reúne marcas reconhecidas de beleza com curadoria, preços competitivos e programa de atacado para revendedores.
+
+## Pages
+
+- [Home](/): destaque de coleções, ofertas e categorias.
+- [Sobre](/sobre): história, valores e diferenciais da marca.
+- [Catálogo](/catalogo): todos os produtos com filtros por categoria.
+- [Maquiagem](/catalogo?category=maquiagem): bases, batons, paletas e mais.
+- [Cuidado facial](/catalogo?category=cuidado-facial): séruns, hidratantes e tratamentos.
+- [Perfumaria](/catalogo?category=perfumaria): fragrâncias nacionais e importadas.
+- [Cuidado corporal](/catalogo?category=cuidado-corporal): hidratantes e óleos.
+- [Cabelos](/catalogo?category=cabelos): shampoos, máscaras e finalizadores.
+- [Unhas](/catalogo?category=unhas): esmaltes e tratamentos.
+- [Promoções](/promocoes): ofertas atualizadas diariamente.
+- [Atacado](/atacado): condições especiais para revendedores.
+- [Blog](/blog): tendências, tutoriais e guias de beleza.
+- [FAQ](/faq): dúvidas sobre pedidos, envios e devoluções.
