@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings, BarChart3, MessageSquare,
   Tag, LogOut, ChevronLeft, ChevronDown, Menu, Layers, FileText, Kanban,
-  CalendarDays, Megaphone, Key, Store, Bell, Search, Ticket,
+  Key, Store, Bell, Search, Ticket,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -27,8 +27,6 @@ function Sidebar({ className }: { className?: string }) {
   const advancedActive =
     location.pathname.startsWith('/admin/crm') ||
     location.pathname.startsWith('/admin/leads') ||
-    location.pathname.startsWith('/admin/planner') ||
-    location.pathname.startsWith('/admin/campanias') ||
     location.pathname.startsWith('/admin/marketplaces') ||
     location.pathname.startsWith('/admin/credenciales') ||
     location.pathname.startsWith('/admin/reportes');
@@ -50,12 +48,10 @@ function Sidebar({ className }: { className?: string }) {
     { name: t('admin.settings'), href: '/admin/configuracion', icon: Settings },
   ];
 
-  // Avançado: CRM, planner, marketplace, automações, relatórios.
+  // Avançado: CRM, marketplace, automações, relatórios.
   const advanced = [
     { name: t('admin.leads'), href: '/admin/leads', icon: MessageSquare },
     { name: t('admin.crmKanban'), href: '/admin/crm', icon: Kanban },
-    { name: t('admin.socialPlanner'), href: '/admin/planner', icon: CalendarDays },
-    { name: t('admin.campaigns'), href: '/admin/campanias', icon: Megaphone },
     { name: t('admin.credentials'), href: '/admin/credenciales', icon: Key },
     { name: t('admin.reports'), href: '/admin/reportes', icon: BarChart3 },
   ];
