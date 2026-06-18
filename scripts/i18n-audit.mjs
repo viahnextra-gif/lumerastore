@@ -60,16 +60,6 @@ const RAW_SUBSTRINGS = [
   "¡",
 ];
 
-// Substrings exatas (case-sensitive) que devem disparar alerta sem regex de palavra
-const RAW_SUBSTRINGS = [
-  "₲",
-  "PYG",
-  "Guaraní",
-  "Asunción",
-  "Paraguay",
-  "¿",
-  "¡",
-];
 
 // Padrões para extrair apenas strings (literais e JSX text) — reduz falsos positivos
 const STRING_LITERAL_RE = /(["'`])((?:\\.|(?!\1).)*?)\1/g;
