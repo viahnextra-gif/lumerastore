@@ -66,13 +66,13 @@ export default function AccountAddresses() {
       if (error) throw error;
 
       toast({
-        title: 'Dirección guardada',
-        description: 'Tu dirección ha sido actualizada correctamente',
+        title: 'Endereço salvo',
+        description: 'Seu endereço foi atualizado com sucesso',
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'No se pudo guardar la dirección',
+        title: 'Erro',
+        description: 'Não foi possível salvar o endereço',
         variant: 'destructive',
       });
     } finally {
@@ -97,7 +97,7 @@ export default function AccountAddresses() {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Dirección de Envío</CardTitle>
+          <CardTitle>Endereço de Entrega</CardTitle>
           <CardDescription>
             Este será seu endereço padrão para envios
           </CardDescription>
@@ -110,16 +110,16 @@ export default function AccountAddresses() {
               </div>
               <div className="flex-1 space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="address">Dirección Completa</Label>
+                  <Label htmlFor="address">Endereço Completo</Label>
                   <Input
                     id="address"
                     value={addressData.address || ''}
                     onChange={(e) => setAddressData({ ...addressData, address: e.target.value })}
-                    placeholder="Calle, número, barrio, referencias..."
+                    placeholder="Rua, número, bairro, complemento..."
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city">Ciudad</Label>
+                  <Label htmlFor="city">Cidade</Label>
                   <Input
                     id="city"
                     value={addressData.city || ''}
@@ -138,7 +138,7 @@ export default function AccountAddresses() {
               ) : (
                 <Save className="h-4 w-4 mr-2" />
               )}
-              Guardar Dirección
+              Salvar Endereço
             </Button>
           </div>
         </CardContent>

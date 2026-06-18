@@ -120,7 +120,7 @@ export default function Chatbot() {
       setMessages((prev) =>
         prev.map((m) =>
           m.id === assistantId
-            ? { ...m, content: 'Lo siento, hubo un error. Por favor intenta de nuevo o contáctanos por WhatsApp.' }
+            ? { ...m, content: 'Desculpe, houve um erro. Por favor, tente novamente ou fale conosco pelo WhatsApp.' }
             : m
         )
       );

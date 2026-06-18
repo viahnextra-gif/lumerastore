@@ -11,14 +11,14 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
 const benefits = [
-  { icon: Package, title: 'Mínimo 6 unidades', desc: 'Compra desde 6 unidades con precio de mayorista' },
-  { icon: TrendingUp, title: 'Hasta 40% descuento', desc: 'Margen excelente para reventa de cosméticos' },
-  { icon: Users, title: '+500 revendedores', desc: 'Rede de revendedores em todo o Brasil' },
+  { icon: Package, title: 'Mínimo 3 unidades', desc: 'Compre a partir de 3 unidades com preço de atacado' },
+  { icon: TrendingUp, title: 'Até 40% de desconto', desc: 'Margem excelente para revenda de cosméticos' },
+  { icon: Users, title: '+500 revendedoras', desc: 'Rede de revendedoras em todo o Brasil' },
 ];
 
 const testimonials = [
-  { name: 'Carolina M.', city: 'San Lorenzo', text: 'Revendo cosméticos de Lumera y mis clientes aman la calidad. Excelente margen.', stars: 5 },
-  { name: 'Patricia V.', city: 'Luque', text: 'El mejor proveedor mayorista de cosméticos. Siempre tienen novedades.', stars: 5 },
+  { name: 'Carolina M.', city: 'São Paulo', text: 'Revendo cosméticos da Lumera e minhas clientes amam a qualidade. Excelente margem.', stars: 5 },
+  { name: 'Patrícia V.', city: 'Curitiba', text: 'O melhor fornecedor de cosméticos no atacado. Sempre têm novidades.', stars: 5 },
 ];
 
 export default function LandingAtacado() {
@@ -29,7 +29,7 @@ export default function LandingAtacado() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) { toast.error('Completa nombre y teléfono.'); return; }
+    if (!name.trim() || !phone.trim()) { toast.error('Preencha nome e telefone.'); return; }
     setLoading(true);
     try {
       await supabase.from('leads').insert({
@@ -40,9 +40,9 @@ export default function LandingAtacado() {
         status: 'warm',
       });
       trackEvent('generate_lead', { source: 'landing-atacado', method: 'form' });
-      toast.success('¡Recibido! Te contactaremos con precios mayoristas.');
+      toast.success('Recebido! Entraremos em contato com os preços de atacado.');
       setName(''); setPhone(''); setCompany('');
-    } catch { toast.error('Error al enviar.'); }
+    } catch { toast.error('Erro ao enviar.'); }
     finally { setLoading(false); }
   };
 
@@ -54,10 +54,10 @@ export default function LandingAtacado() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Venta Mayorista Cosméticos | Lumera"
+        title="Atacado de Cosméticos | Lumera Store"
         description="Compre cosméticos no atacado no Brasil. Maquiagem, skincare e perfumaria a partir de 3 unidades com até 40% de desconto. Solicite preços!"
         keywords="cosméticos atacado brasil, venda por atacado, atacado cosméticos, revendedor beleza"
-        canonical="https://lojalumera.lovable.app/mayorista"
+        canonical="https://lumerastore.lovable.app/atacado"
         noindex
       />
 
@@ -66,10 +66,10 @@ export default function LandingAtacado() {
       <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-hero">
         <div className="container text-center">
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 text-primary-foreground text-sm font-medium mb-6">
-            PROGRAMA MAYORISTA
+            PROGRAMA DE ATACADO
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="font-display text-4xl md:text-6xl font-bold text-primary-foreground mb-6">
-            Gana Dinero Revendiendo Cosméticos
+            Ganhe Dinheiro Revendendo Cosméticos
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-xl text-primary-foreground/90 max-w-2xl mx-auto mb-8">
             Preços exclusivos a partir de 3 unidades. Margem de até 40% para o seu negócio de beleza.
@@ -79,7 +79,7 @@ export default function LandingAtacado() {
               Ver Catálogo B2B <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg" onClick={handleWhatsAppClick}>
-              <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Directo
+              <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Direto
             </Button>
           </motion.div>
         </div>
@@ -101,7 +101,7 @@ export default function LandingAtacado() {
 
       <section className="py-16 bg-muted/50">
         <div className="container max-w-3xl">
-          <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">Revendedores Exitosos</h2>
+          <h2 className="font-display text-3xl font-bold text-foreground text-center mb-10">Revendedoras de Sucesso</h2>
           <div className="space-y-6">
             {testimonials.map((t, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-card p-6 rounded-2xl shadow-sm border border-border">
@@ -117,14 +117,14 @@ export default function LandingAtacado() {
       <section id="lead-form" className="py-20">
         <div className="container max-w-xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-card p-8 md:p-10 rounded-3xl shadow-md border border-border">
-            <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">Solicita Precios Mayoristas</h2>
+            <h2 className="font-display text-3xl font-bold text-foreground text-center mb-2">Solicite Preços de Atacado</h2>
             <p className="text-muted-foreground text-center mb-8">Preencha o formulário e receba nossa tabela de preços de cosméticos.</p>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input placeholder="Tu nombre *" value={name} onChange={e => setName(e.target.value)} required />
-              <Input placeholder="WhatsApp / Teléfono *" value={phone} onChange={e => setPhone(e.target.value)} required />
-              <Input placeholder="Nombre de tu negocio (opcional)" value={company} onChange={e => setCompany(e.target.value)} />
+              <Input placeholder="Seu nome *" value={name} onChange={e => setName(e.target.value)} required />
+              <Input placeholder="WhatsApp / Telefone *" value={phone} onChange={e => setPhone(e.target.value)} required />
+              <Input placeholder="Nome do seu negócio (opcional)" value={company} onChange={e => setCompany(e.target.value)} />
               <Button type="submit" size="lg" className="w-full text-lg" disabled={loading}>
-                {loading ? 'Enviando...' : 'Recibir Precios Mayoristas'}
+                {loading ? 'Enviando...' : 'Receber Preços de Atacado'}
               </Button>
             </form>
           </motion.div>
@@ -133,9 +133,9 @@ export default function LandingAtacado() {
 
       <section className="py-16 bg-gradient-hero">
         <div className="container text-center">
-          <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">¡Empieza a revender hoy!</h2>
+          <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">Comece a revender hoje!</h2>
           <Button size="lg" className="bg-[#25D366] text-white hover:bg-[#1da851] text-lg px-8" onClick={handleWhatsAppClick}>
-            <MessageCircle className="mr-2 h-5 w-5" /> Contactar por WhatsApp
+            <MessageCircle className="mr-2 h-5 w-5" /> Contatar pelo WhatsApp
           </Button>
         </div>
       </section>

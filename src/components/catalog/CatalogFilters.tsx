@@ -49,7 +49,7 @@ export default function CatalogFilters({
     <div className="space-y-8">
       {/* Price Range */}
       <div>
-        <h3 className="font-semibold text-foreground mb-4">Precio</h3>
+        <h3 className="font-semibold text-foreground mb-4">Preço</h3>
         <div className="px-2">
           <Slider
             value={priceRange}

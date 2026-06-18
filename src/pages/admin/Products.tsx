@@ -181,7 +181,7 @@ export default function Products() {
                 </div>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label>{t('admin.pricePYG')}</Label>
+                    <Label>{t('admin.priceBRL')}</Label>
                     <Input type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} placeholder="150000" />
                   </div>
                   <div className="space-y-2">

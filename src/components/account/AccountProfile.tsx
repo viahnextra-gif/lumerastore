@@ -78,13 +78,13 @@ export default function AccountProfile() {
       if (error) throw error;
 
       toast({
-        title: 'Perfil actualizado',
-        description: 'Tus datos han sido guardados correctamente',
+        title: 'Perfil atualizado',
+        description: 'Seus dados foram salvos com sucesso',
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'No se pudo guardar el perfil',
+        title: 'Erro',
+        description: 'Não foi possível salvar o perfil',
         variant: 'destructive',
       });
     } finally {
@@ -109,73 +109,71 @@ export default function AccountProfile() {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Información Personal</CardTitle>
+          <CardTitle>Informações Pessoais</CardTitle>
           <CardDescription>
-            Actualiza tu información de perfil y contacto
+            Atualize seus dados de perfil e contato
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="full_name">Nombre Completo</Label>
+              <Label htmlFor="full_name">Nome Completo</Label>
               <Input
                 id="full_name"
                 value={profile.full_name || ''}
                 onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
-                placeholder="Tu nombre completo"
+                placeholder="Seu nome completo"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Teléfono</Label>
+              <Label htmlFor="phone">Telefone</Label>
               <Input
                 id="phone"
                 value={profile.phone || ''}
                 onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                placeholder="+595 XXX XXX XXX"
+                placeholder="(11) 99999-9999"
               />
-          </div>
+            </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="address">Dirección</Label>
+              <Label htmlFor="address">Endereço</Label>
               <Input
                 id="address"
                 value={profile.address || ''}
                 onChange={(e) => setProfile({ ...profile, address: e.target.value })}
-                placeholder="Tu dirección"
+                placeholder="Seu endereço"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="city">Ciudad</Label>
+              <Label htmlFor="city">Cidade</Label>
               <Input
                 id="city"
                 value={profile.city || ''}
                 onChange={(e) => setProfile({ ...profile, city: e.target.value })}
-                placeholder="Tu ciudad"
+                placeholder="Sua cidade"
               />
             </div>
           </div>
-          </div>
 
           <div className="border-t pt-6">
-            <h3 className="font-medium mb-4">Datos para Mayoristas (Opcional)</h3>
+            <h3 className="font-medium mb-4">Dados para Atacado (Opcional)</h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="company_name">Nombre de Empresa</Label>
+                <Label htmlFor="company_name">Nome da Empresa</Label>
                 <Input
                   id="company_name"
                   value={profile.company_name || ''}
                   onChange={(e) => setProfile({ ...profile, company_name: e.target.value })}
-                  placeholder="Tu empresa"
+                  placeholder="Sua empresa"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="tax_id">RUC</Label>
+                <Label htmlFor="tax_id">CNPJ</Label>
                 <Input
                   id="tax_id"
                   value={profile.tax_id || ''}
                   onChange={(e) => setProfile({ ...profile, tax_id: e.target.value })}
-                  placeholder="XX-XXXXXX-X"
+                  placeholder="XX.XXX.XXX/XXXX-XX"
                 />
               </div>
             </div>
@@ -188,7 +186,7 @@ export default function AccountProfile() {
               ) : (
                 <Save className="h-4 w-4 mr-2" />
               )}
-              Guardar Cambios
+              Salvar Alterações
             </Button>
           </div>
         </CardContent>

@@ -147,7 +147,7 @@ export default function Wholesale() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">{t('wholesale.whatsapp')}</Label>
-                <Input id="phone" type="tel" placeholder="+595 xxx xxx xxx" />
+                <Input id="phone" type="tel" placeholder="(11) 99999-9999" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="city">{t('wholesale.city')}</Label>
