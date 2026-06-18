@@ -42,7 +42,7 @@ const SPANISH_WORDS = [
   "precio", "precios", "cantidad", "descuento",
   "mayorista", "mayoristas",
   "bienvenido", "bienvenida",
-  "lo siento", "por favor", "disculpa",
+  "lo siento", "disculpa",
   "ayuda", "preguntas frecuentes",
   "nombre completo", "nombre de empresa",
   // moeda / localização paraguaia

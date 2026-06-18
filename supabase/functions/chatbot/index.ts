@@ -119,7 +119,7 @@ QUALIFICAÇÃO DE LEADS:
     console.error("Chatbot error:", error);
     return new Response(
       JSON.stringify({
-        error: "Lo siento, hubo un problema. ¿Puedo ayudarte en algo más?",
+        error: "Desculpe, houve um problema. Posso te ajudar com algo mais?",
       }),
       {
         status: 500,
