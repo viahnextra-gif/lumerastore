@@ -23,36 +23,41 @@ const IGNORE_FILES = new Set([
   "src/integrations/supabase/client.ts",
 ]);
 
-// Palavras/expressões em espanhol que NÃO existem em português brasileiro
-// (ou que mudam de sentido). Match case-insensitive em borda de palavra.
+// Palavras/expressões em espanhol que NÃO existem em pt-BR (ou mudam de sentido).
+// Removidas palavras compartilhadas (compras, ofertas, marca, Cancelar, Enviar, Confirmar, comprar) — geram falsos positivos.
 const SPANISH_WORDS = [
   // pronomes / artigos / conjunções marcantes
-  "muchas", "muchos", "algunas", "algunos", "nuestro", "nuestra", "nuestros", "nuestras",
-  "usted", "ustedes", "vosotros", "tú",
-  // verbos comuns
+  "usted", "ustedes", "vosotros",
+  // verbos / locuções
   "iniciar sesión", "cerrar sesión", "registrarse", "regístrate", "ingresar", "ingresá",
-  "comprar", "compras", "envío", "envíos", "envia", "enviar",
-  "buscar productos", "agregar al carrito", "añadir al carrito", "añadir",
+  "agregar al carrito", "añadir al carrito", "añadir",
   "seleccionar", "seleccioná", "elegí", "elige",
-  "guardar", "cancelar", "aceptar", "rechazar", "confirmar", "siguiente", "anterior", "atrás",
+  "guardar", "aceptar", "rechazar", "siguiente", "anterior",
   // substantivos comuns que diferem do PT
   "carrito", "cuenta", "ajustes", "configuración", "configuraciones",
-  "pedido realizado", "compra realizada",
   "categoría", "categorías", "subcategoría", "subcategorías",
-  "tienda", "marca", "marcas", "oferta", "ofertas",
-  "destacados en español",
+  "tienda", "minorista",
   "dirección", "direcciones",
-  "teléfono", "correo electrónico", "contraseña", "usuario",
-  "fecha", "precio", "cantidad", "descuento", "envío gratis",
-  "mayorista", "mayoristas", "minorista",
-  "bienvenido", "bienvenida", "hola",
-  "gracias", "por favor", "lo siento", "disculpa",
-  "ayuda", "soporte", "preguntas frecuentes",
+  "teléfono", "correo electrónico", "contraseña",
+  "precio", "precios", "cantidad", "descuento",
+  "mayorista", "mayoristas",
+  "bienvenido", "bienvenida",
+  "lo siento", "por favor", "disculpa",
+  "ayuda", "preguntas frecuentes",
+  "nombre completo", "nombre de empresa",
   // moeda / localização paraguaia
   "guaraní", "guaraníes", "paraguay", "paraguayo", "paraguaya", "asunción", "ciudad del este",
+];
+
+// Substrings exatas (case-sensitive) que disparam alerta direto
+const RAW_SUBSTRINGS = [
+  "₲",
   "PYG",
-  // marcadores espanhóis
-  "¿", "¡",
+  "Guaraní",
+  "Asunción",
+  "Paraguay",
+  "¿",
+  "¡",
 ];
 
 // Substrings exatas (case-sensitive) que devem disparar alerta sem regex de palavra
