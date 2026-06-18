@@ -44,8 +44,6 @@ const Notifications = lazy(() => import("./pages/admin/Notifications"));
 const Customers = lazy(() => import("./pages/admin/Customers"));
 const Leads = lazy(() => import("./pages/admin/Leads"));
 const CrmKanban = lazy(() => import("./pages/admin/CrmKanban"));
-const SocialPlanner = lazy(() => import("./pages/admin/SocialPlanner"));
-const Campaigns = lazy(() => import("./pages/admin/Campaigns"));
 const ApiCredentials = lazy(() => import("./pages/admin/ApiCredentials"));
 const Reports = lazy(() => import("./pages/admin/Reports"));
 const Settings = lazy(() => import("./pages/admin/Settings"));
@@ -128,8 +126,6 @@ const App = () => (
                   <Route path="seo" element={<Suspense fallback={<AdminFallback />}><SeoTools /></Suspense>} />
                   <Route path="leads" element={<Suspense fallback={<AdminFallback />}><Leads /></Suspense>} />
                   <Route path="crm" element={<Suspense fallback={<AdminFallback />}><CrmKanban /></Suspense>} />
-                  <Route path="planner" element={<Suspense fallback={<AdminFallback />}><SocialPlanner /></Suspense>} />
-                  <Route path="campanias" element={<Suspense fallback={<AdminFallback />}><Campaigns /></Suspense>} />
                   <Route path="credenciales" element={<Suspense fallback={<AdminFallback />}><ApiCredentials /></Suspense>} />
                   <Route path="reportes" element={<Suspense fallback={<AdminFallback />}><Reports /></Suspense>} />
                   <Route path="configuracion" element={<Suspense fallback={<AdminFallback />}><Settings /></Suspense>} />
