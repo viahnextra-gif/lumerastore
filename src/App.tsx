@@ -36,6 +36,7 @@ import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 // Code-split admin routes for performance
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Products = lazy(() => import("./pages/admin/Products"));
+const ProductImportExport = lazy(() => import("./pages/admin/ProductImportExport"));
 const Categories = lazy(() => import("./pages/admin/Categories"));
 const Subcategories = lazy(() => import("./pages/admin/Subcategories"));
 const Pages = lazy(() => import("./pages/admin/Pages"));
@@ -116,6 +117,7 @@ const App = () => (
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Suspense fallback={<AdminFallback />}><Dashboard /></Suspense>} />
                   <Route path="produtos" element={<Suspense fallback={<AdminFallback />}><Products /></Suspense>} />
+                  <Route path="produtos/importar-exportar" element={<Suspense fallback={<AdminFallback />}><ProductImportExport /></Suspense>} />
                   <Route path="categorias" element={<Suspense fallback={<AdminFallback />}><Categories /></Suspense>} />
                   <Route path="subcategorias" element={<Suspense fallback={<AdminFallback />}><Subcategories /></Suspense>} />
                   <Route path="paginas" element={<Suspense fallback={<AdminFallback />}><Pages /></Suspense>} />

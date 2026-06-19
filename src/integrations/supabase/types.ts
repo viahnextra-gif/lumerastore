@@ -779,10 +779,15 @@ export type Database = {
       }
       products: {
         Row: {
+          barcode: string | null
+          brand: string | null
           category_id: string | null
           colors: string[] | null
           created_at: string
+          depth_cm: number | null
           description: string | null
+          free_shipping: boolean
+          height_cm: number | null
           id: string
           images: string[] | null
           is_active: boolean | null
@@ -790,20 +795,31 @@ export type Database = {
           meta_description: string | null
           meta_title: string | null
           min_wholesale_qty: number | null
+          mpn: string | null
           name: string
           price: number
           sizes: string[] | null
+          sku: string | null
           slug: string
           stock: number | null
+          subcategory_id: string | null
+          tags: string[] | null
           updated_at: string
           video_url: string | null
+          weight_kg: number | null
           wholesale_price: number | null
+          width_cm: number | null
         }
         Insert: {
+          barcode?: string | null
+          brand?: string | null
           category_id?: string | null
           colors?: string[] | null
           created_at?: string
+          depth_cm?: number | null
           description?: string | null
+          free_shipping?: boolean
+          height_cm?: number | null
           id?: string
           images?: string[] | null
           is_active?: boolean | null
@@ -811,20 +827,31 @@ export type Database = {
           meta_description?: string | null
           meta_title?: string | null
           min_wholesale_qty?: number | null
+          mpn?: string | null
           name: string
           price: number
           sizes?: string[] | null
+          sku?: string | null
           slug: string
           stock?: number | null
+          subcategory_id?: string | null
+          tags?: string[] | null
           updated_at?: string
           video_url?: string | null
+          weight_kg?: number | null
           wholesale_price?: number | null
+          width_cm?: number | null
         }
         Update: {
+          barcode?: string | null
+          brand?: string | null
           category_id?: string | null
           colors?: string[] | null
           created_at?: string
+          depth_cm?: number | null
           description?: string | null
+          free_shipping?: boolean
+          height_cm?: number | null
           id?: string
           images?: string[] | null
           is_active?: boolean | null
@@ -832,14 +859,20 @@ export type Database = {
           meta_description?: string | null
           meta_title?: string | null
           min_wholesale_qty?: number | null
+          mpn?: string | null
           name?: string
           price?: number
           sizes?: string[] | null
+          sku?: string | null
           slug?: string
           stock?: number | null
+          subcategory_id?: string | null
+          tags?: string[] | null
           updated_at?: string
           video_url?: string | null
+          weight_kg?: number | null
           wholesale_price?: number | null
+          width_cm?: number | null
         }
         Relationships: [
           {
@@ -847,6 +880,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "subcategories"
             referencedColumns: ["id"]
           },
         ]
