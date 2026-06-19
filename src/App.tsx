@@ -36,6 +36,7 @@ import AnalyticsTracker from "./components/seo/AnalyticsTracker";
 // Code-split admin routes for performance
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
 const Products = lazy(() => import("./pages/admin/Products"));
+const ProductImportExport = lazy(() => import("./pages/admin/ProductImportExport"));
 const Categories = lazy(() => import("./pages/admin/Categories"));
 const Subcategories = lazy(() => import("./pages/admin/Subcategories"));
 const Pages = lazy(() => import("./pages/admin/Pages"));
