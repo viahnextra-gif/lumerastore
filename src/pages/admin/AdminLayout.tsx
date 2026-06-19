@@ -37,6 +37,7 @@ function Sidebar({ className }: { className?: string }) {
   const principal = [
     { name: t('admin.dashboard'), href: '/admin', icon: LayoutDashboard },
     { name: t('admin.products'), href: '/admin/produtos', icon: Package },
+    { name: 'Importar / Exportar', href: '/admin/produtos/importar-exportar', icon: FileUp },
     { name: t('admin.categories'), href: '/admin/categorias', icon: Tag },
     { name: t('admin.subcategories'), href: '/admin/subcategorias', icon: Layers },
     { name: t('admin.orders'), href: '/admin/pedidos', icon: ShoppingCart },
