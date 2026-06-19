@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings, BarChart3, MessageSquare,
   Tag, LogOut, ChevronLeft, ChevronDown, Menu, Layers, FileText, Kanban,
-  Key, Store, Bell, Search, Ticket,
+  Key, Store, Bell, Search, Ticket, FileUp,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
