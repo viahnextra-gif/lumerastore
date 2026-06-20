@@ -1,0 +1,1 @@
+REVOKE SELECT (sku, barcode, mpn, weight_kg, height_cm, width_cm, depth_cm) ON public.products FROM anon;
